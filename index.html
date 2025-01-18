@@ -25,26 +25,7 @@
   </div>
   <div class="container">
     <div id="loginSection">
-      <div id="socialAuth">
-        <div class="social-btn-wrapper">
-          <button id="googleLoginBtn" class="social-btn">
-            <i class="fab fa-google"></i>
-            <span>Войти через Google</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="yandexLoginBtn" class="social-btn">
-            <i class="fab fa-yandex"></i>
-            <span>Войти через Яндекс</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="vkLoginBtn" class="social-btn">
-            <i class="fab fa-vk"></i>
-            <span>Войти через ВКонтакте</span>
-          </button>
-        </div>
-      </div>
+      <div id="vk_auth"></div> <!-- Контейнер для виджета авторизации VK -->
     </div>
     <div id="appSection" style="display: none;">
       <div class="header">
@@ -67,6 +48,7 @@
   </div>
   <div id="notification" class="notification"></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://vk.com/js/api/openapi.js?169"></script> <!-- Подключение VK API -->
   <script src="script.js"></script>
   <script>
     // Регистрация Service Worker для PWA
