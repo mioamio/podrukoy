@@ -285,24 +285,54 @@ function showNotification(message) {
   }, 3000);
 }
 
-// Инициализация VK Widget
 function initVKAuth() {
+  // Инициализация VK API
   VK.init({
-    apiId: YOUR_VK_APP_ID // Замените на ваш App ID
+    apiId: 52936865, // Ваш App ID
   });
 
-  VK.Widgets.Auth('vk_auth', {
-    onAuth: function (data) {
-      const userName = `${data.first_name} ${data.last_name}`;
-      user = { id: data.uid, name: userName };
-      localStorage.setItem('user', JSON.stringify(user));
-      checkAuth();
-      showNotification(`Вход через ВКонтакте выполнен!`);
-    }
+  // Обработка нажатия на кнопку входа через VK
+  document.getElementById('vkLoginBtn').addEventListener('click', () => {
+    VK.Auth.login((response) => {
+      if (response.session) {
+        // Пользователь успешно авторизовался
+        const user = {
+          id: response.session.mid,
+          name: `${response.session.user.first_name} ${response.session.user.last_name}`,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        checkAuth();
+        showNotification(`Вход через ВКонтакте выполнен!`);
+      } else {
+        // Пользователь отменил авторизацию
+        showNotification(`Авторизация отменена.`);
+      }
+    });
   });
 }
 
-// Загрузка страницы
+// Проверка авторизации при загрузке страницы
+function checkAuth() {
+  const savedUser = localStorage.getItem('user');
+  if (savedUser) {
+    user = JSON.parse(savedUser);
+    loginSection.style.display = 'none';
+    appSection.style.display = 'block';
+  }
+}
+
+// Уведомления
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+// Инициализация при загрузке страницы
 window.addEventListener('load', () => {
   initVKAuth();
   checkAuth();
