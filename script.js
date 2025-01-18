@@ -196,6 +196,41 @@ function renderChart() {
   });
 }
 
+function initGoogleAuth() {
+  google.accounts.id.initialize({
+    client_id: '882359851397-agmjcbobj4ephu1r76365efmuchn427e.apps.googleusercontent.com', // Замените на ваш Client ID
+    callback: handleGoogleResponse,
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById('googleLoginBtn'),
+    { theme: 'outline', size: 'large' } // Настройки кнопки
+  );
+}
+
+function handleGoogleResponse(response) {
+  const user = parseJwt(response.credential);
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Google выполнен!`);
+}
+
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+      .join('')
+  );
+  return JSON.parse(jsonPayload);
+}
+
+window.addEventListener('load', () => {
+  initGoogleAuth();
+});
+
 // Уведомления
 function showNotification(message) {
   const notification = document.createElement('div');
