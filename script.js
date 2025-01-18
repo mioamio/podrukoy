@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // Авторизация через VK
 vkLoginBtn.addEventListener('click', () => {
   vkBridge.send('VKWebAppGetAuthToken', {
-    app_id: YOUR_VK_APP_ID, // Замените на ваш App ID
-    scope: 'friends,photos,email,phone' // Запрашиваем доступ к номеру телефона
+    app_id: 52936865,
+    scope: 'friends,photos,email,phone'
   }).then(data => {
     const accessToken = data.access_token;
     // Получаем данные пользователя
