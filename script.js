@@ -52,7 +52,7 @@ function updateComment() {
 
 // Обработчик формы входа
 loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+  e.preventDefault(); // Предотвращаем перезагрузку страницы
   const username = usernameInput.value.trim();
   if (username) {
     user = { name: username };
