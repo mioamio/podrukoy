@@ -1,7 +1,7 @@
 /* Общие стили */
 body {
-  font-family: 'Manrope', sans-serif;
-  background: linear-gradient(135deg, #e6f4f1, #f9e6f4);
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
   color: #333;
   margin: 0;
   padding: 0;
@@ -9,17 +9,30 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
+  background: #000000;
+  color: #ffffff;
 }
 
 .container {
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  width: 100%;
+  max-width: 800px;
+  width: 90%;
+  margin: 20px;
+  transition: background 0.3s ease;
+}
+
+body.dark-theme .container {
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid #333;
 }
 
 .header-text {
@@ -30,7 +43,7 @@ body {
 #mainTitle {
   font-size: 3rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(45deg, #6a82fb, #fc5c7d, #6a82fb);
   background-size: 200% 200%;
   -webkit-background-clip: text;
@@ -57,6 +70,10 @@ body {
   margin-top: 10px;
 }
 
+body.dark-theme #slogan {
+  color: #ccc;
+}
+
 button {
   background: #6a82fb;
   color: white;
@@ -73,6 +90,15 @@ button {
 button:hover {
   background: #5a6fdb;
   transform: translateY(-2px);
+}
+
+body.dark-theme button {
+  background: #6a82fb;
+  color: white;
+}
+
+body.dark-theme button:hover {
+  background: #5a6fdb;
 }
 
 .social-btn {
@@ -93,10 +119,19 @@ button:hover {
   color: #333;
 }
 
+body.dark-theme #counter {
+  color: #ffffff;
+}
+
 #comment {
-  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 500;
   color: #6a82fb;
   margin: 10px 0;
+}
+
+body.dark-theme #comment {
+  color: #8a9dfb;
 }
 
 #calendar {
@@ -112,11 +147,18 @@ button:hover {
 
 .day {
   padding: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 5px;
   text-align: center;
   color: #333;
   border: 1px solid #ddd;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme .day {
+  background: rgba(0, 0, 0, 0.95);
+  color: #ffffff;
+  border: 1px solid #333;
 }
 
 .day.active {
@@ -126,11 +168,30 @@ button:hover {
 
 #chart {
   margin-top: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+body.dark-theme #chart {
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid #333;
 }
 
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#userGreeting {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+body.dark-theme #userGreeting {
+  color: #ffffff;
 }
 
 #logoutBtn {
@@ -142,17 +203,60 @@ button:hover {
   transition: color 0.3s ease;
 }
 
+body.dark-theme #logoutBtn {
+  color: #ffffff;
+}
+
 #logoutBtn:hover {
   color: #fc5c7d;
 }
 
-#insights {
-  margin-top: 20px;
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #6a82fb;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: none;
+  animation: slideIn 0.5s ease;
 }
 
-#insightText {
-  font-style: italic;
-  color: #6a82fb;
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.theme-toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.theme-toggle img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+  background: transparent;
+}
+
+body.dark-theme .theme-toggle img {
+  background: transparent;
+}
+.theme-toggle button:hover img {
+  transform: scale(1.1);
 }
 
 /* Адаптация для мобильных устройств */
