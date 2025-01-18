@@ -13,47 +13,68 @@ const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const progressChart = document.getElementById('progressChart').getContext('2d');
 const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const toggleRegister = document.getElementById('toggleRegister');
+const toggleLogin = document.getElementById('toggleLogin');
+const loginBtn = document.getElementById('loginBtn');
 const registerBtn = document.getElementById('registerBtn');
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const registerName = document.getElementById('registerName');
+const registerEmail = document.getElementById('registerEmail');
+const registerPassword = document.getElementById('registerPassword');
 
-// Регистрация нового пользователя
-registerBtn.addEventListener('click', () => {
-  const username = usernameInput.value;
-  const password = passwordInput.value;
+// Переключение между формами входа и регистрации
+toggleRegister.addEventListener('click', (e) => {
+  e.preventDefault();
+  loginForm.style.display = 'none';
+  registerForm.style.display = 'block';
+});
 
-  if (username && password) {
-    const user = { username, password };
+toggleLogin.addEventListener('click', (e) => {
+  e.preventDefault();
+  registerForm.style.display = 'none';
+  loginForm.style.display = 'block';
+});
+
+// Вход через email и пароль
+loginBtn.addEventListener('click', () => {
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+
+  // Простая проверка (в реальном проекте нужно использовать серверную аутентификацию)
+  if (email && password) {
+    user = { id: email, name: email };
     localStorage.setItem('user', JSON.stringify(user));
-    showNotification('Регистрация успешна! Теперь вы можете войти.');
+    checkAuth();
+    showNotification(`Вход выполнен!`);
   } else {
-    showNotification('Пожалуйста, заполните все поля.');
+    showNotification(`Пожалуйста, заполните все поля.`);
   }
 });
 
-// Вход пользователя
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const username = usernameInput.value;
-  const password = passwordInput.value;
+// Регистрация через email и пароль
+registerBtn.addEventListener('click', () => {
+  const name = registerName.value;
+  const email = registerEmail.value;
+  const password = registerPassword.value;
 
-  const savedUser = JSON.parse(localStorage.getItem('user'));
-
-  if (savedUser && savedUser.username === username && savedUser.password === password) {
-    user = { id: username, name: username };
-    localStorage.setItem('currentUser', JSON.stringify(user));
+  // Простая проверка (в реальном проекте нужно использовать серверную аутентификацию)
+  if (name && email && password) {
+    user = { id: email, name: name };
+    localStorage.setItem('user', JSON.stringify(user));
     checkAuth();
-    showNotification('Вход выполнен успешно!');
+    showNotification(`Регистрация успешна!`);
   } else {
-    showNotification('Неверный логин или пароль.');
+    showNotification(`Пожалуйста, заполните все поля.`);
   }
 });
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
-  const savedUser = JSON.parse(localStorage.getItem('currentUser'));
+  const savedUser = localStorage.getItem('user');
   if (savedUser) {
-    user = savedUser;
+    user = JSON.parse(savedUser);
     count = parseInt(localStorage.getItem(`${user.id}_count`)) || 0;
     updateUI();
     loadCalendar();
@@ -83,7 +104,7 @@ function updateComment() {
 
 // Выход
 logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('currentUser');
+  localStorage.removeItem('user');
   user = null;
   loginSection.style.display = 'block';
   appSection.style.display = 'none';
@@ -186,13 +207,25 @@ function showNotification(message) {
   }, 3000);
 }
 
-// Загрузка темы
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-theme');
+// Инициализация VK Widget
+function initVKAuth() {
+  VK.init({
+    apiId: YOUR_VK_APP_ID // Замените на ваш App ID
+  });
+
+  VK.Widgets.Auth('vk_auth', {
+    onAuth: function (data) {
+      const userName = `${data.first_name} ${data.last_name}`;
+      user = { id: data.uid, name: userName };
+      localStorage.setItem('user', JSON.stringify(user));
+      checkAuth();
+      showNotification(`Вход через ВКонтакте выполнен!`);
+    }
+  });
 }
 
-// Инициализация при загрузке страницы
+// Загрузка страницы
 window.addEventListener('load', () => {
+  initVKAuth();
   checkAuth();
 });
