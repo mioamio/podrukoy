@@ -12,41 +12,54 @@ const appSection = document.getElementById('appSection');
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const progressChart = document.getElementById('progressChart').getContext('2d');
-const userGreeting = document.getElementById('userGreeting');
-const themeBtn = document.getElementById('themeBtn');
-const themeIcon = document.getElementById('themeIcon');
-const notification = document.getElementById('notification');
+const loginForm = document.getElementById('loginForm');
+const registerBtn = document.getElementById('registerBtn');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 
-// Инициализация VK Widget
-function initVKAuth() {
-  VK.init({
-    apiId: YOUR_VK_APP_ID // Замените на ваш App ID
-  });
+// Регистрация нового пользователя
+registerBtn.addEventListener('click', () => {
+  const username = usernameInput.value;
+  const password = passwordInput.value;
 
-  VK.Widgets.Auth('vk_auth', {
-    onAuth: function (data) {
-      // Пользователь успешно авторизовался
-      const userName = `${data.first_name} ${data.last_name}`;
-      user = { id: data.uid, name: userName };
-      localStorage.setItem('user', JSON.stringify(user));
-      checkAuth();
-      showNotification(`Вход через ВКонтакте выполнен!`);
-    }
-  });
-}
+  if (username && password) {
+    const user = { username, password };
+    localStorage.setItem('user', JSON.stringify(user));
+    showNotification('Регистрация успешна! Теперь вы можете войти.');
+  } else {
+    showNotification('Пожалуйста, заполните все поля.');
+  }
+});
+
+// Вход пользователя
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+
+  const savedUser = JSON.parse(localStorage.getItem('user'));
+
+  if (savedUser && savedUser.username === username && savedUser.password === password) {
+    user = { id: username, name: username };
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    checkAuth();
+    showNotification('Вход выполнен успешно!');
+  } else {
+    showNotification('Неверный логин или пароль.');
+  }
+});
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
-  const savedUser = localStorage.getItem('user');
+  const savedUser = JSON.parse(localStorage.getItem('currentUser'));
   if (savedUser) {
-    user = JSON.parse(savedUser);
+    user = savedUser;
     count = parseInt(localStorage.getItem(`${user.id}_count`)) || 0;
     updateUI();
     loadCalendar();
     renderChart();
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
-    userGreeting.textContent = `Привет, ${user.name}!`;
   }
 }
 
@@ -70,7 +83,7 @@ function updateComment() {
 
 // Выход
 logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('user');
+  localStorage.removeItem('currentUser');
   user = null;
   loginSection.style.display = 'block';
   appSection.style.display = 'none';
@@ -164,34 +177,22 @@ function renderChart() {
 
 // Уведомления
 function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
   notification.textContent = message;
-  notification.style.display = 'block';
+  document.body.appendChild(notification);
   setTimeout(() => {
-    notification.style.display = 'none';
+    notification.remove();
   }, 3000);
 }
-
-// Темная тема
-themeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-theme');
-  const isDarkTheme = document.body.classList.contains('dark-theme');
-  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-  themeIcon.src = isDarkTheme ? 'banana-night.ico' : 'banana-light.ico';
-  document.getElementById('favicon').href = 'icon.ico';
-});
 
 // Загрузка темы
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   document.body.classList.add('dark-theme');
-  themeIcon.src = 'banana-night.ico';
-} else {
-  themeIcon.src = 'banana-light.ico';
 }
-document.getElementById('favicon').href = 'icon.ico';
 
-// Инициализация VK Widget при загрузке страницы
+// Инициализация при загрузке страницы
 window.addEventListener('load', () => {
-  initVKAuth();
   checkAuth();
 });
