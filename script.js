@@ -12,19 +12,28 @@ const appSection = document.getElementById('appSection');
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const progressChart = document.getElementById('progressChart').getContext('2d');
-const insightText = document.getElementById('insightText');
-const googleLoginBtn = document.getElementById('googleLoginBtn');
-const yandexLoginBtn = document.getElementById('yandexLoginBtn');
-const vkLoginBtn = document.getElementById('vkLoginBtn');
 const userGreeting = document.getElementById('userGreeting');
 const themeBtn = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
 const notification = document.getElementById('notification');
 
-// Константы для OAuth
-const googleClientId = 'YOUR_GOOGLE_CLIENT_ID';
-const yandexClientId = 'YOUR_YANDEX_CLIENT_ID';
-const vkClientId = 'YOUR_VK_CLIENT_ID';
+// Инициализация VK Widget
+function initVKAuth() {
+  VK.init({
+    apiId: YOUR_VK_APP_ID // Замените на ваш App ID
+  });
+
+  VK.Widgets.Auth('vk_auth', {
+    onAuth: function (data) {
+      // Пользователь успешно авторизовался
+      const userName = `${data.first_name} ${data.last_name}`;
+      user = { id: data.uid, name: userName };
+      localStorage.setItem('user', JSON.stringify(user));
+      checkAuth();
+      showNotification(`Вход через ВКонтакте выполнен!`);
+    }
+  });
+}
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -45,7 +54,6 @@ function checkAuth() {
 function updateUI() {
   counterElement.textContent = `Количество: ${count}`;
   updateComment();
-  updateInsights();
   localStorage.setItem(`${user.id}_count`, count);
 }
 
@@ -59,95 +67,6 @@ function updateComment() {
     commentElement.textContent = 'Пора отдохнуть! 🛑';
   }
 }
-
-// Обновление аналитики
-function updateInsights() {
-  const activeDays = JSON.parse(localStorage.getItem(`${user.id}_calendar`)) || [];
-  const totalDays = activeDays.length;
-  const last7Days = activeDays.slice(-7).filter(day => day).length;
-  insightText.textContent = `Активных дней: ${totalDays}. За последнюю неделю: ${last7Days}.`;
-}
-
-// Вход через Google
-googleLoginBtn.addEventListener('click', () => {
-  const redirectUri = window.location.origin;
-  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=token&scope=profile`;
-
-  window.location.href = authUrl;
-});
-
-// Вход через Яндекс
-yandexLoginBtn.addEventListener('click', () => {
-  const redirectUri = window.location.origin;
-  const authUrl = `https://oauth.yandex.ru/authorize?client_id=${yandexClientId}&redirect_uri=${redirectUri}&response_type=token`;
-
-  window.location.href = authUrl;
-});
-
-// Вход через ВКонтакте
-vkLoginBtn.addEventListener('click', () => {
-  const redirectUri = window.location.origin;
-  const authUrl = `https://oauth.vk.com/authorize?client_id=${vkClientId}&redirect_uri=${redirectUri}&response_type=token&scope=email`;
-
-  window.location.href = authUrl;
-});
-
-// Обработка ответа от OAuth
-window.addEventListener('load', () => {
-  const hash = window.location.hash;
-  if (hash) {
-    const params = new URLSearchParams(hash.substring(1));
-    const accessToken = params.get('access_token');
-    const provider = params.get('provider');
-
-    if (accessToken && provider) {
-      switch (provider) {
-        case 'google':
-          fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
-            .then(response => response.json())
-            .then(data => {
-              user = { id: data.id, name: data.name };
-              localStorage.setItem('user', JSON.stringify(user));
-              checkAuth();
-              showNotification(`Вход через Google выполнен!`);
-            })
-            .catch(error => console.error('Ошибка при получении данных пользователя:', error));
-          break;
-
-        case 'yandex':
-          fetch(`https://login.yandex.ru/info?format=json&oauth_token=${accessToken}`)
-            .then(response => response.json())
-            .then(data => {
-              user = { id: data.id, name: data.display_name };
-              localStorage.setItem('user', JSON.stringify(user));
-              checkAuth();
-              showNotification(`Вход через Яндекс выполнен!`);
-            })
-            .catch(error => console.error('Ошибка при получении данных пользователя:', error));
-          break;
-
-        case 'vk':
-          const userId = params.get('user_id');
-          if (userId) {
-            fetch(`https://api.vk.com/method/users.get?user_ids=${userId}&access_token=${accessToken}&v=5.131`)
-              .then(response => response.json())
-              .then(data => {
-                const userData = data.response[0];
-                user = { id: userData.id, name: `${userData.first_name} ${userData.last_name}` };
-                localStorage.setItem('user', JSON.stringify(user));
-                checkAuth();
-                showNotification(`Вход через ВКонтакте выполнен!`);
-              })
-              .catch(error => console.error('Ошибка при получении данных пользователя:', error));
-          }
-          break;
-
-        default:
-          console.error('Неизвестный провайдер:', provider);
-      }
-    }
-  }
-});
 
 // Выход
 logoutBtn.addEventListener('click', () => {
@@ -271,5 +190,8 @@ if (savedTheme === 'dark') {
 }
 document.getElementById('favicon').href = 'icon.ico';
 
-// Проверка авторизации при загрузке страницы
-checkAuth();
+// Инициализация VK Widget при загрузке страницы
+window.addEventListener('load', () => {
+  initVKAuth();
+  checkAuth();
+});
