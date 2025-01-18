@@ -261,6 +261,33 @@ function updateChartForDate(date) {
   }
 }
 
+// Вход через Google
+googleLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка Google нажата'); // Отладочное сообщение
+  user = { id: 'google_user_id', name: 'Google User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Google выполнен!`);
+});
+
+// Вход через Яндекс
+yandexLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка Яндекс нажата'); // Отладочное сообщение
+  user = { id: 'yandex_user_id', name: 'Yandex User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Яндекс выполнен!`);
+});
+
+// Вход через ВКонтакте
+vkLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка ВКонтакте нажата'); // Отладочное сообщение
+  user = { id: 'vk_user_id', name: 'VK User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через ВКонтакте выполнен!`);
+});
+
 // Уведомления
 function showNotification(message) {
   notification.textContent = message;
