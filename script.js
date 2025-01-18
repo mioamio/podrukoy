@@ -16,22 +16,32 @@ const userGreeting = document.getElementById('userGreeting');
 const themeBtn = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
 const notification = document.getElementById('notification');
+const vkLoginBtn = document.getElementById('vkLoginBtn');
 
-// Инициализация VK Widget
-function initVKAuth() {
-  VK.init({
-    apiId: YOUR_VK_APP_ID // Замените на ваш App ID
-  });
+// Инициализация VK Bridge
+vkBridge.send('VKWebAppInit');
 
-  VK.Widgets.Auth('vk_auth', {
-    onAuth: function (data) {
-      // Пользователь успешно авторизовался
-      const userName = `${data.first_name} ${data.last_name}`;
-      user = { id: data.uid, name: userName };
-      localStorage.setItem('user', JSON.stringify(user));
-      checkAuth();
-      showNotification(`Вход через ВКонтакте выполнен!`);
-    }
+// Авторизация через VK
+function authVK() {
+  vkBridge.send('VKWebAppGetAuthToken', {
+    app_id: YOUR_VK_APP_ID, // Замените на ваш App ID
+    scope: 'friends,photos' // Укажите необходимые права доступа
+  }).then(data => {
+    const accessToken = data.access_token;
+    // Получаем данные пользователя
+    fetch(`https://api.vk.com/method/users.get?access_token=${accessToken}&v=5.131`)
+      .then(response => response.json())
+      .then(data => {
+        const userData = data.response[0];
+        const userName = `${userData.first_name} ${userData.last_name}`;
+        user = { id: userData.id, name: userName };
+        localStorage.setItem('user', JSON.stringify(user));
+        checkAuth();
+        showNotification(`Вход через ВКонтакте выполнен!`);
+      })
+      .catch(error => console.error('Ошибка при получении данных пользователя:', error));
+  }).catch(error => {
+    console.error('Ошибка авторизации:', error);
   });
 }
 
@@ -190,8 +200,8 @@ if (savedTheme === 'dark') {
 }
 document.getElementById('favicon').href = 'icon.ico';
 
-// Инициализация VK Widget при загрузке страницы
+// Инициализация VK Bridge и проверка авторизации при загрузке страницы
 window.addEventListener('load', () => {
-  initVKAuth();
   checkAuth();
+  vkLoginBtn.addEventListener('click', authVK);
 });
