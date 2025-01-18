@@ -19,18 +19,43 @@
   </div>
   <div class="container">
     <div id="loginSection">
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="username">Логин:</label>
-          <input type="text" id="username" name="username" required>
+      <div id="authForms">
+        <div id="loginForm">
+          <h2>Вход</h2>
+          <input type="email" id="loginEmail" placeholder="Email" required>
+          <input type="password" id="loginPassword" placeholder="Пароль" required>
+          <button id="loginBtn">Войти</button>
+          <p id="toggleRegister">Нет аккаунта? <a href="#">Зарегистрироваться</a></p>
         </div>
-        <div class="form-group">
-          <label for="password">Пароль:</label>
-          <input type="password" id="password" name="password" required>
+        <div id="registerForm" style="display: none;">
+          <h2>Регистрация</h2>
+          <input type="text" id="registerName" placeholder="Имя" required>
+          <input type="email" id="registerEmail" placeholder="Email" required>
+          <input type="password" id="registerPassword" placeholder="Пароль" required>
+          <button id="registerBtn">Зарегистрироваться</button>
+          <p id="toggleLogin">Уже есть аккаунт? <a href="#">Войти</a></p>
         </div>
-        <button type="submit" class="action-btn">Войти</button>
-        <button type="button" id="registerBtn" class="action-btn">Зарегистрироваться</button>
-      </form>
+      </div>
+      <div id="socialAuth">
+        <div class="social-btn-wrapper">
+          <button id="googleLoginBtn" class="social-btn">
+            <i class="fab fa-google"></i>
+            <span>Войти через Google</span>
+          </button>
+        </div>
+        <div class="social-btn-wrapper">
+          <button id="yandexLoginBtn" class="social-btn">
+            <i class="fab fa-yandex"></i>
+            <span>Войти через Яндекс</span>
+          </button>
+        </div>
+        <div class="social-btn-wrapper">
+          <button id="vkLoginBtn" class="social-btn">
+            <i class="fab fa-vk"></i>
+            <span>Войти через ВКонтакте</span>
+          </button>
+        </div>
+      </div>
     </div>
     <div id="appSection" style="display: none;">
       <div class="header">
