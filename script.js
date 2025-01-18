@@ -159,6 +159,49 @@ function renderCalendar(activeDays) {
   }
 }
 
+function initYandexAuth() {
+  document.getElementById('yandexLoginBtn').addEventListener('click', () => {
+    const clientId = '5f90309591ef480e8d82804235232e43';
+    const redirectUri = encodeURIComponent('http://podrukoy.xyz/callback');
+    window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  });
+}
+
+function handleYandexCallback() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+  if (code) {
+    fetch('https://oauth.yandex.ru/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `grant_type=authorization_code&code=${code}&client_id=YOUR_YANDEX_CLIENT_ID&client_secret=YOUR_YANDEX_CLIENT_SECRET`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const accessToken = data.access_token;
+        fetch('https://login.yandex.ru/info?format=json', {
+          headers: {
+            Authorization: `OAuth ${accessToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((userInfo) => {
+            const user = { id: userInfo.id, name: userInfo.display_name };
+            localStorage.setItem('user', JSON.stringify(user));
+            checkAuth();
+            showNotification(`Вход через Яндекс выполнен!`);
+          });
+      });
+  }
+}
+
+window.addEventListener('load', () => {
+  initYandexAuth();
+  handleYandexCallback();
+});
+
 // График прогресса
 function renderChart() {
   if (chartInstance) {
@@ -198,7 +241,7 @@ function renderChart() {
 
 function initGoogleAuth() {
   google.accounts.id.initialize({
-    client_id: '882359851397-agmjcbobj4ephu1r76365efmuchn427e.apps.googleusercontent.com', // Замените на ваш Client ID
+    client_id: '882359851397-agmjcbobj4ephu1r76365efmuchn427e.apps.googleusercontent.com',
     callback: handleGoogleResponse,
   });
 
