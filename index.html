@@ -25,7 +25,10 @@
   </div>
   <div class="container">
     <div id="loginSection">
-      <div id="vk_auth"></div> <!-- Контейнер для виджета авторизации VK -->
+      <button id="vkLoginBtn" class="social-btn">
+        <i class="fab fa-vk"></i>
+        <span>Войти через ВКонтакте</span>
+      </button>
     </div>
     <div id="appSection" style="display: none;">
       <div class="header">
@@ -48,7 +51,7 @@
   </div>
   <div id="notification" class="notification"></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://vk.com/js/api/openapi.js?169"></script> <!-- Подключение VK API -->
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script> <!-- Подключение VK Bridge -->
   <script src="script.js"></script>
   <script>
     // Регистрация Service Worker для PWA
