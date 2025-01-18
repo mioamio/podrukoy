@@ -12,47 +12,14 @@ const appSection = document.getElementById('appSection');
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const progressChart = document.getElementById('progressChart').getContext('2d');
+const insightText = document.getElementById('insightText');
+const googleLoginBtn = document.getElementById('googleLoginBtn');
+const yandexLoginBtn = document.getElementById('yandexLoginBtn');
+const vkLoginBtn = document.getElementById('vkLoginBtn');
 const userGreeting = document.getElementById('userGreeting');
-const userPhone = document.getElementById('userPhone');
 const themeBtn = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
 const notification = document.getElementById('notification');
-const vkLoginBtn = document.getElementById('vkLoginBtn');
-
-// Инициализация VK Bridge
-document.addEventListener('DOMContentLoaded', () => {
-  vkBridge.send('VKWebAppInit').then(() => {
-    // Показываем кнопку входа через VK
-    vkLoginBtn.style.display = 'block';
-  }).catch(error => {
-    console.error('Ошибка инициализации VK Bridge:', error);
-  });
-});
-
-// Авторизация через VK
-vkLoginBtn.addEventListener('click', () => {
-  vkBridge.send('VKWebAppGetAuthToken', {
-    app_id: 52936865, // Ваш App ID
-    scope: 'friends,photos,email,phone' // Запрашиваем доступ к номеру телефона
-  }).then(data => {
-    const accessToken = data.access_token;
-    // Получаем данные пользователя
-    fetch(`https://api.vk.com/method/users.get?access_token=${accessToken}&fields=first_name,last_name,phone&v=5.131`)
-      .then(response => response.json())
-      .then(data => {
-        const userData = data.response[0];
-        const userName = `${userData.first_name} ${userData.last_name}`;
-        const userPhoneNumber = userData.phone || 'Номер телефона не указан';
-        user = { id: userData.id, name: userName, phone: userPhoneNumber };
-        localStorage.setItem('user', JSON.stringify(user));
-        checkAuth();
-        showNotification(`Вход через ВКонтакте выполнен!`);
-      })
-      .catch(error => console.error('Ошибка при получении данных пользователя:', error));
-  }).catch(error => {
-    console.error('Ошибка авторизации:', error);
-  });
-});
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -66,7 +33,6 @@ function checkAuth() {
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
     userGreeting.textContent = `Привет, ${user.name}!`;
-    userPhone.textContent = `Телефон: ${user.phone}`;
   }
 }
 
@@ -74,6 +40,7 @@ function checkAuth() {
 function updateUI() {
   counterElement.textContent = `Количество: ${count}`;
   updateComment();
+  updateInsights();
   localStorage.setItem(`${user.id}_count`, count);
 }
 
@@ -87,6 +54,38 @@ function updateComment() {
     commentElement.textContent = 'Пора отдохнуть! 🛑';
   }
 }
+
+// Обновление аналитики
+function updateInsights() {
+  const activeDays = JSON.parse(localStorage.getItem(`${user.id}_calendar`)) || [];
+  const totalDays = activeDays.length;
+  const last7Days = activeDays.slice(-7).filter(day => day).length;
+  insightText.textContent = `Активных дней: ${totalDays}. За последнюю неделю: ${last7Days}.`;
+}
+
+// Вход через Google
+googleLoginBtn.addEventListener('click', () => {
+  user = { id: 'google_user_id', name: 'Google User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Google выполнен!`);
+});
+
+// Вход через Яндекс
+yandexLoginBtn.addEventListener('click', () => {
+  user = { id: 'yandex_user_id', name: 'Yandex User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Яндекс выполнен!`);
+});
+
+// Вход через ВКонтакте
+vkLoginBtn.addEventListener('click', () => {
+  user = { id: 'vk_user_id', name: 'VK User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через ВКонтакте выполнен!`);
+});
 
 // Выход
 logoutBtn.addEventListener('click', () => {
@@ -181,6 +180,113 @@ function renderChart() {
     }
   });
 }
+
+// Обработчик клика по дню в календаре
+calendarGrid.addEventListener('click', (event) => {
+  if (event.target.classList.contains('day')) {
+    const day = event.target.textContent;
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // Месяцы начинаются с 0
+    const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    updateChartForDate(date);
+  }
+});
+
+// Функция для обновления графика за выбранную дату
+function updateChartForDate(date) {
+  const activities = JSON.parse(localStorage.getItem(`${user.id}_activities`)) || [];
+  const filteredActivities = activities.filter(activity => activity.date === date);
+
+  if (filteredActivities.length > 0) {
+    const labels = filteredActivities.map(activity => activity.time);
+    const data = filteredActivities.map(() => 1); // Все активности равны 1 для графика
+
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(progressChart, {
+      type: 'bar', // Используем столбчатую диаграмму для наглядности
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Активность',
+          data: data,
+          backgroundColor: '#6a82fb',
+          borderColor: '#6a82fb',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+            }
+          }
+        }
+      }
+    });
+  } else {
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+    chartInstance = new Chart(progressChart, {
+      type: 'bar',
+      data: {
+        labels: ['Нет данных'],
+        datasets: [{
+          label: 'Активность',
+          data: [0],
+          backgroundColor: '#ff6f61',
+          borderColor: '#ff6f61',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+// Вход через Google
+googleLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка Google нажата'); // Отладочное сообщение
+  user = { id: 'google_user_id', name: 'Google User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Google выполнен!`);
+});
+
+// Вход через Яндекс
+yandexLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка Яндекс нажата'); // Отладочное сообщение
+  user = { id: 'yandex_user_id', name: 'Yandex User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Яндекс выполнен!`);
+});
+
+// Вход через ВКонтакте
+vkLoginBtn.addEventListener('click', () => {
+  console.log('Кнопка ВКонтакте нажата'); // Отладочное сообщение
+  user = { id: 'vk_user_id', name: 'VK User' };
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через ВКонтакте выполнен!`);
+});
 
 // Уведомления
 function showNotification(message) {
