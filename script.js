@@ -23,52 +23,103 @@ const loginPassword = document.getElementById('loginPassword');
 const registerName = document.getElementById('registerName');
 const registerEmail = document.getElementById('registerEmail');
 const registerPassword = document.getElementById('registerPassword');
+const themeBtn = document.getElementById('themeBtn');
+const themeIcon = document.getElementById('themeIcon');
+const notification = document.getElementById('notification');
 
-// Переключение между формами входа и регистрации
-toggleRegister.addEventListener('click', (e) => {
-  e.preventDefault();
-  loginForm.style.display = 'none';
-  registerForm.style.display = 'block';
-});
+// Инициализация VK Auth
+function initVKAuth() {
+  VK.init({
+    apiId: 52936865, // Ваш App ID
+  });
 
-toggleLogin.addEventListener('click', (e) => {
-  e.preventDefault();
-  registerForm.style.display = 'none';
-  loginForm.style.display = 'block';
-});
+  document.getElementById('vkLoginBtn').addEventListener('click', () => {
+    VK.Auth.login((response) => {
+      if (response.session) {
+        const user = {
+          id: response.session.mid,
+          name: `${response.session.user.first_name} ${response.session.user.last_name}`,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        checkAuth();
+        showNotification(`Вход через ВКонтакте выполнен!`);
+      } else {
+        showNotification(`Авторизация отменена.`);
+      }
+    });
+  });
+}
 
-// Вход через email и пароль
-loginBtn.addEventListener('click', () => {
-  const email = loginEmail.value;
-  const password = loginPassword.value;
+// Инициализация Google Auth
+function initGoogleAuth() {
+  google.accounts.id.initialize({
+    client_id: 'YOUR_GOOGLE_CLIENT_ID', // Замените на ваш Client ID
+    callback: handleGoogleResponse,
+  });
 
-  // Простая проверка (в реальном проекте нужно использовать серверную аутентификацию)
-  if (email && password) {
-    user = { id: email, name: email };
-    localStorage.setItem('user', JSON.stringify(user));
-    checkAuth();
-    showNotification(`Вход выполнен!`);
-  } else {
-    showNotification(`Пожалуйста, заполните все поля.`);
+  google.accounts.id.renderButton(
+    document.getElementById('googleLoginBtn'),
+    { theme: 'outline', size: 'large' } // Настройки кнопки
+  );
+}
+
+function handleGoogleResponse(response) {
+  const user = parseJwt(response.credential);
+  localStorage.setItem('user', JSON.stringify(user));
+  checkAuth();
+  showNotification(`Вход через Google выполнен!`);
+}
+
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+      .join('')
+  );
+  return JSON.parse(jsonPayload);
+}
+
+// Инициализация Yandex Auth
+function initYandexAuth() {
+  document.getElementById('yandexLoginBtn').addEventListener('click', () => {
+    const clientId = 'YOUR_YANDEX_CLIENT_ID'; // Замените на ваш Client ID
+    const redirectUri = encodeURIComponent('http://localhost/callback'); // Укажите ваш callback URI
+    window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  });
+}
+
+function handleYandexCallback() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+  if (code) {
+    fetch('https://oauth.yandex.ru/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `grant_type=authorization_code&code=${code}&client_id=YOUR_YANDEX_CLIENT_ID&client_secret=YOUR_YANDEX_CLIENT_SECRET`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const accessToken = data.access_token;
+        fetch('https://login.yandex.ru/info?format=json', {
+          headers: {
+            Authorization: `OAuth ${accessToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((userInfo) => {
+            const user = { id: userInfo.id, name: userInfo.display_name };
+            localStorage.setItem('user', JSON.stringify(user));
+            checkAuth();
+            showNotification(`Вход через Яндекс выполнен!`);
+          });
+      });
   }
-});
-
-// Регистрация через email и пароль
-registerBtn.addEventListener('click', () => {
-  const name = registerName.value;
-  const email = registerEmail.value;
-  const password = registerPassword.value;
-
-  // Простая проверка (в реальном проекте нужно использовать серверную аутентификацию)
-  if (name && email && password) {
-    user = { id: email, name: name };
-    localStorage.setItem('user', JSON.stringify(user));
-    checkAuth();
-    showNotification(`Регистрация успешна!`);
-  } else {
-    showNotification(`Пожалуйста, заполните все поля.`);
-  }
-});
+}
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -159,49 +210,6 @@ function renderCalendar(activeDays) {
   }
 }
 
-function initYandexAuth() {
-  document.getElementById('yandexLoginBtn').addEventListener('click', () => {
-    const clientId = '5f90309591ef480e8d82804235232e43'; // ClientID
-    const redirectUri = encodeURIComponent('https://podrukovxyz/'); // Redirect URI
-    window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
-  });
-}
-
-function handleYandexCallback() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code');
-  if (code) {
-    fetch('https://oauth.yandex.ru/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `grant_type=authorization_code&code=${code}&client_id=5f90309591ef480e8d82804235232e43&client_secret=eaa07876de034d348562235478777e23`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const accessToken = data.access_token;
-        fetch('https://login.yandex.ru/info?format=json', {
-          headers: {
-            Authorization: `OAuth ${accessToken}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((userInfo) => {
-            const user = { id: userInfo.id, name: userInfo.display_name };
-            localStorage.setItem('user', JSON.stringify(user));
-            checkAuth();
-            showNotification(`Вход через Яндекс выполнен!`);
-          });
-      });
-  }
-}
-
-window.addEventListener('load', () => {
-  initYandexAuth();
-  handleYandexCallback();
-});
-
 // График прогресса
 function renderChart() {
   if (chartInstance) {
@@ -239,101 +247,38 @@ function renderChart() {
   });
 }
 
-function initGoogleAuth() {
-  google.accounts.id.initialize({
-    client_id: '882359851397-agmjcbobj4ephu1r76365efmuchn427e.apps.googleusercontent.com',
-    callback: handleGoogleResponse,
-  });
-
-  google.accounts.id.renderButton(
-    document.getElementById('googleLoginBtn'),
-    { theme: 'outline', size: 'large' } // Настройки кнопки
-  );
+// Уведомления
+function showNotification(message) {
+  notification.textContent = message;
+  notification.style.display = 'block';
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
 }
 
-function handleGoogleResponse(response) {
-  const user = parseJwt(response.credential);
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через Google выполнен!`);
-}
-
-function parseJwt(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split('')
-      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  );
-  return JSON.parse(jsonPayload);
-}
-
-window.addEventListener('load', () => {
-  initGoogleAuth();
+// Темная тема
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+  const isDarkTheme = document.body.classList.contains('dark-theme');
+  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+  themeIcon.src = isDarkTheme ? 'banana-night.ico' : 'banana-light.ico';
+  document.getElementById('favicon').href = 'icon.ico';
 });
 
-// Уведомления
-function showNotification(message) {
-  const notification = document.createElement('div');
-  notification.className = 'notification';
-  notification.textContent = message;
-  document.body.appendChild(notification);
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-theme');
+  themeIcon.src = 'banana-night.ico';
+} else {
+  themeIcon.src = 'banana-light.ico';
 }
-
-function initVKAuth() {
-  // Инициализация VK API
-  VK.init({
-    apiId: 52936865, // Ваш App ID
-  });
-
-  // Обработка нажатия на кнопку входа через VK
-  document.getElementById('vkLoginBtn').addEventListener('click', () => {
-    VK.Auth.login((response) => {
-      if (response.session) {
-        // Пользователь успешно авторизовался
-        const user = {
-          id: response.session.mid,
-          name: `${response.session.user.first_name} ${response.session.user.last_name}`,
-        };
-        localStorage.setItem('user', JSON.stringify(user));
-        checkAuth();
-        showNotification(`Вход через ВКонтакте выполнен!`);
-      } else {
-        // Пользователь отменил авторизацию
-        showNotification(`Авторизация отменена.`);
-      }
-    });
-  });
-}
-
-// Проверка авторизации при загрузке страницы
-function checkAuth() {
-  const savedUser = localStorage.getItem('user');
-  if (savedUser) {
-    user = JSON.parse(savedUser);
-    loginSection.style.display = 'none';
-    appSection.style.display = 'block';
-  }
-}
-
-// Уведомления
-function showNotification(message) {
-  const notification = document.createElement('div');
-  notification.className = 'notification';
-  notification.textContent = message;
-  document.body.appendChild(notification);
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
-}
+document.getElementById('favicon').href = 'icon.ico';
 
 // Инициализация при загрузке страницы
 window.addEventListener('load', () => {
   initVKAuth();
+  initGoogleAuth();
+  initYandexAuth();
+  handleYandexCallback();
   checkAuth();
 });
