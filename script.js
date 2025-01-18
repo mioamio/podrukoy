@@ -59,6 +59,8 @@ loginForm.addEventListener('submit', (e) => {
     localStorage.setItem('user', JSON.stringify(user));
     checkAuth();
     showNotification(`Добро пожаловать, ${username}!`);
+  } else {
+    showNotification('Пожалуйста, введите ваше имя.');
   }
 });
 
