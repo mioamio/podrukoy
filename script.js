@@ -15,6 +15,9 @@ const insightText = document.getElementById('insightText');
 const googleLoginBtn = document.getElementById('googleLoginBtn');
 const yandexLoginBtn = document.getElementById('yandexLoginBtn');
 const vkLoginBtn = document.getElementById('vkLoginBtn');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeIcon = document.getElementById('themeIcon');
+const body = document.body;
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -89,6 +92,28 @@ resetBtn.addEventListener('click', () => {
   count = 0;
   updateUI();
 });
+
+// Смена темы
+themeToggleBtn.addEventListener('click', () => {
+  if (body.classList.contains('dark-theme')) {
+    body.classList.remove('dark-theme');
+    themeIcon.src = 'banana-light.ico';
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.classList.add('dark-theme');
+    themeIcon.src = 'banana-night.ico';
+    localStorage.setItem('theme', 'dark');
+  }
+});
+
+// Проверка сохраненной темы при загрузке страницы
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark-theme');
+  themeIcon.src = 'banana-night.ico';
+} else {
+  themeIcon.src = 'banana-light.ico';
+}
 
 // Проверка авторизации при загрузке страницы
 checkAuth();
