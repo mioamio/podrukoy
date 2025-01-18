@@ -1,0 +1,14 @@
+[data-theme="light"] {
+  --bg-gradient: linear-gradient(135deg, #f6d365, #fda085);
+  --text-color: #000;
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+  --text-color: #fff;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+}
