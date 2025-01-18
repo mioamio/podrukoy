@@ -1,320 +1,278 @@
-let count = 0;
-let user = null;
-let chartInstance = null;
+/* Общие стили */
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
 
-// Элементы DOM
-const counterElement = document.getElementById('counter');
-const startBtn = document.getElementById('startBtn');
-const resetBtn = document.getElementById('resetBtn');
-const commentElement = document.getElementById('comment');
-const loginSection = document.getElementById('loginSection');
-const appSection = document.getElementById('appSection');
-const logoutBtn = document.getElementById('logoutBtn');
-const calendarGrid = document.getElementById('calendarGrid');
-const progressChart = document.getElementById('progressChart').getContext('2d');
-const insightText = document.getElementById('insightText');
-const googleLoginBtn = document.getElementById('googleLoginBtn');
-const yandexLoginBtn = document.getElementById('yandexLoginBtn');
-const vkLoginBtn = document.getElementById('vkLoginBtn');
-const userGreeting = document.getElementById('userGreeting');
-const themeBtn = document.getElementById('themeBtn');
-const themeIcon = document.getElementById('themeIcon');
-const notification = document.getElementById('notification');
+body.dark-theme {
+  background: #000000;
+  color: #ffffff;
+}
 
-// Проверка авторизации при загрузке страницы
-function checkAuth() {
-  const savedUser = localStorage.getItem('user');
-  if (savedUser) {
-    user = JSON.parse(savedUser);
-    count = parseInt(localStorage.getItem(`${user.id}_count`)) || 0;
-    updateUI();
-    loadCalendar();
-    renderChart();
-    loginSection.style.display = 'none';
-    appSection.style.display = 'block';
-    userGreeting.textContent = `Привет, ${user.name}!`;
+.container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+  margin: 20px;
+  transition: background 0.3s ease;
+}
+
+body.dark-theme .container {
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid #333;
+}
+
+.header-text {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#mainTitle {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 700;
+  background: linear-gradient(45deg, #6a82fb, #fc5c7d, #6a82fb);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 6s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-// Обновление интерфейса
-function updateUI() {
-  counterElement.textContent = `Количество: ${count}`;
-  updateComment();
-  updateInsights();
-  localStorage.setItem(`${user.id}_count`, count);
+#slogan {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
+  margin-top: 10px;
 }
 
-// Обновление комментария
-function updateComment() {
-  if (count < 10) {
-    commentElement.textContent = 'Ты начинающий 😊';
-  } else if (count >= 10 && count < 20) {
-    commentElement.textContent = 'Ты в ударе! 🚀';
-  } else {
-    commentElement.textContent = 'Пора отдохнуть! 🛑';
+body.dark-theme #slogan {
+  color: #ccc;
+}
+
+button {
+  background: #6a82fb;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #5a6fdb;
+  transform: translateY(-2px);
+}
+
+body.dark-theme button {
+  background: #6a82fb;
+  color: white;
+}
+
+body.dark-theme button:hover {
+  background: #5a6fdb;
+}
+
+.social-btn {
+  background: #444;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.social-btn i {
+  margin-right: 10px;
+}
+
+#counter {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 20px 0;
+  color: #333;
+}
+
+body.dark-theme #counter {
+  color: #ffffff;
+}
+
+#comment {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6a82fb;
+  margin: 10px 0;
+}
+
+body.dark-theme #comment {
+  color: #8a9dfb;
+}
+
+#calendar {
+  margin-top: 20px;
+}
+
+#calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.day {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 5px;
+  text-align: center;
+  color: #333;
+  border: 1px solid #ddd;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme .day {
+  background: rgba(0, 0, 0, 0.95);
+  color: #ffffff;
+  border: 1px solid #333;
+}
+
+.day.active {
+  background: #6a82fb;
+  color: white;
+}
+
+#chart {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+body.dark-theme #chart {
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#userGreeting {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+body.dark-theme #userGreeting {
+  color: #ffffff;
+}
+
+#logoutBtn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme #logoutBtn {
+  color: #ffffff;
+}
+
+#logoutBtn:hover {
+  color: #fc5c7d;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #6a82fb;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: none;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
-// Обновление аналитики
-function updateInsights() {
-  const activeDays = JSON.parse(localStorage.getItem(`${user.id}_calendar`)) || [];
-  const totalDays = activeDays.length;
-  const last7Days = activeDays.slice(-7).filter(day => day).length;
-  insightText.textContent = `Активных дней: ${totalDays}. За последнюю неделю: ${last7Days}.`;
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
 }
 
-// Вход через Google
-googleLoginBtn.addEventListener('click', () => {
-  user = { id: 'google_user_id', name: 'Google User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через Google выполнен!`);
-});
+.theme-toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
 
-// Вход через Яндекс
-yandexLoginBtn.addEventListener('click', () => {
-  user = { id: 'yandex_user_id', name: 'Yandex User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через Яндекс выполнен!`);
-});
+.theme-toggle img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+  background: transparent;
+}
 
-// Вход через ВКонтакте
-vkLoginBtn.addEventListener('click', () => {
-  user = { id: 'vk_user_id', name: 'VK User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через ВКонтакте выполнен!`);
-});
+body.dark-theme .theme-toggle img {
+  background: transparent;
+}
 
-// Выход
-logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('user');
-  user = null;
-  loginSection.style.display = 'block';
-  appSection.style.display = 'none';
-});
+.theme-toggle button:hover img {
+  transform: scale(1.1);
+}
 
-// Обработчик кнопки "Отметить активность"
-startBtn.addEventListener('click', () => {
-  count++;
-  const now = new Date();
-  const date = now.toISOString().split('T')[0];
-  const time = now.toTimeString().split(' ')[0];
-
-  const activities = JSON.parse(localStorage.getItem(`${user.id}_activities`)) || [];
-  activities.push({ date, time });
-  localStorage.setItem(`${user.id}_activities`, JSON.stringify(activities));
-
-  updateUI();
-  updateCalendar();
-  showNotification(`Активность отмечена! 🎉`);
-});
-
-// Обработчик кнопки "Сбросить"
-resetBtn.addEventListener('click', () => {
-  count = 0;
-  updateUI();
-  showNotification(`Прогресс сброшен. 🔄`);
-});
-
-// Календарь активности
-function loadCalendar() {
-  const activeDays = JSON.parse(localStorage.getItem(`${user.id}_calendar`)) || [];
-  const today = new Date().toISOString().split('T')[0];
-  if (!activeDays.includes(today)) {
-    activeDays.push(today);
-    localStorage.setItem(`${user.id}_calendar`, JSON.stringify(activeDays));
+/* Адаптация для мобильных устройств */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    border-radius: 10px;
   }
-  renderCalendar(activeDays);
-}
 
-function renderCalendar(activeDays) {
-  calendarGrid.innerHTML = '';
-  const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-  for (let i = 1; i <= daysInMonth; i++) {
-    const day = document.createElement('div');
-    day.classList.add('day');
-    day.textContent = i;
-    const date = new Date(new Date().getFullYear(), new Date().getMonth(), i).toISOString().split('T')[0];
-    if (activeDays.includes(date)) {
-      day.classList.add('active');
-    }
-    calendarGrid.appendChild(day);
+  h1 {
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }
-
-// График прогресса
-function renderChart() {
-  if (chartInstance) {
-    chartInstance.destroy();
-  }
-  const labels = [];
-  const data = [];
-  for (let i = 1; i <= 30; i++) {
-    labels.push(`День ${i}`);
-    data.push(localStorage.getItem(`${user.id}_day_${i}`) ? 1 : 0);
-  }
-  chartInstance = new Chart(progressChart, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Активность',
-        data: data,
-        borderColor: '#6a82fb',
-        backgroundColor: 'rgba(106, 130, 251, 0.2)',
-        fill: true,
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 1,
-          }
-        }
-      }
-    }
-  });
-}
-
-// Обработчик клика по дню в календаре
-calendarGrid.addEventListener('click', (event) => {
-  if (event.target.classList.contains('day')) {
-    const day = event.target.textContent;
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1; // Месяцы начинаются с 0
-    const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    updateChartForDate(date);
-  }
-});
-
-// Функция для обновления графика за выбранную дату
-function updateChartForDate(date) {
-  const activities = JSON.parse(localStorage.getItem(`${user.id}_activities`)) || [];
-  const filteredActivities = activities.filter(activity => activity.date === date);
-
-  if (filteredActivities.length > 0) {
-    const labels = filteredActivities.map(activity => activity.time);
-    const data = filteredActivities.map(() => 1); // Все активности равны 1 для графика
-
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
-
-    chartInstance = new Chart(progressChart, {
-      type: 'bar', // Используем столбчатую диаграмму для наглядности
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Активность',
-          data: data,
-          backgroundColor: '#6a82fb',
-          borderColor: '#6a82fb',
-          borderWidth: 1,
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1,
-            }
-          }
-        }
-      }
-    });
-  } else {
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
-    chartInstance = new Chart(progressChart, {
-      type: 'bar',
-      data: {
-        labels: ['Нет данных'],
-        datasets: [{
-          label: 'Активность',
-          data: [0],
-          backgroundColor: '#ff6f61',
-          borderColor: '#ff6f61',
-          borderWidth: 1,
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1,
-            }
-          }
-        }
-      }
-    });
-  }
-}
-
-// Вход через Google
-googleLoginBtn.addEventListener('click', () => {
-  console.log('Кнопка Google нажата'); // Отладочное сообщение
-  user = { id: 'google_user_id', name: 'Google User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через Google выполнен!`);
-});
-
-// Вход через Яндекс
-yandexLoginBtn.addEventListener('click', () => {
-  console.log('Кнопка Яндекс нажата'); // Отладочное сообщение
-  user = { id: 'yandex_user_id', name: 'Yandex User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через Яндекс выполнен!`);
-});
-
-// Вход через ВКонтакте
-vkLoginBtn.addEventListener('click', () => {
-  console.log('Кнопка ВКонтакте нажата'); // Отладочное сообщение
-  user = { id: 'vk_user_id', name: 'VK User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-  showNotification(`Вход через ВКонтакте выполнен!`);
-});
-
-// Уведомления
-function showNotification(message) {
-  notification.textContent = message;
-  notification.style.display = 'block';
-  setTimeout(() => {
-    notification.style.display = 'none';
-  }, 3000);
-}
-
-// Темная тема
-themeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-theme');
-  const isDarkTheme = document.body.classList.contains('dark-theme');
-  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-  themeIcon.src = isDarkTheme ? 'banana-night.ico' : 'banana-light.ico';
-  document.getElementById('favicon').href = 'icon.ico';
-});
-
-// Загрузка темы
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-theme');
-  themeIcon.src = 'banana-night.ico';
-} else {
-  themeIcon.src = 'banana-light.ico';
-}
-document.getElementById('favicon').href = 'icon.ico';
-
-// Проверка авторизации при загрузке страницы
-checkAuth();
