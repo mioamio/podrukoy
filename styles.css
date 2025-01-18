@@ -1,0 +1,173 @@
+/* Общие стили */
+body {
+  font-family: 'Manrope', sans-serif;
+  background: linear-gradient(135deg, #e6f4f1, #f9e6f4);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.header-text {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#mainTitle {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 600;
+  background: linear-gradient(45deg, #6a82fb, #fc5c7d, #6a82fb);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 6s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#slogan {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+button {
+  background: #6a82fb;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #5a6fdb;
+  transform: translateY(-2px);
+}
+
+.social-btn {
+  background: #444;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.social-btn i {
+  margin-right: 10px;
+}
+
+#counter {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 20px 0;
+  color: #333;
+}
+
+#comment {
+  font-style: italic;
+  color: #6a82fb;
+  margin: 10px 0;
+}
+
+#calendar {
+  margin-top: 20px;
+}
+
+#calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.day {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  text-align: center;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.day.active {
+  background: #6a82fb;
+  color: white;
+}
+
+#chart {
+  margin-top: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#logoutBtn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#logoutBtn:hover {
+  color: #fc5c7d;
+}
+
+#insights {
+  margin-top: 20px;
+}
+
+#insightText {
+  font-style: italic;
+  color: #6a82fb;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
