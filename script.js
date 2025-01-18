@@ -16,13 +16,16 @@ const userGreeting = document.getElementById('userGreeting');
 const loginForm = document.getElementById('loginForm');
 const usernameInput = document.getElementById('usernameInput');
 const notification = document.getElementById('notification');
+const googleLoginBtn = document.getElementById('googleLoginBtn');
+const yandexLoginBtn = document.getElementById('yandexLoginBtn');
+const vkLoginBtn = document.getElementById('vkLoginBtn');
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
   const savedUser = localStorage.getItem('user');
   if (savedUser) {
     user = JSON.parse(savedUser);
-    count = parseInt(localStorage.getItem(`${user.name}_count`)) || 0;
+    count = parseInt(localStorage.getItem(`${user.id || user.name}_count`)) || 0;
     updateUI();
     loadCalendar();
     renderChart();
@@ -36,7 +39,7 @@ function checkAuth() {
 function updateUI() {
   counterElement.textContent = `Количество: ${count}`;
   updateComment();
-  localStorage.setItem(`${user.name}_count`, count);
+  localStorage.setItem(`${user.id || user.name}_count`, count);
 }
 
 // Обновление комментария
@@ -64,6 +67,21 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
+// Вход через Google (заглушка)
+googleLoginBtn.addEventListener('click', () => {
+  showNotification('Вход через Google временно недоступен.');
+});
+
+// Вход через Яндекс (заглушка)
+yandexLoginBtn.addEventListener('click', () => {
+  showNotification('Вход через Яндекс временно недоступен.');
+});
+
+// Вход через ВКонтакте (заглушка)
+vkLoginBtn.addEventListener('click', () => {
+  showNotification('Вход через ВКонтакте временно недоступен.');
+});
+
 // Выход
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('user');
@@ -86,6 +104,69 @@ resetBtn.addEventListener('click', () => {
   updateUI();
   showNotification(`Прогресс сброшен. 🔄`);
 });
+
+// Календарь активности
+function loadCalendar() {
+  const activeDays = JSON.parse(localStorage.getItem(`${user.id || user.name}_calendar`)) || [];
+  const today = new Date().toISOString().split('T')[0];
+  if (!activeDays.includes(today)) {
+    activeDays.push(today);
+    localStorage.setItem(`${user.id || user.name}_calendar`, JSON.stringify(activeDays));
+  }
+  renderCalendar(activeDays);
+}
+
+function renderCalendar(activeDays) {
+  calendarGrid.innerHTML = '';
+  const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  for (let i = 1; i <= daysInMonth; i++) {
+    const day = document.createElement('div');
+    day.classList.add('day');
+    day.textContent = i;
+    const date = new Date(new Date().getFullYear(), new Date().getMonth(), i).toISOString().split('T')[0];
+    if (activeDays.includes(date)) {
+      day.classList.add('active');
+    }
+    calendarGrid.appendChild(day);
+  }
+}
+
+// График прогресса
+function renderChart() {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+  const labels = [];
+  const data = [];
+  for (let i = 1; i <= 30; i++) {
+    labels.push(`День ${i}`);
+    data.push(localStorage.getItem(`${user.id || user.name}_day_${i}`) ? 1 : 0);
+  }
+  chartInstance = new Chart(progressChart, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Активность',
+        data: data,
+        borderColor: '#6a82fb',
+        backgroundColor: 'rgba(106, 130, 251, 0.2)',
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+          }
+        }
+      }
+    }
+  });
+}
 
 // Уведомления
 function showNotification(message) {
