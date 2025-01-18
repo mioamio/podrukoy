@@ -255,7 +255,6 @@ body.dark-theme #logoutBtn {
 body.dark-theme .theme-toggle img {
   background: transparent;
 }
-
 .theme-toggle button:hover img {
   transform: scale(1.1);
 }
