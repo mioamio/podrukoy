@@ -11,17 +11,45 @@ body {
   align-items: center;
   min-height: 100vh;
   transition: background 0.3s ease, color 0.3s ease;
+  animation: gradientAnimation 6s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 body.dark-theme {
-  background: #000000;
+  background: linear-gradient(135deg, #1a1a1a, #333333);
   color: #ffffff;
+  animation: gradientAnimationDark 6s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientAnimationDark {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .container {
   text-align: center;
   background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 800px;
@@ -37,11 +65,11 @@ body.dark-theme .container {
 
 .header-text {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 #mainTitle {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 0;
   font-weight: 700;
   background: linear-gradient(45deg, #6a82fb, #fc5c7d, #6a82fb);
@@ -49,18 +77,6 @@ body.dark-theme .container {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientAnimation 6s ease infinite;
-}
-
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 #slogan {
@@ -262,7 +278,7 @@ body.dark-theme .theme-toggle img {
 /* Адаптация для мобильных устройств */
 @media (max-width: 600px) {
   .container {
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
   }
 
@@ -273,5 +289,34 @@ body.dark-theme .theme-toggle img {
   button {
     padding: 10px 20px;
     font-size: 14px;
+  }
+
+  #mainTitle {
+    font-size: 2rem;
+  }
+
+  #slogan {
+    font-size: 1rem;
+  }
+
+  #counter {
+    font-size: 20px;
+  }
+
+  #comment {
+    font-size: 1rem;
+  }
+
+  .day {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  #calendarGrid {
+    gap: 3px;
+  }
+
+  #chart {
+    padding: 15px;
   }
 }
