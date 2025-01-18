@@ -13,28 +13,37 @@ const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const progressChart = document.getElementById('progressChart').getContext('2d');
 const userGreeting = document.getElementById('userGreeting');
+const userPhone = document.getElementById('userPhone');
 const themeBtn = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
 const notification = document.getElementById('notification');
 const vkLoginBtn = document.getElementById('vkLoginBtn');
 
 // Инициализация VK Bridge
-vkBridge.send('VKWebAppInit');
+document.addEventListener('DOMContentLoaded', () => {
+  vkBridge.send('VKWebAppInit').then(() => {
+    // Показываем кнопку входа через VK
+    vkLoginBtn.style.display = 'block';
+  }).catch(error => {
+    console.error('Ошибка инициализации VK Bridge:', error);
+  });
+});
 
 // Авторизация через VK
-function authVK() {
+vkLoginBtn.addEventListener('click', () => {
   vkBridge.send('VKWebAppGetAuthToken', {
     app_id: YOUR_VK_APP_ID, // Замените на ваш App ID
-    scope: 'friends,photos' // Укажите необходимые права доступа
+    scope: 'friends,photos,email,phone' // Запрашиваем доступ к номеру телефона
   }).then(data => {
     const accessToken = data.access_token;
     // Получаем данные пользователя
-    fetch(`https://api.vk.com/method/users.get?access_token=${accessToken}&v=5.131`)
+    fetch(`https://api.vk.com/method/users.get?access_token=${accessToken}&fields=first_name,last_name,phone&v=5.131`)
       .then(response => response.json())
       .then(data => {
         const userData = data.response[0];
         const userName = `${userData.first_name} ${userData.last_name}`;
-        user = { id: userData.id, name: userName };
+        const userPhoneNumber = userData.phone || 'Номер телефона не указан';
+        user = { id: userData.id, name: userName, phone: userPhoneNumber };
         localStorage.setItem('user', JSON.stringify(user));
         checkAuth();
         showNotification(`Вход через ВКонтакте выполнен!`);
@@ -43,7 +52,7 @@ function authVK() {
   }).catch(error => {
     console.error('Ошибка авторизации:', error);
   });
-}
+});
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -57,6 +66,7 @@ function checkAuth() {
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
     userGreeting.textContent = `Привет, ${user.name}!`;
+    userPhone.textContent = `Телефон: ${user.phone}`;
   }
 }
 
@@ -200,8 +210,5 @@ if (savedTheme === 'dark') {
 }
 document.getElementById('favicon').href = 'icon.ico';
 
-// Инициализация VK Bridge и проверка авторизации при загрузке страницы
-window.addEventListener('load', () => {
-  checkAuth();
-  vkLoginBtn.addEventListener('click', authVK);
-});
+// Проверка авторизации при загрузке страницы
+checkAuth();
