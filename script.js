@@ -65,23 +65,26 @@ function updateInsights() {
 
 // Вход через Google
 googleLoginBtn.addEventListener('click', () => {
-  user = { id: 'google_user_id', name: 'Иван' };
+  user = { id: 'google_user_id', name: 'Google User' };
   localStorage.setItem('user', JSON.stringify(user));
   checkAuth();
+  showNotification(`Вход через Google выполнен!`);
 });
 
 // Вход через Яндекс
 yandexLoginBtn.addEventListener('click', () => {
-  user = { id: 'yandex_user_id', name: 'Мария' };
+  user = { id: 'yandex_user_id', name: 'Yandex User' };
   localStorage.setItem('user', JSON.stringify(user));
   checkAuth();
+  showNotification(`Вход через Яндекс выполнен!`);
 });
 
 // Вход через ВКонтакте
 vkLoginBtn.addEventListener('click', () => {
-  user = { id: 'vk_user_id', name: 'Алексей' };
+  user = { id: 'vk_user_id', name: 'VK User' };
   localStorage.setItem('user', JSON.stringify(user));
   checkAuth();
+  showNotification(`Вход через ВКонтакте выполнен!`);
 });
 
 // Выход
