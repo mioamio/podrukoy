@@ -1,7 +1,8 @@
 /* Общие стили */
 body {
   font-family: 'Manrope', sans-serif;
-  background: linear-gradient(135deg, #e6f4f1, #f9e6f4);
+  background: linear-gradient(135deg, #f5f7fa, #e6f4f1, #f5f7fa, #e6f4f1);
+  background-size: 400% 400%;
   color: #333;
   margin: 0;
   padding: 0;
@@ -10,16 +11,31 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  animation: lightBackgroundAnimation 10s ease infinite;
+}
+
+@keyframes lightBackgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .container {
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   max-width: 500px;
   width: 100%;
+  backdrop-filter: blur(10px);
+  transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
 .header-text {
@@ -30,8 +46,8 @@ body {
 #mainTitle {
   font-size: 3rem;
   margin: 0;
-  font-weight: 600;
-  background: linear-gradient(45deg, #6a82fb, #fc5c7d, #6a82fb);
+  font-weight: 700;
+  background: linear-gradient(45deg, #6a82fb, #fc5c7d);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -52,27 +68,33 @@ body {
 
 #slogan {
   font-size: 1.2rem;
-  color: #555;
+  color: #666;
   font-style: italic;
   margin-top: 10px;
 }
 
 button {
-  background: #6a82fb;
+  background: linear-gradient(135deg, #6a82fb, #fc5c7d);
   color: white;
   border: none;
   padding: 12px 24px;
   margin: 10px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(106, 130, 251, 0.3);
 }
 
 button:hover {
-  background: #5a6fdb;
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(106, 130, 251, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(106, 130, 251, 0.3);
 }
 
 .social-btn {
@@ -113,10 +135,15 @@ button:hover {
 .day {
   padding: 10px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
+  border-radius: 8px;
   text-align: center;
   color: #333;
   border: 1px solid #ddd;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.day:hover {
+  transform: scale(1.05);
 }
 
 .day.active {
@@ -168,6 +195,11 @@ button:hover {
   border: none;
   cursor: pointer;
   padding: 10px;
+  transition: transform 0.2s ease;
+}
+
+#themeToggleBtn:hover {
+  transform: scale(1.1);
 }
 
 #themeToggleBtn img {
@@ -177,26 +209,46 @@ button:hover {
 
 /* Темная тема */
 .dark-theme {
-  background: linear-gradient(135deg, #333, #444);
-  color: #fff;
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #1a1a1a, #2c2c2c);
+  background-size: 400% 400%;
+  color: #e0e0e0;
+  animation: darkBackgroundAnimation 10s ease infinite;
+}
+
+@keyframes darkBackgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .dark-theme .container {
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
+  background: rgba(40, 40, 40, 0.9);
+  color: #e0e0e0;
+  border: 1px solid #444;
 }
 
 .dark-theme button {
-  background: #444;
-  color: #fff;
+  background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme button:hover {
+  background: linear-gradient(135deg, #5a6fdb, #e64a6f);
 }
 
 .dark-theme .social-btn {
-  background: #666;
+  background: #555;
 }
 
 .dark-theme #counter {
-  color: #fff;
+  color: #e0e0e0;
 }
 
 .dark-theme #comment {
@@ -204,9 +256,9 @@ button:hover {
 }
 
 .dark-theme .day {
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border: 1px solid #444;
+  background: rgba(60, 60, 60, 0.9);
+  color: #e0e0e0;
+  border: 1px solid #666;
 }
 
 .dark-theme .day.active {
@@ -215,7 +267,7 @@ button:hover {
 }
 
 .dark-theme #logoutBtn {
-  color: #fff;
+  color: #e0e0e0;
 }
 
 .dark-theme #logoutBtn:hover {
@@ -226,11 +278,21 @@ button:hover {
   color: #6a82fb;
 }
 
+.dark-theme #mainTitle {
+  background: linear-gradient(45deg, #6a82fb, #fc5c7d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark-theme #slogan {
+  color: #aaa;
+}
+
 /* Адаптация для мобильных устройств */
 @media (max-width: 600px) {
   .container {
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 15px;
   }
 
   h1 {
