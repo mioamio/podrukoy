@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta name="description" content="Твое здоровье в твоих руках">
-  <meta name="keywords" content="самоконтроль, прогресс, привычки">
-  <meta name="author" content="Ваше Имя">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Под рукой</title>
@@ -12,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="icon.ico" type="image/x-icon" id="favicon">
   <link rel="manifest" href="manifest.json">
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" async></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="theme-toggle">
@@ -25,7 +24,7 @@
   </div>
   <div class="container">
     <div id="loginSection">
-      <button id="vkLoginBtn" class="social-btn">
+      <button id="vkLoginBtn" style="display: none;">
         <i class="fab fa-vk"></i>
         <span>Войти через ВКонтакте</span>
       </button>
@@ -33,6 +32,7 @@
     <div id="appSection" style="display: none;">
       <div class="header">
         <span id="userGreeting"></span>
+        <span id="userPhone"></span>
         <button id="logoutBtn" title="Выйти"><i class="fas fa-sign-out-alt"></i></button>
       </div>
       <p id="counter">Количество: 0</p>
@@ -50,16 +50,5 @@
     </div>
   </div>
   <div id="notification" class="notification"></div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script> <!-- Подключение VK Bridge -->
-  <script src="script.js"></script>
-  <script>
-    // Регистрация Service Worker для PWA
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service Worker зарегистрирован'))
-        .catch(err => console.log('Ошибка регистрации Service Worker:', err));
-    }
-  </script>
 </body>
 </html>
