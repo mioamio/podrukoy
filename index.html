@@ -1,86 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta name="description" content="Твое здоровье в твоих руках">
-  <meta name="keywords" content="самоконтроль, прогресс, привычки">
-  <meta name="author" content="Ваше Имя">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Под рукой — приложение для отслеживания мастерства в каждом движении. Личная статистика и календарь.">
+  <meta name="keywords" content="мастурбация, трекер, календарь, статистика, прогресс">
+  <meta name="author" content="Ваше Имя">
   <title>Под рукой</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="%PUBLIC_URL%/banana-light.ico" id="favicon">
 </head>
 <body>
-  <div class="header-text">
-    <h1 id="mainTitle">Под рукой</h1>
-    <p id="slogan">— мастерство в каждом движении</p>
-  </div>
-  <div class="container">
-    <div id="loginSection">
-      <div id="authForms">
-        <div id="loginForm">
-          <h2>Вход</h2>
-          <input type="email" id="loginEmail" placeholder="Email" required>
-          <input type="password" id="loginPassword" placeholder="Пароль" required>
-          <button id="loginBtn">Войти</button>
-          <p id="toggleRegister">Нет аккаунта? <a href="#">Зарегистрироваться</a></p>
-        </div>
-        <div id="registerForm" style="display: none;">
-          <h2>Регистрация</h2>
-          <input type="text" id="registerName" placeholder="Имя" required>
-          <input type="email" id="registerEmail" placeholder="Email" required>
-          <input type="password" id="registerPassword" placeholder="Пароль" required>
-          <button id="registerBtn">Зарегистрироваться</button>
-          <p id="toggleLogin">Уже есть аккаунт? <a href="#">Войти</a></p>
-        </div>
-      </div>
-      <div id="socialAuth">
-        <div class="social-btn-wrapper">
-          <button id="googleLoginBtn" class="social-btn">
-            <i class="fab fa-google"></i>
-            <span>Войти через Google</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="yandexLoginBtn" class="social-btn">
-            <i class="fab fa-yandex"></i>
-            <span>Войти через Яндекс</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="vkLoginBtn" class="social-btn">
-            <i class="fab fa-vk"></i>
-            <span>Войти через ВКонтакте</span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div id="appSection" style="display: none;">
-      <div class="header">
-        <button id="logoutBtn" title="Выйти"><i class="fas fa-sign-out-alt"></i></button>
-      </div>
-      <p id="counter">Количество: 0</p>
-      <button id="startBtn" class="action-btn">🚀 Начать</button>
-      <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
-      <p id="comment">Ты начинающий</p>
-      <div id="calendar">
-        <h2>Календарь активности</h2>
-        <div id="calendarGrid"></div>
-      </div>
-      <div id="chart">
-        <h2>Прогресс</h2>
-        <canvas id="progressChart"></canvas>
-      </div>
-      <div id="insights">
-        <h2>Аналитика</h2>
-        <p id="insightText"></p>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://vk.com/js/api/openapi.js?169"></script>
-  <script src="script.js"></script>
+  <div id="root"></div>
 </body>
 </html>
