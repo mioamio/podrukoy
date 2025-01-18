@@ -117,17 +117,6 @@ body.dark-theme button:hover {
   background: #5a6fdb;
 }
 
-.social-btn {
-  background: #4a76a8; /* Цвет фона кнопки VK */
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-}
-
-.social-btn i {
-  margin-right: 10px;
-}
-
 #counter {
   font-size: 24px;
   font-weight: 600;
@@ -201,15 +190,6 @@ body.dark-theme #chart {
   margin-bottom: 20px;
 }
 
-#userGreeting {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-body.dark-theme #userGreeting {
-  color: #ffffff;
-}
-
 #logoutBtn {
   background: none;
   border: none;
@@ -248,31 +228,28 @@ body.dark-theme #logoutBtn {
   }
 }
 
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.theme-toggle button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
-.theme-toggle img {
-  width: 32px;
-  height: 32px;
-  transition: transform 0.3s ease;
-  background: transparent;
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
-body.dark-theme .theme-toggle img {
-  background: transparent;
-}
-.theme-toggle button:hover img {
-  transform: scale(1.1);
+body.dark-theme .form-group input {
+  background: #333;
+  color: #fff;
+  border-color: #555;
 }
 
 /* Адаптация для мобильных устройств */
