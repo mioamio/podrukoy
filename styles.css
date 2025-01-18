@@ -101,15 +101,19 @@ body.dark-theme button:hover {
   background: #5a6fdb;
 }
 
-.social-btn {
-  background: #444;
-  display: block;
-  width: 100%;
-  margin: 10px 0;
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-.social-btn i {
-  margin-right: 10px;
+#usernameInput {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 300px;
 }
 
 #counter {
