@@ -161,8 +161,8 @@ function renderCalendar(activeDays) {
 
 function initYandexAuth() {
   document.getElementById('yandexLoginBtn').addEventListener('click', () => {
-    const clientId = '5f90309591ef480e8d82804235232e43';
-    const redirectUri = encodeURIComponent('http://podrukoy.xyz/callback');
+    const clientId = '5f90309591ef480e8d82804235232e43'; // ClientID
+    const redirectUri = encodeURIComponent('https://podrukovxyz/'); // Redirect URI
     window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
   });
 }
@@ -176,7 +176,7 @@ function handleYandexCallback() {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `grant_type=authorization_code&code=${code}&client_id=YOUR_YANDEX_CLIENT_ID&client_secret=YOUR_YANDEX_CLIENT_SECRET`,
+      body: `grant_type=authorization_code&code=${code}&client_id=5f90309591ef480e8d82804235232e43&client_secret=eaa07876de034d348562235478777e23`,
     })
       .then((response) => response.json())
       .then((data) => {
