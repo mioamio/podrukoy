@@ -307,16 +307,8 @@ body.light-theme {
 
 /* Темная тема */
 body.dark-theme {
-  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-  background-size: 200% 200%;
+  background: #000; /* AMOLED-черный фон */
   color: #e0e0e0;
-  animation: darkBackgroundAnimation 10s ease infinite;
-}
-
-@keyframes darkBackgroundAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .dark-theme .container {
@@ -410,7 +402,6 @@ body.dark-theme {
     padding: 10px;
     min-height: auto;
     animation: none;
-    background: #000; /* Черный фон для AMOLED */
   }
 
   .container {
@@ -419,8 +410,8 @@ body.dark-theme {
     margin: 10px;
     width: 95%;
     max-width: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный черный фон для контейнера */
-    color: #e0e0e0; /* Светлый текст для контраста */
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для контейнера */
+    color: #333; /* Темный текст для контраста */
   }
 
   #mainTitle {
@@ -511,5 +502,15 @@ body.dark-theme {
   #themeToggleBtn img {
     width: 28px; /* Увеличиваем размер иконки смены темы */
     height: 28px;
+  }
+
+  /* Темная тема для мобильных устройств */
+  body.dark-theme {
+    background: #000; /* AMOLED-черный фон */
+  }
+
+  .dark-theme .container {
+    background: rgba(40, 40, 40, 0.9);
+    color: #e0e0e0;
   }
 }
