@@ -81,9 +81,9 @@
 Если у вас есть вопросы или предложения по улучшению проекта, свяжитесь со мной:
 
 - **Email**: zwv0101@gmail.com
-- **VK**: <i class="fab fa-vk"></i> [Профиль](https://vk.com/bordzhia)
-- **Telegram**: <i class="fab fa-telegram-plane"></i> @topvselennaya
+- **VK**: [<img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" alt="VK" width="20"> [Профиль](https://vk.com/bordzhia)
+- **Telegram**: [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="20"> @topvselennaya
 
 ---
 
-Спасибо за внимание! Надеюсь, проект **"Под рукой"** будет полезен для вас. 😊
+Спасибо за внимание! Надеюсь, проект **"Под рукой"** будет полезен для вас 😊
