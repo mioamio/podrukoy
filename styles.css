@@ -15,15 +15,9 @@ body {
 }
 
 @keyframes lightBackgroundAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container {
@@ -56,15 +50,9 @@ body {
 }
 
 @keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 #slogan {
@@ -318,15 +306,9 @@ button:active {
 }
 
 @keyframes darkBackgroundAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .dark-theme .container {
@@ -416,39 +398,104 @@ button:active {
 
 /* Адаптация для мобильных устройств */
 @media (max-width: 600px) {
+  body {
+    padding: 10px;
+    min-height: auto;
+    animation: none;
+  }
+
   .container {
-    padding: 15px;
-    border-radius: 15px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  button {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    width: 95%;
+    max-width: 100%;
   }
 
   #mainTitle {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    animation: none;
   }
 
   #slogan {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin: 5px;
+    transition: none;
+  }
+
+  .social-btn {
+    margin: 5px 0;
+  }
+
+  #counter {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  #comment {
+    font-size: 0.9rem;
+    margin: 5px 0;
+  }
+
+  .horizontal-layout {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #calendar {
+    margin-top: 10px;
   }
 
   #calendarGrid {
     grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
+    gap: 2px;
   }
 
   .day {
     padding: 5px;
     font-size: 0.8rem;
+    transition: none;
   }
 
-  .horizontal-layout {
-    flex-direction: column;
+  .actions {
+    margin-top: 10px;
+  }
+
+  .header {
+    justify-content: center;
+  }
+
+  #logoutBtn {
+    font-size: 1rem;
+  }
+
+  .license-link {
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
+
+  .modal-content {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .modal-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  #themeToggleContainer {
+    top: 10px;
+    right: 10px;
+  }
+
+  #themeToggleBtn img {
+    width: 20px;
+    height: 20px;
   }
 }
