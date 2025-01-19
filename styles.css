@@ -293,8 +293,8 @@ button:active {
 
 /* Светлая тема */
 body.light-theme {
-  background: linear-gradient(135deg, #f5f7fa, #e6f4f1);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #f5f7fa, #e6f4f1, #f5f7fa, #e6f4f1);
+  background-size: 400% 400%;
   color: #333;
   animation: lightBackgroundAnimation 10s ease infinite;
 }
@@ -307,8 +307,8 @@ body.light-theme {
 
 /* Темная тема */
 body.dark-theme {
-  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #1a1a1a, #2c2c2c);
+  background-size: 400% 400%;
   color: #e0e0e0;
   animation: darkBackgroundAnimation 10s ease infinite;
 }
@@ -409,7 +409,7 @@ body.dark-theme {
   body {
     padding: 10px;
     min-height: auto;
-    animation: none;
+    animation: lightBackgroundAnimation 10s ease infinite; /* Добавляем переливание фона для мобильной версии */
   }
 
   .container {
