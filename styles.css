@@ -410,6 +410,7 @@ body.dark-theme {
     padding: 10px;
     min-height: auto;
     animation: none;
+    background: #000; /* Черный фон для AMOLED */
   }
 
   .container {
@@ -418,6 +419,8 @@ body.dark-theme {
     margin: 10px;
     width: 95%;
     max-width: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный черный фон для контейнера */
+    color: #e0e0e0; /* Светлый текст для контраста */
   }
 
   #mainTitle {
@@ -426,7 +429,9 @@ body.dark-theme {
   }
 
   #slogan {
-    font-size: 0.9rem;
+    font-size: 1rem; /* Увеличиваем шрифт слогана */
+    margin-top: 20px; /* Сдвигаем слоган ниже */
+    text-align: center; /* Центрируем текст */
   }
 
   button {
@@ -483,8 +488,9 @@ body.dark-theme {
   }
 
   .license-link {
-    font-size: 0.8rem;
-    margin-top: 10px;
+    font-size: 0.9rem; /* Увеличиваем шрифт ссылки на соглашение */
+    margin-top: 30px; /* Сдвигаем ссылку ниже */
+    text-align: center; /* Центрируем текст */
   }
 
   .modal-content {
@@ -503,7 +509,7 @@ body.dark-theme {
   }
 
   #themeToggleBtn img {
-    width: 20px;
-    height: 20px;
+    width: 28px; /* Увеличиваем размер иконки смены темы */
+    height: 28px;
   }
 }
