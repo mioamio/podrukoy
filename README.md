@@ -80,8 +80,7 @@
 
 Если у вас есть вопросы или предложения по улучшению проекта, свяжитесь со мной:
 
-- **Email**: zwv0101@gmail.com
-[<img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" alt="VK" width="20">](https://vk.com/bordhzia) [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="20">](https://t.me/topvselennaya)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail" width="20"> zwv0101@gmail.com](mailto:zwv0101@gmail.com) [<img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" alt="VK" width="20">](https://vk.com/bordhzia) [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="20">](https://t.me/topvselennaya)
 
 ---
 
