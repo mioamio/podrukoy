@@ -5,7 +5,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Сдвигаем контент вниз */
   align-items: center;
   min-height: 100vh;
   user-select: none; /* Отключаем выделение текста и элементов */
@@ -25,6 +25,7 @@ body {
   backdrop-filter: blur(10px);
   transition: background 0.5s ease, box-shadow 0.5s ease;
   margin: 20px;
+  margin-top: 80px; /* Сдвигаем контент ниже */
 }
 
 .header-text {
@@ -433,6 +434,7 @@ body.dark-theme {
     max-width: 100%;
     background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для контейнера */
     color: #333; /* Темный текст для контраста */
+    margin-top: 60px; /* Сдвигаем контент ниже */
   }
 
   #mainTitle {
