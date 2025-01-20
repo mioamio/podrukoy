@@ -12,7 +12,7 @@ const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const commentElement = document.getElementById('comment');
 const loginSection = document.getElementById('loginSection');
-const appSection = document.getElementById('appSection");
+const appSection = document.getElementById('appSection');
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const currentMonthElement = document.getElementById('currentMonth');
@@ -28,8 +28,8 @@ const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 
 // GitHub Gist
-const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
-const GITHUB_TOKEN = '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'; // Ваш GitHub Token
+const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f';
+const GITHUB_TOKEN = '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';
 
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
@@ -41,6 +41,13 @@ const declineLicense = document.getElementById('declineLicense');
 showLicense.addEventListener('click', (e) => {
   e.preventDefault();
   licenseModal.style.display = 'flex';
+});
+
+// Закрытие модального окна при клике вне его
+licenseModal.addEventListener('click', (e) => {
+  if (e.target === licenseModal) {
+    licenseModal.style.display = 'none';
+  }
 });
 
 // Принятие соглашения
@@ -349,8 +356,3 @@ loadUsersFromGist();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
-
-// Проверка, принято ли соглашение при загрузке страницы
-if (isLicenseAccepted) {
-  updateUIAfterLicenseAcceptance(); // Разблокируем поля ввода и кнопку
-}
