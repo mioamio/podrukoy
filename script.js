@@ -12,7 +12,7 @@ const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const commentElement = document.getElementById('comment');
 const loginSection = document.getElementById('loginSection');
-const appSection = document.getElementById('appSection');
+const appSection = document.getElementById('appSection");
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const currentMonthElement = document.getElementById('currentMonth');
@@ -337,8 +337,6 @@ nextMonthBtn.addEventListener('click', () => {
 
 // Инициализация календаря
 renderCalendar(currentDate);
-
-// ... (остальной код остается без изменений до конца файла)
 
 // Проверка авторизации при загрузке страницы
 checkAuth();
