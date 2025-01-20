@@ -56,12 +56,32 @@ body {
   margin-top: 10px;
 }
 
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #6a82fb;
+  outline: none;
+}
+
+.input-field:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
 button {
   background: linear-gradient(135deg, #6a82fb, #fc5c7d);
   color: white;
   border: none;
   padding: 12px 24px;
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 12px;
   cursor: pointer;
   font-size: 16px;
@@ -80,18 +100,9 @@ button:active {
   box-shadow: 0 4px 12px rgba(106, 130, 251, 0.3);
 }
 
-#inviteLogin {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-#inviteCodeInput {
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 #counter {
@@ -330,10 +341,15 @@ body.dark-theme {
   background: linear-gradient(135deg, #5a6fdb, #e64a6f);
 }
 
-.dark-theme #inviteCodeInput {
+.dark-theme .input-field {
   background: #333;
   color: #e0e0e0;
   border: 1px solid #666;
+}
+
+.dark-theme .input-field:disabled {
+  background: #444;
+  color: #aaa;
 }
 
 .dark-theme #counter {
@@ -437,7 +453,7 @@ body.dark-theme {
     transition: none;
   }
 
-  #inviteCodeInput {
+  .input-field {
     padding: 8px;
     font-size: 14px;
   }
