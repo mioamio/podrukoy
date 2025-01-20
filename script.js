@@ -18,18 +18,18 @@ const calendarGrid = document.getElementById('calendarGrid');
 const currentMonthElement = document.getElementById('currentMonth');
 const prevMonthBtn = document.getElementById('prevMonthBtn');
 const nextMonthBtn = document.getElementById('nextMonthBtn');
-const googleLoginBtn = document.getElementById('googleLoginBtn');
-const yandexLoginBtn = document.getElementById('yandexLoginBtn');
-const vkLoginBtn = document.getElementById('vkLoginBtn');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const themeIcon = document.getElementById('themeIcon');
 const body = document.body;
+const inviteCodeInput = document.getElementById('inviteCodeInput');
+const loginWithInviteBtn = document.getElementById('loginWithInviteBtn');
+const inviteCodeDisplay = document.getElementById('inviteCodeDisplay');
+const userNameInput = document.getElementById('userNameInput');
+const userNameSpan = document.getElementById('userNameSpan');
 
-// Модальное окно с пользовательским соглашением
-const licenseModal = document.getElementById('licenseModal');
-const showLicense = document.getElementById('showLicense');
-const acceptLicense = document.getElementById('acceptLicense');
-const declineLicense = document.getElementById('declineLicense');
+// GitHub Gist
+const GIST_ID = 'ВАШ_GIST_ID'; // Замените на ID вашего Gist
+const GITHUB_TOKEN = 'ВАШ_GITHUB_TOKEN'; // Замените на ваш GitHub токен
 
 // Открытие модального окна с соглашением
 showLicense.addEventListener('click', (e) => {
@@ -56,10 +56,35 @@ declineLicense.addEventListener('click', () => {
 // Обновление видимости кнопок социальной авторизации
 function updateSocialAuthVisibility() {
   if (isLicenseAccepted) {
-    document.getElementById('socialAuth').style.display = 'block';
+    document.getElementById('inviteLogin').style.display = 'block';
   } else {
-    document.getElementById('socialAuth').style.display = 'none';
+    document.getElementById('inviteLogin').style.display = 'none';
   }
+}
+
+// Инициализация первого пригласительного кода
+function initializeFirstInviteCode() {
+  const users = JSON.parse(localStorage.getItem('users')) || {};
+  if (Object.keys(users).length === 0) {
+    const firstInviteCode = '001'; // Первый код всегда 001
+    users[firstInviteCode] = {
+      id: 'first_user',
+      inviteCode: firstInviteCode,
+      name: 'Администратор', // Имя первого пользователя
+    };
+    localStorage.setItem('users', JSON.stringify(users));
+    console.log('Первый пригласительный код создан:', firstInviteCode);
+  }
+}
+
+// Генерация случайного пригласительного кода
+function generateInviteCode() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) { // Длина кода — 6 символов
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code;
 }
 
 // Проверка авторизации при загрузке страницы
@@ -73,6 +98,8 @@ function checkAuth() {
     updateUI();
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
+    inviteCodeDisplay.textContent = user.inviteCode;
+    userNameSpan.textContent = user.name || 'Аноним';
   }
 }
 
@@ -96,29 +123,98 @@ function updateComment() {
   }
 }
 
-// Вход через Google
-googleLoginBtn.addEventListener('click', () => {
+// Вход по приглашению
+loginWithInviteBtn.addEventListener('click', async () => {
   if (!isLicenseAccepted) return;
-  user = { id: 'google_user_id', name: 'Google User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
+
+  const inviteCode = inviteCodeInput.value.trim();
+  const userName = userNameInput.value.trim() || 'Аноним'; // Имя пользователя
+
+  if (!inviteCode) {
+    alert('Введите пригласительный код');
+    return;
+  }
+
+  // Проверка, существует ли пользователь с таким кодом
+  const users = JSON.parse(localStorage.getItem('users')) || {};
+  if (users[inviteCode]) {
+    // Если код найден, входим в систему
+    const existingUser = users[inviteCode];
+
+    // Создаем нового пользователя для вошедшего
+    const newInviteCodeForNewUser = generateInviteCode();
+    user = {
+      id: `user_${Date.now()}`, // Уникальный ID пользователя
+      inviteCode: newInviteCodeForNewUser,
+      name: userName, // Сохраняем имя пользователя
+    };
+    users[newInviteCodeForNewUser] = user; // Добавляем нового пользователя в список
+
+    // Генерируем новый код для пользователя, который передал код
+    const newInviteCodeForExistingUser = generateInviteCode();
+    users[newInviteCodeForExistingUser] = existingUser;
+    existingUser.inviteCode = newInviteCodeForExistingUser;
+
+    // Удаляем старый код
+    delete users[inviteCode];
+
+    // Сохраняем обновленные данные
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('user', JSON.stringify(user));
+    checkAuth();
+    alert(`Ваш новый пригласительный код: ${newInviteCodeForNewUser}`);
+  } else {
+    // Если код не найден, сообщаем об ошибке
+    alert('Неверный пригласительный код. Пожалуйста, используйте действительный код.');
+    return;
+  }
+
+  // Сохраняем данные о пользователях в GitHub Gist
+  await saveUsersToGist(users);
 });
 
-// Вход через Яндекс
-yandexLoginBtn.addEventListener('click', () => {
-  if (!isLicenseAccepted) return;
-  user = { id: 'yandex_user_id', name: 'Yandex User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-});
+// Сохранение данных о пользователях в GitHub Gist
+async function saveUsersToGist(users) {
+  const data = JSON.stringify(users, null, 2); // Красивое форматирование JSON
+  const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `token ${GITHUB_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      files: {
+        'users.json': {
+          content: data,
+        },
+      },
+    }),
+  });
 
-// Вход через ВКонтакте
-vkLoginBtn.addEventListener('click', () => {
-  if (!isLicenseAccepted) return;
-  user = { id: 'vk_user_id', name: 'VK User' };
-  localStorage.setItem('user', JSON.stringify(user));
-  checkAuth();
-});
+  if (response.ok) {
+    console.log('Данные о пользователях успешно сохранены в Gist.');
+  } else {
+    console.error('Ошибка при сохранении данных в Gist:', await response.text());
+  }
+}
+
+// Загрузка данных о пользователях из GitHub Gist
+async function loadUsersFromGist() {
+  const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+    headers: {
+      'Authorization': `token ${GITHUB_TOKEN}`,
+    },
+  });
+
+  if (response.ok) {
+    const gist = await response.json();
+    const users = JSON.parse(gist.files['users.json'].content);
+    localStorage.setItem('users', JSON.stringify(users));
+    console.log('Данные о пользователях успешно загружены из Gist.');
+  } else {
+    console.error('Ошибка при загрузке данных из Gist:', await response.text());
+  }
+}
 
 // Выход
 logoutBtn.addEventListener('click', () => {
@@ -236,6 +332,12 @@ renderCalendar(currentDate);
 
 // Проверка авторизации при загрузке страницы
 checkAuth();
+
+// Инициализация первого кода при загрузке страницы
+initializeFirstInviteCode();
+
+// Загрузка данных о пользователях из Gist при загрузке страницы
+loadUsersFromGist();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateSocialAuthVisibility();
