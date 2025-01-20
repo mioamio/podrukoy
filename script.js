@@ -338,6 +338,8 @@ nextMonthBtn.addEventListener('click', () => {
 // Инициализация календаря
 renderCalendar(currentDate);
 
+// ... (остальной код остается без изменений до конца файла)
+
 // Проверка авторизации при загрузке страницы
 checkAuth();
 
@@ -349,3 +351,8 @@ loadUsersFromGist();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
+
+// Проверка, принято ли соглашение при загрузке страницы
+if (isLicenseAccepted) {
+  updateUIAfterLicenseAcceptance(); // Разблокируем поля ввода и кнопку
+}
