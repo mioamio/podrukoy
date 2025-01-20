@@ -28,8 +28,14 @@ const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 
 // GitHub Gist
-const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f';
-const GITHUB_TOKEN = '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';
+const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
+const GITHUB_TOKEN = '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'; // Ваш GitHub Token
+
+// Модальное окно с пользовательским соглашением
+const licenseModal = document.getElementById('licenseModal');
+const showLicense = document.getElementById('showLicense');
+const acceptLicense = document.getElementById('acceptLicense');
+const declineLicense = document.getElementById('declineLicense');
 
 // Открытие модального окна с соглашением
 showLicense.addEventListener('click', (e) => {
@@ -42,7 +48,7 @@ acceptLicense.addEventListener('click', () => {
   isLicenseAccepted = true;
   localStorage.setItem('licenseAccepted', 'true');
   licenseModal.style.display = 'none';
-  updateSocialAuthVisibility();
+  updateUIAfterLicenseAcceptance();
 });
 
 // Отклонение соглашения
@@ -50,15 +56,17 @@ declineLicense.addEventListener('click', () => {
   isLicenseAccepted = false;
   localStorage.setItem('licenseAccepted', 'false');
   licenseModal.style.display = 'none';
-  updateSocialAuthVisibility();
+  updateUIAfterLicenseAcceptance();
 });
 
-// Обновление видимости кнопок социальной авторизации
-function updateSocialAuthVisibility() {
+// Обновление интерфейса после принятия/отклонения соглашения
+function updateUIAfterLicenseAcceptance() {
   if (isLicenseAccepted) {
-    document.getElementById('inviteLogin').style.display = 'block';
+    inviteCodeInput.disabled = false;
+    loginWithInviteBtn.disabled = false;
   } else {
-    document.getElementById('inviteLogin').style.display = 'none';
+    inviteCodeInput.disabled = true;
+    loginWithInviteBtn.disabled = true;
   }
 }
 
@@ -340,4 +348,4 @@ initializeFirstInviteCode();
 loadUsersFromGist();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
-updateSocialAuthVisibility();
+updateUIAfterLicenseAcceptance();
