@@ -80,15 +80,18 @@ button:active {
   box-shadow: 0 4px 12px rgba(106, 130, 251, 0.3);
 }
 
-.social-btn {
-  background: #444;
-  display: block;
-  width: 100%;
-  margin: 10px 0;
+#inviteLogin {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.social-btn i {
-  margin-right: 10px;
+#inviteCodeInput {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
 }
 
 #counter {
@@ -327,8 +330,10 @@ body.dark-theme {
   background: linear-gradient(135deg, #5a6fdb, #e64a6f);
 }
 
-.dark-theme .social-btn {
-  background: #666;
+.dark-theme #inviteCodeInput {
+  background: #333;
+  color: #e0e0e0;
+  border: 1px solid #666;
 }
 
 .dark-theme #counter {
@@ -432,8 +437,9 @@ body.dark-theme {
     transition: none;
   }
 
-  .social-btn {
-    margin: 5px 0;
+  #inviteCodeInput {
+    padding: 8px;
+    font-size: 14px;
   }
 
   #counter {
