@@ -23,25 +23,10 @@
   </div>
   <div class="container">
     <div id="loginSection">
-      <div id="socialAuth">
-        <div class="social-btn-wrapper">
-          <button id="googleLoginBtn" class="social-btn">
-            <i class="fab fa-google"></i>
-            <span>Войти через Google</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="yandexLoginBtn" class="social-btn">
-            <i class="fab fa-yandex"></i>
-            <span>Войти через Яндекс</span>
-          </button>
-        </div>
-        <div class="social-btn-wrapper">
-          <button id="vkLoginBtn" class="social-btn">
-            <i class="fab fa-vk"></i>
-            <span>Войти через ВКонтакте</span>
-          </button>
-        </div>
+      <div id="inviteLogin">
+        <input type="text" id="userNameInput" placeholder="Ваше имя (необязательно)">
+        <input type="text" id="inviteCodeInput" placeholder="Введите пригласительный код">
+        <button id="loginWithInviteBtn" class="social-btn">Войти по приглашению</button>
       </div>
       <p class="license-link">
         <a href="#" id="showLicense">Пользовательское соглашение</a>
@@ -66,6 +51,8 @@
           <button id="startBtn" class="action-btn">🚀 Начать</button>
           <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
           <p id="comment">Ты начинающий</p>
+          <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
+          <p id="userInviteCode">Ваш пригласительный код: <span id="inviteCodeDisplay"></span></p>
         </div>
       </div>
     </div>
