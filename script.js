@@ -28,8 +28,8 @@ const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 
 // GitHub Gist
-const GIST_ID = 'ВАШ_GIST_ID'; // Замените на ID вашего Gist
-const GITHUB_TOKEN = 'ВАШ_GITHUB_TOKEN'; // Замените на ваш GitHub токен
+const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f';
+const GITHUB_TOKEN = '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';
 
 // Открытие модального окна с соглашением
 showLicense.addEventListener('click', (e) => {
