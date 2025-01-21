@@ -410,6 +410,13 @@ updateUIAfterLicenseAcceptance();
 
 // Выбор пола при первом входе
 if (!selectedGender) {
+  showGenderSelection();
+} else {
+  applyGenderTheme(selectedGender);
+}
+
+// Функция для отображения выбора пола
+function showGenderSelection() {
   const genderSelection = document.createElement('div');
   genderSelection.style.position = 'fixed';
   genderSelection.style.top = '0';
@@ -447,8 +454,6 @@ if (!selectedGender) {
   genderSelection.appendChild(maleButton);
   genderSelection.appendChild(femaleButton);
   document.body.appendChild(genderSelection);
-} else {
-  applyGenderTheme(selectedGender);
 }
 
 // Применение темы в зависимости от выбранного пола
@@ -459,3 +464,22 @@ function applyGenderTheme(gender) {
     body.style.background = 'linear-gradient(135deg, #ff9a9e, #fad0c4)';
   }
 }
+
+// Добавляем кнопку для смены пола
+const changeGenderBtn = document.createElement('button');
+changeGenderBtn.textContent = 'Сменить пол';
+changeGenderBtn.style.position = 'fixed';
+changeGenderBtn.style.bottom = '20px';
+changeGenderBtn.style.right = '20px';
+changeGenderBtn.style.zIndex = '1000';
+changeGenderBtn.style.padding = '10px 20px';
+changeGenderBtn.style.borderRadius = '12px';
+changeGenderBtn.style.backgroundColor = '#6a82fb';
+changeGenderBtn.style.color = 'white';
+changeGenderBtn.style.border = 'none';
+changeGenderBtn.style.cursor = 'pointer';
+changeGenderBtn.addEventListener('click', () => {
+  showGenderSelection();
+});
+
+document.body.appendChild(changeGenderBtn);
