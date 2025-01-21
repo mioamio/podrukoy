@@ -24,8 +24,10 @@ const body = document.body;
 const inviteCodeInput = document.getElementById('inviteCodeInput');
 const loginWithInviteBtn = document.getElementById('loginWithInviteBtn');
 const inviteCodeDisplay = document.getElementById('inviteCodeDisplay');
+const userInvitedByCode = document.getElementById('userInvitedByCode'); // Новый элемент для кода, по которому пригласили
 const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
+const generateInviteBtn = document.getElementById('generateInviteBtn'); // Кнопка генерации кода для суперпользователя
 
 // GitHub Gist
 const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
@@ -85,6 +87,7 @@ function initializeSuperuser() {
       id: 'superuser',
       inviteCode: null, // У суперпользователя нет пригласительного кода
       name: 'Администратор',
+      invitedBy: null, // Суперпользователь никого не приглашал
     };
     localStorage.setItem('users', JSON.stringify(users));
     console.log('Суперпользователь создан.');
@@ -113,7 +116,9 @@ function checkAuth() {
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
     inviteCodeDisplay.textContent = user.inviteCode || 'Нет кода'; // У суперпользователя нет кода
+    userInvitedByCode.textContent = user.invitedBy || 'Нет кода'; // Код, по которому пригласили
     userNameSpan.textContent = user.name || 'Аноним';
+    updateUIForSuperuser(); // Обновляем интерфейс для суперпользователя
   }
 }
 
@@ -152,12 +157,13 @@ loginWithInviteBtn.addEventListener('click', async () => {
   // Проверка, существует ли пользователь с таким кодом
   const users = JSON.parse(localStorage.getItem('users')) || {};
 
-  // Суперпользователь всегда может войти с логином 001
-  if (userName === '001' && inviteCode === '001') {
+  // Суперпользователь всегда может войти с кодом 001
+  if (inviteCode === '001' && userName === '001') {
     user = {
       id: 'superuser',
       inviteCode: null, // У суперпользователя нет пригласительного кода
       name: 'Администратор',
+      invitedBy: null, // Суперпользователь никого не приглашал
     };
     localStorage.setItem('user', JSON.stringify(user));
     checkAuth();
@@ -173,20 +179,11 @@ loginWithInviteBtn.addEventListener('click', async () => {
     const newInviteCodeForNewUser = generateInviteCode();
     user = {
       id: `user_${Date.now()}`, // Уникальный ID пользователя
-      inviteCode: newInviteCodeForNewUser,
+      inviteCode: newInviteCodeForNewUser, // Новый код для приглашения следующего пользователя
       name: userName, // Сохраняем имя пользователя
+      invitedBy: inviteCode, // Код, по которому пригласили этого пользователя
     };
     users[newInviteCodeForNewUser] = user; // Добавляем нового пользователя в список
-
-    // Генерируем новый код для пользователя, который передал код
-    if (existingUser.id !== 'superuser') { // Не меняем код суперпользователя
-      const newInviteCodeForExistingUser = generateInviteCode();
-      users[newInviteCodeForExistingUser] = existingUser;
-      existingUser.inviteCode = newInviteCodeForExistingUser;
-    }
-
-    // Удаляем старый код
-    delete users[inviteCode];
 
     // Сохраняем обновленные данные
     localStorage.setItem('users', JSON.stringify(users));
@@ -202,6 +199,36 @@ loginWithInviteBtn.addEventListener('click', async () => {
   // Сохраняем данные о пользователях в GitHub Gist
   await saveUsersToGist(users);
 });
+
+// Обработчик кнопки генерации пригласительного кода для суперпользователя
+generateInviteBtn.addEventListener('click', () => {
+  const newInviteCode = generateInviteCode(); // Генерируем новый код
+  alert(`Новый пригласительный код: ${newInviteCode}`); // Показываем код пользователю
+
+  // Сохраняем новый код в список пользователей
+  const users = JSON.parse(localStorage.getItem('users')) || {};
+  users[newInviteCode] = {
+    id: `user_${Date.now()}`, // Уникальный ID для нового пользователя
+    inviteCode: newInviteCode,
+    name: 'Новый пользователь', // Имя по умолчанию
+    invitedBy: 'superuser', // Приглашен суперпользователем
+  };
+  localStorage.setItem('users', JSON.stringify(users));
+
+  // Сохраняем данные в GitHub Gist
+  saveUsersToGist(users);
+});
+
+// Показываем кнопку генерации пригласительного кода только для суперпользователя
+function updateUIForSuperuser() {
+  if (user && user.id === 'superuser') {
+    generateInviteBtn.style.display = 'block'; // Показываем кнопку
+    inviteCodeDisplay.textContent = 'Нет кода'; // У суперпользователя нет кода
+    userInvitedByCode.textContent = 'Нет кода'; // Суперпользователь никого не приглашал
+  } else {
+    generateInviteBtn.style.display = 'none'; // Скрываем кнопку для обычных пользователей
+  }
+}
 
 // Сохранение данных о пользователях в GitHub Gist
 async function saveUsersToGist(users) {
