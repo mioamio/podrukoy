@@ -16,14 +16,15 @@ const appSection = document.getElementById('appSection');
 const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const currentMonthElement = document.getElementById('currentMonth');
-const prevMonthBtn = document.getElementById('prevMonthBtn');
-const nextMonthBtn = document.getElementById('nextMonthBtn');
-const themeToggleBtn = document.getElementById('themeToggleBtn');
-const themeIcon = document.getElementById('themeIcon');
+const prevMonthBtn = document.getElementById('prevMonthBtn");
+const nextMonthBtn = document.getElementById('nextMonthBtn");
+const themeToggleBtn = document.getElementById('themeToggleBtn");
+const themeIcon = document.getElementById('themeIcon");
 const body = document.body;
 const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 const registerBtn = document.getElementById('registerBtn');
+const loginBtn = document.getElementById('loginBtn');
 
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
@@ -64,16 +65,46 @@ declineLicense.addEventListener('click', () => {
 function updateUIAfterLicenseAcceptance() {
   if (isLicenseAccepted) {
     registerBtn.disabled = false;
+    loginBtn.disabled = false;
   } else {
     registerBtn.disabled = true;
+    loginBtn.disabled = true;
   }
+}
+
+// Инициализация пользователей
+function initializeUsers() {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  if (users.length === 0) {
+    // Создаем суперпользователя
+    const superuser = {
+      id: 1,
+      name: 'Администратор',
+      progress: {
+        count: 0,
+        dailyData: {},
+        dailyDataWithTime: {},
+      },
+    };
+    users.push(superuser);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+  return users;
 }
 
 // Регистрация нового пользователя
 function registerUser(name) {
-  const userId = `user_${Date.now()}`; // Уникальный ID пользователя
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const existingUser = users.find((u) => u.name === name);
+
+  if (existingUser) {
+    alert('Пользователь с таким именем уже существует. Войдите в систему.');
+    return null;
+  }
+
+  const newUserId = users.length > 0 ? users[users.length - 1].id + 1 : 1;
   const user = {
-    id: userId,
+    id: newUserId,
     name: name,
     progress: {
       count: 0,
@@ -81,16 +112,24 @@ function registerUser(name) {
       dailyDataWithTime: {},
     },
   };
+  users.push(user);
+  localStorage.setItem('users', JSON.stringify(users));
   localStorage.setItem('currentUser', JSON.stringify(user)); // Сохраняем текущего пользователя
-  saveUserToLocalStorage(user); // Сохраняем пользователя в общий список
   return user;
 }
 
-// Сохранение пользователя в localStorage
-function saveUserToLocalStorage(user) {
-  const users = JSON.parse(localStorage.getItem('users')) || {};
-  users[user.id] = user;
-  localStorage.setItem('users', JSON.stringify(users));
+// Вход пользователя
+function loginUser(name) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find((u) => u.name === name);
+
+  if (user) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    return user;
+  } else {
+    alert('Пользователь не найден. Зарегистрируйтесь.');
+    return null;
+  }
 }
 
 // Проверка авторизации при загрузке страницы
@@ -120,6 +159,16 @@ function updateUI() {
   }
 }
 
+// Сохранение пользователя в localStorage
+function saveUserToLocalStorage(user) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userIndex = users.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    users[userIndex] = user;
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+}
+
 // Обновление комментария
 function updateComment() {
   if (count < 10) {
@@ -142,8 +191,27 @@ registerBtn.addEventListener('click', () => {
   }
 
   user = registerUser(userName);
-  checkAuth();
-  alert(`Вы успешно зарегистрированы. Ваш ID: ${user.id}`);
+  if (user) {
+    checkAuth();
+    alert(`Вы успешно зарегистрированы. Ваш ID: ${user.id}`);
+  }
+});
+
+// Вход пользователя
+loginBtn.addEventListener('click', () => {
+  if (!isLicenseAccepted) return;
+
+  const userName = userNameInput.value.trim();
+  if (!userName) {
+    alert('Введите имя.');
+    return;
+  }
+
+  user = loginUser(userName);
+  if (user) {
+    checkAuth();
+    alert(`Добро пожаловать, ${user.name}!`);
+  }
 });
 
 // Выход
@@ -262,6 +330,9 @@ renderCalendar(currentDate);
 
 // Проверка авторизации при загрузке страницы
 checkAuth();
+
+// Инициализация пользователей при загрузке страницы
+initializeUsers();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
