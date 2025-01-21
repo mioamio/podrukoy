@@ -157,7 +157,7 @@ loginWithInviteBtn.addEventListener('click', async () => {
   if (inviteCode === '001') {
     user = {
       id: 'superuser',
-      inviteCode: '001',
+      inviteCode: '001', // Код суперпользователя остается неизменным
       name: 'Администратор',
     };
     localStorage.setItem('user', JSON.stringify(user));
@@ -180,9 +180,11 @@ loginWithInviteBtn.addEventListener('click', async () => {
     users[newInviteCodeForNewUser] = user; // Добавляем нового пользователя в список
 
     // Генерируем новый код для пользователя, который передал код
-    const newInviteCodeForExistingUser = generateInviteCode();
-    users[newInviteCodeForExistingUser] = existingUser;
-    existingUser.inviteCode = newInviteCodeForExistingUser;
+    if (existingUser.id !== 'superuser') { // Не меняем код суперпользователя
+      const newInviteCodeForExistingUser = generateInviteCode();
+      users[newInviteCodeForExistingUser] = existingUser;
+      existingUser.inviteCode = newInviteCodeForExistingUser;
+    }
 
     // Удаляем старый код
     delete users[inviteCode];
