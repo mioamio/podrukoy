@@ -25,8 +25,7 @@
     <div id="loginSection">
       <div id="inviteLogin">
         <input type="text" id="userNameInput" placeholder="Ваше имя (необязательно)" class="input-field">
-        <input type="text" id="inviteCodeInput" placeholder="Введите пригласительный код" class="input-field" disabled>
-        <button id="loginWithInviteBtn" class="social-btn" disabled>Войти по приглашению</button>
+        <button id="registerBtn" class="social-btn">Зарегистрироваться</button>
       </div>
       <p class="license-link">
         <a href="#" id="showLicense">Пользовательское соглашение</a>
@@ -52,14 +51,6 @@
           <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
           <p id="comment">Ты начинающий</p>
           <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
-          <p id="userInvitedByCode">Код, по которому вас пригласили: <span id="invitedByCodeDisplay"></span></p>
-          <p id="userInviteCode">
-            Ваш пригласительный код: 
-            <span id="inviteCodeDisplay"></span>
-            <button id="copyInviteCodeBtn" class="copy-btn">📋</button>
-          </p>
-          <!-- Кнопка для генерации пригласительного кода (видна только суперпользователю) -->
-          <button id="generateInviteBtn" class="action-btn" style="display: none;">🎫 Сгенерировать пригласительный код</button>
         </div>
       </div>
     </div>
