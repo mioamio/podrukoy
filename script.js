@@ -77,18 +77,17 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-// Инициализация первого пригласительного кода
-function initializeFirstInviteCode() {
+// Инициализация суперпользователя
+function initializeSuperuser() {
   const users = JSON.parse(localStorage.getItem('users')) || {};
-  if (Object.keys(users).length === 0) {
-    const firstInviteCode = '001'; // Первый код всегда 001
-    users[firstInviteCode] = {
-      id: 'superuser', // ID суперпользователя
-      inviteCode: firstInviteCode,
-      name: 'Администратор', // Имя суперпользователя
+  if (!users['superuser']) {
+    users['superuser'] = {
+      id: 'superuser',
+      inviteCode: null, // У суперпользователя нет пригласительного кода
+      name: 'Администратор',
     };
     localStorage.setItem('users', JSON.stringify(users));
-    console.log('Первый пригласительный код создан:', firstInviteCode);
+    console.log('Суперпользователь создан.');
   }
 }
 
@@ -113,7 +112,7 @@ function checkAuth() {
     updateUI();
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
-    inviteCodeDisplay.textContent = user.inviteCode;
+    inviteCodeDisplay.textContent = user.inviteCode || 'Нет кода'; // У суперпользователя нет кода
     userNameSpan.textContent = user.name || 'Аноним';
   }
 }
@@ -153,11 +152,11 @@ loginWithInviteBtn.addEventListener('click', async () => {
   // Проверка, существует ли пользователь с таким кодом
   const users = JSON.parse(localStorage.getItem('users')) || {};
 
-  // Суперпользователь всегда может войти с кодом 001
-  if (inviteCode === '001') {
+  // Суперпользователь всегда может войти с логином 001
+  if (userName === '001' && inviteCode === '001') {
     user = {
       id: 'superuser',
-      inviteCode: '001', // Код суперпользователя остается неизменным
+      inviteCode: null, // У суперпользователя нет пригласительного кода
       name: 'Администратор',
     };
     localStorage.setItem('user', JSON.stringify(user));
@@ -364,8 +363,8 @@ renderCalendar(currentDate);
 // Проверка авторизации при загрузке страницы
 checkAuth();
 
-// Инициализация первого кода при загрузке страницы
-initializeFirstInviteCode();
+// Инициализация суперпользователя при загрузке страницы
+initializeSuperuser();
 
 // Загрузка данных о пользователях из Gist при загрузке страницы
 loadUsersFromGist();
