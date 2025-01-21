@@ -396,6 +396,7 @@ body.dark-theme {
   color: #333 !important;
 }
 
+/* Стили для сегодняшней даты */
 .day.today {
   background: #6a82fb !important; /* Обычный цвет для сегодняшней даты */
   color: white !important;
@@ -417,6 +418,7 @@ body.dark-theme {
   color: white;
 }
 
+/* Адаптация для мобильных устройств */
 @media (max-width: 600px) {
   body {
     padding: 10px;
@@ -430,9 +432,9 @@ body.dark-theme {
     margin: 10px;
     width: 95%;
     max-width: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
-    margin-top: 60px;
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для контейнера */
+    color: #333; /* Темный текст для контраста */
+    margin-top: 60px; /* Сдвигаем контент ниже */
   }
 
   #mainTitle {
@@ -456,6 +458,8 @@ body.dark-theme {
   .input-field {
     padding: 8px;
     font-size: 14px;
+    width: 90%; /* Центрируем поля ввода */
+    margin: 10px auto; /* Центрируем поля ввода */
   }
 
   #counter {
@@ -522,12 +526,13 @@ body.dark-theme {
   }
 
   #themeToggleBtn img {
-    width: 28px;
+    width: 28px; /* Увеличиваем размер иконки смены темы */
     height: 28px;
   }
 
+  /* Темная тема для мобильных устройств */
   body.dark-theme {
-    background: #000;
+    background: #000; /* AMOLED-черный фон */
   }
 
   .dark-theme .container {
