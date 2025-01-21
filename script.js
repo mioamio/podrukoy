@@ -28,8 +28,8 @@ const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 
 // GitHub Gist
-const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f';
-const GITHUB_TOKEN = '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';
+const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
+const GITHUB_TOKEN = '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'; // Ваш GitHub Token
 
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
@@ -83,9 +83,9 @@ function initializeFirstInviteCode() {
   if (Object.keys(users).length === 0) {
     const firstInviteCode = '001'; // Первый код всегда 001
     users[firstInviteCode] = {
-      id: 'first_user',
+      id: 'superuser', // ID суперпользователя
       inviteCode: firstInviteCode,
-      name: 'Администратор', // Имя первого пользователя
+      name: 'Администратор', // Имя суперпользователя
     };
     localStorage.setItem('users', JSON.stringify(users));
     console.log('Первый пригласительный код создан:', firstInviteCode);
@@ -152,6 +152,20 @@ loginWithInviteBtn.addEventListener('click', async () => {
 
   // Проверка, существует ли пользователь с таким кодом
   const users = JSON.parse(localStorage.getItem('users')) || {};
+
+  // Суперпользователь всегда может войти с кодом 001
+  if (inviteCode === '001') {
+    user = {
+      id: 'superuser',
+      inviteCode: '001',
+      name: 'Администратор',
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+    checkAuth();
+    alert('Вы вошли как суперпользователь.');
+    return;
+  }
+
   if (users[inviteCode]) {
     // Если код найден, входим в систему
     const existingUser = users[inviteCode];
