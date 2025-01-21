@@ -33,7 +33,7 @@ const copyInviteCodeBtn = document.getElementById('copyInviteCodeBtn'); // Кн�
 
 // GitHub Gist
 const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
-const GITHUB_TOKEN = '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'; // Ваш GitHub Token
+const GITHUB_TOKEN = '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'; // Ваш GitHub Token
 
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
