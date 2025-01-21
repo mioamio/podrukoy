@@ -24,10 +24,11 @@ const body = document.body;
 const inviteCodeInput = document.getElementById('inviteCodeInput');
 const loginWithInviteBtn = document.getElementById('loginWithInviteBtn');
 const inviteCodeDisplay = document.getElementById('inviteCodeDisplay');
-const userInvitedByCode = document.getElementById('userInvitedByCode'); // Новый элемент для кода, по которому пригласили
+const invitedByCodeDisplay = document.getElementById('invitedByCodeDisplay');
 const userNameInput = document.getElementById('userNameInput');
 const userNameSpan = document.getElementById('userNameSpan');
 const generateInviteBtn = document.getElementById('generateInviteBtn'); // Кнопка генерации кода для суперпользователя
+const copyInviteCodeBtn = document.getElementById('copyInviteCodeBtn'); // Кнопка копирования промокода
 
 // GitHub Gist
 const GIST_ID = '95fe90fca947982ef31e7c82e087eb5f'; // Ваш Gist ID
@@ -116,7 +117,7 @@ function checkAuth() {
     loginSection.style.display = 'none';
     appSection.style.display = 'block';
     inviteCodeDisplay.textContent = user.inviteCode || 'Нет кода'; // У суперпользователя нет кода
-    userInvitedByCode.textContent = user.invitedBy || 'Нет кода'; // Код, по которому пригласили
+    invitedByCodeDisplay.textContent = user.invitedBy || 'Нет кода'; // Код, по которому пригласили
     userNameSpan.textContent = user.name || 'Аноним';
     updateUIForSuperuser(); // Обновляем интерфейс для суперпользователя
   }
@@ -219,12 +220,28 @@ generateInviteBtn.addEventListener('click', () => {
   saveUsersToGist(users);
 });
 
+// Кнопка для копирования пригласительного кода
+copyInviteCodeBtn.addEventListener('click', () => {
+  const inviteCode = inviteCodeDisplay.textContent;
+  if (inviteCode && inviteCode !== 'Нет кода') {
+    navigator.clipboard.writeText(inviteCode)
+      .then(() => {
+        alert('Промокод скопирован в буфер обмена: ' + inviteCode);
+      })
+      .catch(() => {
+        alert('Не удалось скопировать промокод. Скопируйте его вручную.');
+      });
+  } else {
+    alert('Нет доступного промокода для копирования.');
+  }
+});
+
 // Показываем кнопку генерации пригласительного кода только для суперпользователя
 function updateUIForSuperuser() {
   if (user && user.id === 'superuser') {
     generateInviteBtn.style.display = 'block'; // Показываем кнопку
     inviteCodeDisplay.textContent = 'Нет кода'; // У суперпользователя нет кода
-    userInvitedByCode.textContent = 'Нет кода'; // Суперпользователь никого не приглашал
+    invitedByCodeDisplay.textContent = 'Нет кода'; // Суперпользователь никого не приглашал
   } else {
     generateInviteBtn.style.display = 'none'; // Скрываем кнопку для обычных пользователей
   }
