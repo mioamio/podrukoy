@@ -5,6 +5,7 @@ let selectedDate = currentDate;
 let dailyData = {}; // Данные за каждый день
 let dailyDataWithTime = {}; // Данные с временем
 let isLicenseAccepted = localStorage.getItem('licenseAccepted') === 'true'; // Проверка принятия соглашения
+let selectedGender = localStorage.getItem('selectedGender'); // Выбранный пол
 
 // Элементы DOM
 const counterElement = document.getElementById('counter');
@@ -415,3 +416,55 @@ loadUsersFromGist();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
+
+// Выбор пола при первом входе
+if (!selectedGender) {
+  const genderSelection = document.createElement('div');
+  genderSelection.style.position = 'fixed';
+  genderSelection.style.top = '0';
+  genderSelection.style.left = '0';
+  genderSelection.style.width = '100%';
+  genderSelection.style.height = '100%';
+  genderSelection.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+  genderSelection.style.display = 'flex';
+  genderSelection.style.justifyContent = 'center';
+  genderSelection.style.alignItems = 'center';
+  genderSelection.style.zIndex = '1000';
+
+  const maleButton = document.createElement('button');
+  maleButton.innerHTML = '<img src="banana-light.ico" alt="Мужской" style="width: 100px; height: 100px;">';
+  maleButton.style.margin = '20px';
+  maleButton.style.cursor = 'pointer';
+  maleButton.addEventListener('click', () => {
+    selectedGender = 'male';
+    localStorage.setItem('selectedGender', 'male');
+    applyGenderTheme('male');
+    genderSelection.remove();
+  });
+
+  const femaleButton = document.createElement('button');
+  femaleButton.innerHTML = '<img src="banana-night.ico" alt="Женский" style="width: 100px; height: 100px;">';
+  femaleButton.style.margin = '20px';
+  femaleButton.style.cursor = 'pointer';
+  femaleButton.addEventListener('click', () => {
+    selectedGender = 'female';
+    localStorage.setItem('selectedGender', 'female');
+    applyGenderTheme('female');
+    genderSelection.remove();
+  });
+
+  genderSelection.appendChild(maleButton);
+  genderSelection.appendChild(femaleButton);
+  document.body.appendChild(genderSelection);
+} else {
+  applyGenderTheme(selectedGender);
+}
+
+// Применение темы в зависимости от выбранного пола
+function applyGenderTheme(gender) {
+  if (gender === 'male') {
+    body.style.background = 'linear-gradient(135deg, #6a82fb, #fc5c7d)';
+  } else if (gender === 'female') {
+    body.style.background = 'linear-gradient(135deg, #ff9a9e, #fad0c4)';
+  }
+}
