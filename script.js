@@ -81,19 +81,19 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-// Инициализация суперпользователя
-function initializeSuperuser() {
-  const users = JSON.parse(localStorage.getItem('users')) || {};
+// Инициализация пользователей
+function initializeUsers() {
+  let users = JSON.parse(localStorage.getItem('users')) || {};
   if (!users['superuser']) {
     users['superuser'] = {
       id: 'superuser',
-      inviteCode: null, // У суперпользователя нет пригласительного кода
+      inviteCode: null,
       name: 'Администратор',
-      invitedBy: null, // Суперпользователь никого не приглашал
+      invitedBy: null,
     };
     localStorage.setItem('users', JSON.stringify(users));
-    console.log('Суперпользователь создан.');
   }
+  return users;
 }
 
 // Генерация случайного пригласительного кода
@@ -156,16 +156,15 @@ loginWithInviteBtn.addEventListener('click', async () => {
     return;
   }
 
-  // Проверка, существует ли пользователь с таким кодом
-  const users = JSON.parse(localStorage.getItem('users')) || {};
+  const users = initializeUsers(); // Инициализируем пользователей
 
   // Суперпользователь всегда может войти с кодом 001
   if (inviteCode === '001' && userName === '001') {
     user = {
       id: 'superuser',
-      inviteCode: null, // У суперпользователя нет пригласительного кода
+      inviteCode: null,
       name: 'Администратор',
-      invitedBy: null, // Суперпользователь никого не приглашал
+      invitedBy: null,
     };
     localStorage.setItem('user', JSON.stringify(user));
     checkAuth();
@@ -174,31 +173,23 @@ loginWithInviteBtn.addEventListener('click', async () => {
   }
 
   if (users[inviteCode]) {
-    // Если код найден, входим в систему
-    const existingUser = users[inviteCode];
-
-    // Создаем нового пользователя для вошедшего
     const newInviteCodeForNewUser = generateInviteCode();
     user = {
-      id: `user_${Date.now()}`, // Уникальный ID пользователя
-      inviteCode: newInviteCodeForNewUser, // Новый код для приглашения следующего пользователя
-      name: userName, // Сохраняем имя пользователя
-      invitedBy: inviteCode, // Код, по которому пригласили этого пользователя
+      id: `user_${Date.now()}`,
+      inviteCode: newInviteCodeForNewUser,
+      name: userName,
+      invitedBy: inviteCode,
     };
-    users[newInviteCodeForNewUser] = user; // Добавляем нового пользователя в список
-
-    // Сохраняем обновленные данные
+    users[newInviteCodeForNewUser] = user;
     localStorage.setItem('users', JSON.stringify(users));
     localStorage.setItem('user', JSON.stringify(user));
     checkAuth();
     alert(`Ваш новый пригласительный код: ${newInviteCodeForNewUser}`);
   } else {
-    // Если код не найден, сообщаем об ошибке
     alert('Неверный пригласительный код. Пожалуйста, используйте действительный код.');
     return;
   }
 
-  // Сохраняем данные о пользователях в GitHub Gist
   await saveUsersToGist(users);
 });
 
@@ -250,7 +241,7 @@ function updateUIForSuperuser() {
 
 // Сохранение данных о пользователях в GitHub Gist
 async function saveUsersToGist(users) {
-  const data = JSON.stringify(users, null, 2); // Красивое форматирование JSON
+  const data = JSON.stringify(users, null, 2);
   const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
     method: 'PATCH',
     headers: {
@@ -408,8 +399,8 @@ renderCalendar(currentDate);
 // Проверка авторизации при загрузке страницы
 checkAuth();
 
-// Инициализация суперпользователя при загрузке страницы
-initializeSuperuser();
+// Инициализация пользователей при загрузке страницы
+initializeUsers();
 
 // Загрузка данных о пользователях из Gist при загрузке страницы
 loadUsersFromGist();
