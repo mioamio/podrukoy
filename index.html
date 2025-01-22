@@ -139,18 +139,17 @@
   <script>
     // Обработчик кнопки входа через VK
     document.getElementById('vkid-login-btn').addEventListener('click', () => {
-      // Загружаем данные из статического JSON-файла
       fetch('https://mioamio.github.io/podrukoy/user-data.json')
-        .then(response => response.json())
-        .then(userData => {
-          const user = userData.response[0];
-          document.getElementById('userNameSpan').textContent = `${user.first_name} ${user.last_name}`;
-          document.getElementById('loginSection').style.display = 'none';
-          document.getElementById('appSection').style.display = 'block';
-          localStorage.setItem('user', JSON.stringify(user));
-          alert('Авторизация прошла успешно!');
-        })
-        .catch(error => console.error('Ошибка при получении данных:', error));
+  .then(response => response.json())
+  .then(userData => {
+    const user = userData.response[0];
+    document.getElementById('userNameSpan').textContent = `${user.first_name} ${user.last_name}`;
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('appSection').style.display = 'block';
+    localStorage.setItem('user', JSON.stringify(user));
+    alert('Авторизация прошла успешно!');
+  })
+  .catch(error => console.error('Ошибка при получении данных:', error));
     });
 
     // Обработчик кнопки выхода
