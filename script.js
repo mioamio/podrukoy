@@ -315,10 +315,11 @@ function updateUIForSelectedDate() {
   commentElement.textContent = `На ${selectedDateStr}: ${selectedCount} действий. Время: ${selectedTimes.join(', ')}`;
 }
 
-fetch('https://mioamio.github.io/podrukoy/user-data.json', {
-  mode: 'no-cors'
-})
-
+fetch('https://mioamio.github.io/podrukoy/user-data.json')
+  .then(response => response.json())
+  .then(userData => {
+    const user = userData.response[0];
+    console.log('Данные пользователя:', user);
   })
   .catch(error => console.error('Ошибка при получении данных:', error));
 
