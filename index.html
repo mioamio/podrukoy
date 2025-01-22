@@ -2,15 +2,57 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Под рукой</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    /* Стили для кнопки входа через VK */
+    #vkid-login-btn {
+      background-color: #0077FF; /* Цвет VK */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    #vkid-login-btn:hover {
+      background-color: #0055CC; /* Темный оттенок для hover */
+    }
+
+    #vkid-login-btn:active {
+      background-color: #0044AA; /* Еще темнее для active */
+    }
+
+    .license-link {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .license-link a {
+      color: #0077FF; /* Цвет ссылки */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .license-link a:hover {
+      color: #0055CC; /* Темный оттенок для hover */
+    }
+  </style>
 </head>
 <body>
-  <!-- Иконка смены темы в правом верхнем углу -->
+  <!-- Иконка смены темы -->
   <div id="themeToggleContainer">
     <button id="themeToggleBtn" title="Сменить тему">
       <img id="themeIcon" src="banana-light.ico" alt="Сменить тему">
@@ -21,17 +63,17 @@
     <h1 id="mainTitle">Под рукой</h1>
     <p id="slogan">— мастерство в каждом движении</p>
   </div>
+
   <div class="container">
+    <!-- Секция авторизации -->
     <div id="loginSection">
-  <div id="inviteLogin">
-    <input type="text" id="userNameInput" placeholder="Ваше имя (необязательно)" class="input-field">
-    <button id="registerBtn" class="social-btn">Зарегистрироваться</button>
-    <button id="loginBtn" class="social-btn">Войти</button>
-  </div>
-  <p class="license-link">
-    <a href="#" id="showLicense">Пользовательское соглашение</a>
-  </p>
-</div>
+      <button id="vkid-login-btn">Войти через VK</button>
+      <p class="license-link">
+        <a href="#" id="showLicense">Пользовательское соглашение</a>
+      </p>
+    </div>
+
+    <!-- Секция приложения (скрыта по умолчанию) -->
     <div id="appSection" style="display: none;">
       <div class="header">
         <button id="logoutBtn" title="Выйти"><i class="fas fa-sign-out-alt"></i></button>
@@ -94,7 +136,69 @@
     </div>
   </div>
 
+  <!-- Подключение VK ID SDK -->
+  <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
+  <script type="text/javascript">
+    if ('VKIDSDK' in window) {
+      const VKID = window.VKIDSDK;
+
+      // Инициализация VK ID SDK
+      VKID.Config.init({
+        app: 52954234, // Замените на ваш App ID
+        redirectUrl: 'https://podrukoy.xyz/', // Замените на ваш URL
+        responseMode: VKID.ConfigResponseMode.Callback,
+        source: VKID.ConfigSource.LOWCODE,
+        scope: 'email', // Запрашиваем email пользователя
+      });
+
+      // Обработчик кнопки входа через VK
+      document.getElementById('vkid-login-btn').addEventListener('click', () => {
+        VKID.Auth.login()
+          .then((payload) => {
+            const code = payload.code;
+            const deviceId = payload.device_id;
+
+            // Обмен кода на токен доступа
+            VKID.Auth.exchangeCode(code, deviceId)
+              .then(vkidOnSuccess)
+              .catch(vkidOnError);
+          })
+          .catch(vkidOnError);
+      });
+
+      // Функция для обработки успешной авторизации
+      function vkidOnSuccess(data) {
+        const accessToken = data.access_token;
+        const userId = data.user_id;
+
+        // Получаем данные пользователя через VK API
+        fetch(`https://api.vk.com/method/users.get?user_ids=${userId}&fields=email&access_token=${accessToken}&v=5.131`)
+          .then(response => response.json())
+          .then(userData => {
+            const user = userData.response[0];
+
+            // Отображаем данные пользователя
+            document.getElementById('userNameSpan').textContent = `${user.first_name} ${user.last_name}`;
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('appSection').style.display = 'block';
+
+            // Сохраняем данные пользователя в localStorage
+            localStorage.setItem('user', JSON.stringify(user));
+            alert('Авторизация прошла успешно!');
+          })
+          .catch(error => console.error('Ошибка при получении данных:', error));
+      }
+
+      // Функция для обработки ошибок
+      function vkidOnError(error) {
+        console.error('Ошибка авторизации:', error);
+        alert('Произошла ошибка при авторизации. Пожалуйста, попробуйте снова.');
+      }
+    } else {
+      console.error('VKID SDK не загружен.');
+    }
+  </script>
 </body>
 </html>
