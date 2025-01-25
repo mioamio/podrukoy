@@ -17,7 +17,7 @@ const logoutBtn = document.getElementById('logoutBtn');
 const calendarGrid = document.getElementById('calendarGrid');
 const currentMonthElement = document.getElementById('currentMonth');
 const prevMonthBtn = document.getElementById('prevMonthBtn');
-const nextMonthBtn = document.getElementById('nextMonthBtn');
+const nextMonthBtn = document.getElementById('nextMonthBtn");
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const themeIcon = document.getElementById('themeIcon');
 const body = document.body;
@@ -32,40 +32,60 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-const GITHUB_REPO = 'mioamio/podrukoy'; 
+const GITHUB_REPO = 'mioamio/podrukoy';
 const GITHUB_TOKEN = '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';
-// Функция для чтения данных пользователя из репозитория
-async function fetchUserData(userId) {
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`,
-      {
+
+// Вход и регистрация пользователей
+const userService = {
+  async registerUser(name) {
+    const userId = await this.generateUserId();
+    const newUser = {
+      id: userId,
+      name,
+      progress: {
+        count: 0,
+        dailyData: {},
+        dailyDataWithTime: {},
+      },
+    };
+
+    await this.saveUserData(userId, newUser);
+    localStorage.setItem('currentUser', JSON.stringify(newUser));
+    return newUser;
+  },
+
+  async loginUser(name, userId) {
+    const userData = await this.fetchUserData(userId);
+    if (userData && userData.name === name) {
+      localStorage.setItem('currentUser', JSON.stringify(userData));
+      return userData;
+    } else {
+      throw new Error('User not found or name mismatch');
+    }
+  },
+
+  async fetchUserData(userId) {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json',
         },
-      }
-    );
-    const data = await response.json();
-    if (data.content) {
-      const content = atob(data.content); // Декодируем base64
-      return JSON.parse(content);
+      });
+      const data = await response.json();
+      return JSON.parse(atob(data.content));
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
     }
-    return null;
-  } catch (error) {
-    console.error('Ошибка при загрузке данных:', error);
-    return null;
-  }
-}
+  },
 
-// Функция для записи данных пользователя в репозиторий
-async function saveUserData(userId, userData) {
-  try {
+  async saveUserData(userId, userData) {
     const content = btoa(JSON.stringify(userData));
-    console.log('Отправка данных на GitHub:', userData); // Отладка
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`,
-      {
+    const sha = await this.getFileSha(userId);
+
+    try {
+      await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
         method: 'PUT',
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
@@ -74,37 +94,76 @@ async function saveUserData(userId, userData) {
         },
         body: JSON.stringify({
           message: `Update user_${userId}.json`,
-          content: content,
-          sha: await getFileSha(userId),
+          content,
+          sha,
         }),
-      }
-    );
-    const data = await response.json();
-    console.log('Ответ от GitHub:', data); // Отладка
-    return data;
-  } catch (error) {
-    console.error('Ошибка при сохранении данных:', error);
-    return null;
-  }
-}
-// Функция для получения SHA файла (если он существует)
-async function getFileSha(userId) {
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`,
-      {
+      });
+    } catch (error) {
+      console.error('Error saving user data:', error);
+    }
+  },
+
+  async getFileSha(userId) {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json',
         },
-      }
-    );
-    const data = await response.json();
-    return data.sha; // SHA файла
-  } catch (error) {
-    return null; // Файл не существует
-  }
-}
+      });
+      const data = await response.json();
+      return data.sha;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  async generateUserId() {
+    const lastUserId = await this.fetchLastUserId();
+    const newUserId = lastUserId + 1;
+    await this.updateLastUserId(newUserId);
+    return newUserId;
+  },
+
+  async fetchLastUserId() {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`, {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+      const data = await response.json();
+      return parseInt(atob(data.content), 10);
+    } catch (error) {
+      console.error('Error fetching last user ID:', error);
+      return 0;
+    }
+  },
+
+  async updateLastUserId(newId) {
+    const content = btoa(newId.toString());
+    const sha = await this.getFileSha('lastUserId');
+
+    try {
+      await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: `Update lastUserId.json to ${newId}`,
+          content,
+          sha,
+        }),
+      });
+    } catch (error) {
+      console.error('Error updating last user ID:', error);
+    }
+  },
+};
 
 // Открытие модального окна с соглашением
 showLicense.addEventListener('click', (e) => {
@@ -118,58 +177,6 @@ licenseModal.addEventListener('click', (e) => {
     licenseModal.style.display = 'none';
   }
 });
-
-// Функция для обновления последнего ID пользователя
-async function updateLastUserId(newId) {
-  try {
-    const content = btoa(newId.toString()); // Кодируем в base64
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: `Update lastUserId.json to ${newId}`,
-          content: content,
-          sha: await getFileSha('lastUserId'), // Получаем SHA существующего файла
-        }),
-      }
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Ошибка при обновлении последнего ID:', error);
-    return null;
-  }
-}
-
-// Функция для получения последнего ID пользователя
-async function getLastUserId() {
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`,
-      {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
-      }
-    );
-    const data = await response.json();
-    if (data.content) {
-      const content = atob(data.content); // Декодируем base64
-      return parseInt(content, 10); // Преобразуем в число
-    }
-    return 0; // Если файл не существует, начинаем с 0
-  } catch (error) {
-    console.error('Ошибка при загрузке последнего ID:', error);
-    return 0;
-  }
-}
 
 // Принятие соглашения
 acceptLicense.addEventListener('click', () => {
@@ -219,110 +226,28 @@ function initializeUsers() {
 }
 
 // Регистрация нового пользователя
-async function registerUser(name) {
+registerBtn.addEventListener('click', async () => {
+  if (!isLicenseAccepted) return;
+
+  const userName = userNameInput.value.trim() || 'Аноним';
+  if (!userName) {
+    alert('Введите имя.');
+    return;
+  }
+
   try {
-    // Получаем последний ID
-    const lastUserId = await getLastUserId();
-    const newUserId = lastUserId + 1; // Увеличиваем ID на 1
-
-    // Создаем пользователя
-    const user = {
-      id: newUserId,
-      name: name,
-      progress: {
-        count: 0,
-        dailyData: {},
-        dailyDataWithTime: {},
-      },
-    };
-
-    // Сохраняем пользователя на GitHub
-    const savedUser = await saveUserData(newUserId, user);
-    if (savedUser) {
-      // Обновляем последний ID на GitHub
-      await updateLastUserId(newUserId);
-
-      // Сохраняем пользователя в localStorage
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      alert(`Вы успешно зарегистрированы. Ваш ID: ${newUserId}`);
-      return user;
-    } else {
-      alert('Ошибка при регистрации. Попробуйте снова.');
-      return null;
+    const user = await userService.registerUser(userName);
+    if (user) {
+      checkAuth();
+      alert(`Вы успешно зарегистрированы. Ваш ID: ${user.id}`);
     }
   } catch (error) {
     console.error('Ошибка при регистрации:', error);
     alert('Ошибка при регистрации. Попробуйте снова.');
-    return null;
   }
-}
+});
+
 // Вход пользователя
-async function loginUser(name, id) {
-  const user = await fetchUserData(id);
-  if (user && user.name === name) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    alert(`Добро пожаловать, ${user.name}! Ваш ID: ${user.id}`);
-    return user;
-  } else {
-    alert('Пользователь не найден. Зарегистрируйтесь.');
-    return null;
-  }
-}
-// Обновление прогресса пользователя
-async function updateUserProgress(user) {
-  const saved = await saveUserData(user.id, user);
-  if (!saved) {
-    console.error('Ошибка при сохранении прогресса на GitHub.');
-  }
-}// Проверка авторизации при загрузке страницы
-function checkAuth() {
-  const savedUser = localStorage.getItem('currentUser');
-  if (savedUser) {
-    user = JSON.parse(savedUser);
-    count = user.progress.count || 0;
-    dailyData = user.progress.dailyData || {};
-    dailyDataWithTime = user.progress.dailyDataWithTime || {};
-    updateUI();
-    loginSection.style.display = 'none';
-    appSection.style.display = 'block';
-    userNameSpan.textContent = user.name || 'Аноним';
-  }
-}
-// Обновление интерфейса
-function updateUI() {
-  counterElement.textContent = `Количество: ${count}`;
-  updateComment();
-  if (user) {
-    user.progress.count = count;
-    user.progress.dailyData = dailyData;
-    user.progress.dailyDataWithTime = dailyDataWithTime;
-    saveUserToLocalStorage(user);
-    userNameSpan.textContent = user.name || 'Аноним';
-    userIdSpan.textContent = user.id; // Отображаем ID пользователя
-  }
-}
-// Сохранение пользователя в localStorage
-function saveUserToLocalStorage(user) {
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const userIndex = users.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    users[userIndex] = user;
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-}
-
-// Обновление комментария
-function updateComment() {
-  if (count < 10) {
-    commentElement.textContent = 'Ты начинающий 😊';
-  } else if (count >= 10 && count < 20) {
-    commentElement.textContent = 'Ты в ударе! 🚀';
-  } else {
-    commentElement.textContent = 'Пора отдохнуть! 🛑';
-  }
-}
-
-// Регистрация нового пользователя
 loginBtn.addEventListener('click', async () => {
   if (!isLicenseAccepted) return;
 
@@ -334,27 +259,15 @@ loginBtn.addEventListener('click', async () => {
     return;
   }
 
-  const user = await loginUser(userName, userId);
-  if (user) {
-    checkAuth();
-  }
-});
-// Обработчик кнопки входа
-loginBtn.addEventListener('click', () => {
-  if (!isLicenseAccepted) return;
-
-  const userName = userNameInput.value.trim();
-  const userId = userIdInput.value.trim(); // Получаем введенный ID
-
-  if (!userName) {
-    alert('Введите имя.');
-    return;
-  }
-
-  user = loginUser(userName, userId); // Передаем имя и ID
-  if (user) {
-    checkAuth();
-    alert(`Добро пожаловать, ${user.name}! Ваш ID: ${user.id}`);
+  try {
+    const user = await userService.loginUser(userName, userId);
+    if (user) {
+      checkAuth();
+      alert(`Добро пожаловать, ${user.name}! Ваш ID: ${user.id}`);
+    }
+  } catch (error) {
+    console.error('Ошибка при входе:', error);
+    alert('Пользователь не найден. Зарегистрируйтесь.');
   }
 });
 
@@ -383,9 +296,11 @@ startBtn.addEventListener('click', async () => {
     user.progress.count = count;
     user.progress.dailyData = dailyData;
     user.progress.dailyDataWithTime = dailyDataWithTime;
-    await updateUserProgress(user); // Сохраняем прогресс на GitHub
+    await userService.saveUserData(user.id, user); // Сохраняем прогресс на GitHub
   }
-});// Обработчик кнопки "Сбросить"
+});
+
+// Обработчик кнопки "Сбросить"
 resetBtn.addEventListener('click', () => {
   const today = new Date().toISOString().split('T')[0]; // Сегодняшняя дата в формате YYYY-MM-DD
   count -= dailyData[today] || 0; // Уменьшаем общее количество на сегодняшние данные
@@ -478,7 +393,53 @@ nextMonthBtn.addEventListener('click', () => {
 renderCalendar(currentDate);
 
 // Проверка авторизации при загрузке страницы
-checkAuth();
+function checkAuth() {
+  const savedUser = localStorage.getItem('currentUser');
+  if (savedUser) {
+    user = JSON.parse(savedUser);
+    count = user.progress.count || 0;
+    dailyData = user.progress.dailyData || {};
+    dailyDataWithTime = user.progress.dailyDataWithTime || {};
+    updateUI();
+    loginSection.style.display = 'none';
+    appSection.style.display = 'block';
+    userNameSpan.textContent = user.name || 'Аноним';
+    userIdSpan.textContent = user.id; // Отображаем ID пользователя
+  }
+}
+
+// Обновление интерфейса
+function updateUI() {
+  counterElement.textContent = `Количество: ${count}`;
+  updateComment();
+  if (user) {
+    user.progress.count = count;
+    user.progress.dailyData = dailyData;
+    user.progress.dailyDataWithTime = dailyDataWithTime;
+    saveUserToLocalStorage(user);
+  }
+}
+
+// Сохранение пользователя в localStorage
+function saveUserToLocalStorage(user) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userIndex = users.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    users[userIndex] = user;
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+}
+
+// Обновление комментария
+function updateComment() {
+  if (count < 10) {
+    commentElement.textContent = 'Ты начинающий 😊';
+  } else if (count >= 10 && count < 20) {
+    commentElement.textContent = 'Ты в ударе! 🚀';
+  } else {
+    commentElement.textContent = 'Пора отдохнуть! 🛑';
+  }
+}
 
 // Инициализация пользователей при загрузке страницы
 initializeUsers();
