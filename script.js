@@ -83,8 +83,8 @@ function handleVKResponse() {
 function updateUIAfterLogin(user) {
   document.getElementById('userNameSpan').textContent = user.name;
   document.getElementById('userIdSpan').textContent = user.sub;
-  document.getElementById('loginSection').style.display = 'none';
-  document.getElementById('appSection').style.display = 'block';
+  document.getElementById('loginSection').style.display = 'none'; // Скрываем секцию авторизации
+  document.getElementById('appSection').style.display = 'block'; // Показываем секцию приложения
 }
 
 // Проверка авторизации при загрузке страницы
@@ -93,6 +93,10 @@ function checkAuth() {
   if (savedUser) {
     const user = JSON.parse(savedUser);
     updateUIAfterLogin(user);
+  } else {
+    // Если пользователь не авторизован, показываем секцию авторизации
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('appSection').style.display = 'none';
   }
 }
 
@@ -127,8 +131,8 @@ if (savedTheme === 'dark') {
 
 // Инициализация Google Sign-In
 window.onload = function () {
-  handleVKResponse();
-  checkAuth();
+  handleVKResponse(); // Проверка авторизации через VK
+  checkAuth(); // Проверка авторизации через Google
 
   try {
     google.accounts.id.initialize({
