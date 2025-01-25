@@ -22,6 +22,7 @@ const themeToggleBtn = document.getElementById('themeToggleBtn');
 const themeIcon = document.getElementById('themeIcon');
 const body = document.body;
 const userNameInput = document.getElementById('userNameInput');
+const userIdInput = document.getElementById('userIdInput');
 const userNameSpan = document.getElementById('userNameSpan');
 const registerBtn = document.getElementById('registerBtn');
 const loginBtn = document.getElementById('loginBtn');
@@ -32,13 +33,12 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-const GITHUB_REPO = 'mioamio/podrukoy';
-const GITHUB_TOKEN = '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';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyhDPs9GVKYT2F6pnJlCM-nop0HJOYp-lJ3-sWyBIEjLstAcubj4is0dqPYdBbpZNfJ/exec';
 
 // Вход и регистрация пользователей
 const userService = {
   async registerUser(name) {
-    const userId = await this.generateUserId();
+    const userId = Math.random().toString(36).substring(2, 9); // Генерация уникального ID
     const newUser = {
       id: userId,
       name,
@@ -54,26 +54,21 @@ const userService = {
     return newUser;
   },
 
-  async loginUser(name, userId) {
+  async loginUser(userId) {
     const userData = await this.fetchUserData(userId);
-    if (userData && userData.name === name) {
+    if (userData) {
       localStorage.setItem('currentUser', JSON.stringify(userData));
       return userData;
     } else {
-      throw new Error('User not found or name mismatch');
+      throw new Error('User not found');
     }
   },
 
   async fetchUserData(userId) {
     try {
-      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
-      });
+      const response = await fetch(`${API_URL}?action=getUser&id=${userId}`);
       const data = await response.json();
-      return JSON.parse(atob(data.content));
+      return data;
     } catch (error) {
       console.error('Error fetching user data:', error);
       return null;
@@ -81,86 +76,20 @@ const userService = {
   },
 
   async saveUserData(userId, userData) {
-    const content = btoa(JSON.stringify(userData));
-    const sha = await this.getFileSha(userId);
-
     try {
-      await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
-        method: 'PUT',
+      await fetch(API_URL, {
+        method: 'POST',
         headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: `Update user_${userId}.json`,
-          content,
-          sha,
+          action: 'saveUser',
+          id: userId,
+          data: userData,
         }),
       });
     } catch (error) {
       console.error('Error saving user data:', error);
-    }
-  },
-
-  async getFileSha(userId) {
-    try {
-      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/user_${userId}.json`, {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
-      });
-      const data = await response.json();
-      return data.sha;
-    } catch (error) {
-      return null;
-    }
-  },
-
-  async generateUserId() {
-    const lastUserId = await this.fetchLastUserId();
-    const newUserId = lastUserId + 1;
-    await this.updateLastUserId(newUserId);
-    return newUserId;
-  },
-
-  async fetchLastUserId() {
-    try {
-      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`, {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
-      });
-      const data = await response.json();
-      return parseInt(atob(data.content), 10);
-    } catch (error) {
-      console.error('Error fetching last user ID:', error);
-      return 0;
-    }
-  },
-
-  async updateLastUserId(newId) {
-    const content = btoa(newId.toString());
-    const sha = await this.getFileSha('lastUserId');
-
-    try {
-      await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/users/lastUserId.json`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: `Update lastUserId.json to ${newId}`,
-          content,
-          sha,
-        }),
-      });
-    } catch (error) {
-      console.error('Error updating last user ID:', error);
     }
   },
 };
@@ -205,26 +134,6 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-// Инициализация пользователей
-function initializeUsers() {
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  if (users.length === 0) {
-    // Создаем суперпользователя
-    const superuser = {
-      id: 1, // Уникальный ID
-      name: 'Администратор',
-      progress: {
-        count: 0,
-        dailyData: {},
-        dailyDataWithTime: {},
-      },
-    };
-    users.push(superuser);
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-  return users;
-}
-
 // Регистрация нового пользователя
 registerBtn.addEventListener('click', async () => {
   if (!isLicenseAccepted) return;
@@ -251,19 +160,18 @@ registerBtn.addEventListener('click', async () => {
 loginBtn.addEventListener('click', async () => {
   if (!isLicenseAccepted) return;
 
-  const userName = userNameInput.value.trim();
   const userId = userIdInput.value.trim();
 
-  if (!userName) {
-    alert('Введите имя.');
+  if (!userId) {
+    alert('Введите ID.');
     return;
   }
 
   try {
-    const user = await userService.loginUser(userName, userId);
+    const user = await userService.loginUser(userId);
     if (user) {
       checkAuth();
-      alert(`Добро пожаловать, ${user.name}! Ваш ID: ${user.id}`);
+      alert(`Добро пожаловать, ${user.name}!`);
     }
   } catch (error) {
     console.error('Ошибка при входе:', error);
@@ -296,7 +204,7 @@ startBtn.addEventListener('click', async () => {
     user.progress.count = count;
     user.progress.dailyData = dailyData;
     user.progress.dailyDataWithTime = dailyDataWithTime;
-    await userService.saveUserData(user.id, user); // Сохраняем прогресс на GitHub
+    await userService.saveUserData(user.id, user); // Сохраняем прогресс
   }
 });
 
