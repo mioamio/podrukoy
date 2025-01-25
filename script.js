@@ -2,9 +2,9 @@ let count = 0;
 let user = null;
 let currentDate = new Date();
 let selectedDate = currentDate;
-let dailyData = {}; // Данные за каждый день
-let dailyDataWithTime = {}; // Данные с временем
-let isLicenseAccepted = localStorage.getItem('licenseAccepted') === 'true'; // Проверка принятия соглашения
+let dailyData = {};
+let dailyDataWithTime = {};
+let isLicenseAccepted = localStorage.getItem('licenseAccepted') === 'true';
 
 // Элементы DOM
 const counterElement = document.getElementById('counter');
@@ -25,24 +25,20 @@ const userNameSpan = document.getElementById('userNameSpan');
 const userIdSpan = document.getElementById('userIdSpan');
 const vkLoginBtn = document.getElementById('vkLoginBtn');
 
-// Добавляем обработчик для кнопки "Принять"
+// Обработчики для модального окна
 const acceptLicense = document.getElementById('acceptLicense');
 acceptLicense.addEventListener('click', () => {
-  licenseModal.style.display = 'none'; // Скрываем модальное окно
-  localStorage.setItem('licenseAccepted', 'true'); // Сохраняем согласие
+  licenseModal.style.display = 'none';
+  localStorage.setItem('licenseAccepted', 'true');
 });
 
-// Добавляем обработчик для кнопки "Отклонить"
 const declineLicense = document.getElementById('declineLicense');
 declineLicense.addEventListener('click', () => {
-  licenseModal.style.display = 'none'; // Скрываем модальное окно
+  licenseModal.style.display = 'none';
 });
 
-// Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
 const showLicense = document.getElementById('showLicense');
-
-// Обработчик для показа модального окна с соглашением
 showLicense.addEventListener('click', () => {
   licenseModal.style.display = 'flex';
 });
@@ -62,14 +58,24 @@ function handleVKResponse() {
   const email = params.get('email');
 
   if (accessToken && userId) {
-    const user = {
-      name: 'Пользователь VK', // Имя можно получить через API VK
-      sub: userId,
-      email: email || 'no-email@vk.com'
-    };
+    fetch(`https://api.vk.com/method/users.get?user_ids=${userId}&fields=first_name,last_name&access_token=${accessToken}&v=5.131`)
+      .then(response => response.json())
+      .then(data => {
+        const user = data.response[0];
+        const fullName = `${user.first_name} ${user.last_name}`;
 
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    updateUIAfterLogin(user);
+        const userData = {
+          name: fullName,
+          sub: userId,
+          email: email || 'no-email@vk.com'
+        };
+
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        updateUIAfterLogin(userData);
+      })
+      .catch(error => {
+        console.error('Ошибка при получении данных пользователя:', error);
+      });
   }
 }
 
@@ -80,84 +86,6 @@ function updateUIAfterLogin(user) {
   document.getElementById('loginSection').style.display = 'none';
   document.getElementById('appSection').style.display = 'block';
 }
-
-// Логика для счетчика нажатий
-startBtn.addEventListener('click', () => {
-  count++;
-  counterElement.textContent = `Количество: ${count}`;
-  updateComment();
-  saveDailyData();
-});
-
-resetBtn.addEventListener('click', () => {
-  count = 0;
-  counterElement.textContent = `Количество: ${count}`;
-  updateComment();
-  saveDailyData();
-});
-
-function updateComment() {
-  if (count < 10) {
-    commentElement.textContent = 'Ты начинающий';
-  } else if (count < 20) {
-    commentElement.textContent = 'Ты продвинутый';
-  } else {
-    commentElement.textContent = 'Ты мастер!';
-  }
-}
-
-// Логика для календаря
-function renderCalendar(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const daysInMonth = lastDay.getDate();
-  const startingDay = firstDay.getDay();
-
-  currentMonthElement.textContent = `${date.toLocaleString('ru', { month: 'long' })} ${year}`;
-
-  let calendarHTML = '';
-  for (let i = 0; i < startingDay; i++) {
-    calendarHTML += `<div class="day"></div>`;
-  }
-
-  for (let i = 1; i <= daysInMonth; i++) {
-    const dayDate = new Date(year, month, i);
-    const isToday = dayDate.toDateString() === new Date().toDateString();
-    const isActive = dailyData[dayDate.toDateString()] !== undefined;
-    calendarHTML += `<div class="day ${isToday ? 'today' : ''} ${isActive ? 'active' : ''}" data-date="${dayDate.toDateString()}">${i}</div>`;
-  }
-
-  calendarGrid.innerHTML = calendarHTML;
-}
-
-prevMonthBtn.addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  renderCalendar(currentDate);
-});
-
-nextMonthBtn.addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  renderCalendar(currentDate);
-});
-
-function saveDailyData() {
-  const today = new Date().toDateString();
-  dailyData[today] = count;
-  localStorage.setItem('dailyData', JSON.stringify(dailyData));
-}
-
-function loadDailyData() {
-  const savedData = localStorage.getItem('dailyData');
-  if (savedData) {
-    dailyData = JSON.parse(savedData);
-  }
-}
-
-// Инициализация календаря и счетчика
-loadDailyData();
-renderCalendar(currentDate);
 
 // Проверка авторизации при загрузке страницы
 function checkAuth() {
@@ -199,8 +127,8 @@ if (savedTheme === 'dark') {
 
 // Инициализация Google Sign-In
 window.onload = function () {
-  handleVKResponse(); // Проверка авторизации через VK
-  checkAuth(); // Проверка авторизации через Google
+  handleVKResponse();
+  checkAuth();
 
   try {
     google.accounts.id.initialize({
@@ -212,7 +140,6 @@ window.onload = function () {
       context: 'signin'
     });
 
-    // Отображаем кнопку входа через Google
     google.accounts.id.renderButton(
       document.getElementById("loginSection"),
       { 
