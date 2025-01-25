@@ -33,17 +33,7 @@ const declineLicense = document.getElementById('declineLicense');
 // Обработка входа через Google
 function handleCredentialResponse(response) {
   const idToken = response.credential;
-
-  // Отправьте idToken на ваш сервер для проверки и получения данных пользователя
-  fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ idToken }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
+  
       // Сохраните данные пользователя в localStorage
       localStorage.setItem('currentUser', JSON.stringify(data.user));
       checkAuth();
@@ -112,6 +102,17 @@ themeToggleBtn.addEventListener('click', () => {
     localStorage.setItem('theme', 'dark');
   }
 });
+
+function updateUIAfterLicenseAcceptance() {
+  const isLicenseAccepted = localStorage.getItem('licenseAccepted') === 'true';
+  const registerBtn = document.getElementById('registerBtn');
+  const loginBtn = document.getElementById('loginBtn');
+
+  if (registerBtn && loginBtn) {
+    registerBtn.disabled = !isLicenseAccepted;
+    loginBtn.disabled = !isLicenseAccepted;
+  }
+}
 
 // Проверка сохраненной темы при загрузке страницы
 const savedTheme = localStorage.getItem('theme');
