@@ -65,16 +65,25 @@
   </div>
 
   <div class="container">
-    <!-- Секция авторизации -->
+    <!-- Секция авторизации через Google -->
     <div id="loginSection">
-  <input type="text" id="userNameInput" class="input-field" placeholder="Введите ваше имя">
-  <input type="text" id="userIdInput" class="input-field" placeholder="Введите ваш ID (если есть)">
-  <button id="registerBtn" class="login-btn">Зарегистрироваться</button>
-  <button id="loginBtn" class="login-btn">Войти</button>
-  <p class="license-link">
-    <a href="#" id="showLicense">Пользовательское соглашение</a>
-  </p>
-</div>
+      <div id="g_id_onload"
+           data-client_id="432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com"
+           data-login_uri="https://podrukoy.xyz/login"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
+      <p class="license-link">
+        <a href="#" id="showLicense">Пользовательское соглашение</a>
+      </p>
+    </div>
 
     <!-- Секция приложения (скрыта по умолчанию) -->
     <div id="appSection" style="display: none;">
@@ -92,13 +101,13 @@
           <div id="calendarGrid"></div>
         </div>
         <div class="actions">
-  <p id="counter">Количество: 0</p>
-  <button id="startBtn" class="action-btn">🚀 Начать</button>
-  <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
-  <p id="comment">Ты начинающий</p>
-  <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
-  <p id="userIdDisplay">ID: <span id="userIdSpan"></span></p> <!-- Добавлено отображение ID -->
-</div>
+          <p id="counter">Количество: 0</p>
+          <button id="startBtn" class="action-btn">🚀 Начать</button>
+          <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
+          <p id="comment">Ты начинающий</p>
+          <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
+          <p id="userIdDisplay">ID: <span id="userIdSpan"></span></p>
+        </div>
       </div>
     </div>
   </div>
@@ -140,6 +149,8 @@
     </div>
   </div>
 
+  <!-- Google Sign-In API -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="script.js"></script>
 </body>
 </html>
