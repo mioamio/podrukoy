@@ -349,6 +349,7 @@ body.dark-theme {
   width: 100%;
   max-width: 300px;
   text-align: center;
+  display: block; /* Убедитесь, что кнопка отображается */
 }
 
 #vkLoginBtn:hover {
