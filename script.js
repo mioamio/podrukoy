@@ -33,7 +33,7 @@ const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
 const GITHUB_REPO = 'mioamio/podrukoy';
-const GITHUB_TOKEN = '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';
+const GITHUB_TOKEN = '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';
 
 // Вход и регистрация пользователей
 const userService = {
