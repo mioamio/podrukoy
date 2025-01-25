@@ -335,6 +335,30 @@ body.dark-theme {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+#vkLoginBtn {
+  background-color: #4a76a8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+#vkLoginBtn:hover {
+  background-color: #3a5f8a;
+}
+
+#vkLoginBtn:active {
+  background-color: #2a4a6a;
+}
+
 .dark-theme button:hover {
   background: linear-gradient(135deg, #5a6fdb, #e64a6f);
 }
