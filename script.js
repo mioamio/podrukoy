@@ -33,7 +33,7 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbyhDPs9GVKYT2F6pnJlCM-nop0HJOYp-lJ3-sWyBIEjLstAcubj4is0dqPYdBbpZNfJ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyhDPs9GVKYT2F6pnJlCM-nop0HJOYp-lJ3-sWyBIEjLstAcubj4is0dqPYdBbpZNfJ/exec'; // Ваш URL Google Apps Script
 
 // Вход и регистрация пользователей
 const userService = {
@@ -348,9 +348,6 @@ function updateComment() {
     commentElement.textContent = 'Пора отдохнуть! 🛑';
   }
 }
-
-// Инициализация пользователей при загрузке страницы
-initializeUsers();
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
