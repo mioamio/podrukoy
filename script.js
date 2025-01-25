@@ -40,7 +40,6 @@ declineLicense.addEventListener('click', () => {
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
 const showLicense = document.getElementById('showLicense');
-const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
 function handleCredentialResponse(response) {
@@ -125,6 +124,8 @@ function updateUIAfterLicenseAcceptance() {
     loginBtn.disabled = !isLicenseAccepted;
   }
 }
+
+<script src="script.js"></script>
 
 // Инициализация календаря
 renderCalendar(currentDate);
