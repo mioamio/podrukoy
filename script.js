@@ -30,7 +30,6 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-// Обработка входа через Google
 function handleCredentialResponse(response) {
   const idToken = response.credential;
   const user = parseJwt(idToken); // Распарсиваем JWT-токен
@@ -67,7 +66,6 @@ window.onload = function () {
   }
 };
 
-// Проверка авторизации
 function checkAuth() {
   const savedUser = localStorage.getItem('currentUser');
   if (savedUser) {
@@ -79,7 +77,6 @@ function checkAuth() {
   }
 }
 
-// Выход
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('currentUser');
   document.getElementById('loginSection').style.display = 'block';
