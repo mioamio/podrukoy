@@ -124,8 +124,5 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-// Инициализация календаря
-renderCalendar(currentDate);
-
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
