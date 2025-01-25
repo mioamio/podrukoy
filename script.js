@@ -44,6 +44,9 @@ const showLicense = document.getElementById('showLicense');
 function handleCredentialResponse(response) {
   const idToken = response.credential;
   const user = parseJwt(idToken); // Распарсиваем JWT-токен
+  localStorage.setItem('currentUser', JSON.stringify(user)); // Сохраняем пользователя
+  checkAuth(); // Обновляем интерфейс
+}
 
 showLicense.addEventListener('click', (event) => {
   event.preventDefault(); // Отменяем стандартное поведение ссылки
