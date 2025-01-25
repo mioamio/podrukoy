@@ -49,7 +49,7 @@ showLicense.addEventListener('click', () => {
 
 // Обработчик для входа через VK
 vkLoginBtn.addEventListener('click', () => {
-  const vkAuthUrl = `https://oauth.vk.com/authorize?client_id=YOUR_VK_APP_ID&display=page&redirect_uri=YOUR_REDIRECT_URI&scope=email&response_type=token&v=5.131&state=123456`;
+  const vkAuthUrl = `https://oauth.vk.com/authorize?client_id=52967003&display=page&redirect_uri=https://podrukoy.xyz/&scope=email&response_type=token&v=5.131&state=123456`;
   window.location.href = vkAuthUrl;
 });
 
