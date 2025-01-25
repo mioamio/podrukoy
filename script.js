@@ -33,76 +33,51 @@ const declineLicense = document.getElementById('declineLicense');
 // Обработка входа через Google
 function handleCredentialResponse(response) {
   const idToken = response.credential;
-  
-      // Сохраните данные пользователя в localStorage
-      localStorage.setItem('currentUser', JSON.stringify(data.user));
-      checkAuth();
-    })
-    .catch((error) => {
-      console.error('Ошибка при входе через Google:', error);
-    });
+  const user = parseJwt(idToken); // Распарсиваем JWT-токен
+
+  // Сохраняем данные пользователя в localStorage
+  localStorage.setItem('currentUser', JSON.stringify(user));
+  checkAuth(); // Обновляем интерфейс
+}
+
+// Функция для распарсивания JWT-токена
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(atob(base64));
 }
 
 // Инициализация Google Sign-In
 window.onload = function () {
   google.accounts.id.initialize({
-    client_id: 'YOUR_GOOGLE_CLIENT_ID',
+    client_id: '432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com',
     callback: handleCredentialResponse,
   });
+
+  // Проверка авторизации при загрузке страницы
+  checkAuth();
 };
+
+// Проверка авторизации
+function checkAuth() {
+  const savedUser = localStorage.getItem('currentUser');
+  if (savedUser) {
+    const user = JSON.parse(savedUser);
+    document.getElementById('userNameSpan').textContent = user.name || user.given_name || 'Аноним';
+    document.getElementById('userIdSpan').textContent = user.sub; // ID пользователя
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('appSection').style.display = 'block';
+  }
+}
 
 // Выход
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('currentUser');
-  user = null;
-  loginSection.style.display = 'block';
-  appSection.style.display = 'none';
+  document.getElementById('loginSection').style.display = 'block';
+  document.getElementById('appSection').style.display = 'none';
 });
 
-// Обработчик кнопки "Начать"
-startBtn.addEventListener('click', async () => {
-  count++;
-  const today = new Date().toISOString().split('T')[0];
-  const now = new Date().toLocaleTimeString();
-  if (!dailyDataWithTime[today]) {
-    dailyDataWithTime[today] = [];
-  }
-  dailyDataWithTime[today].push(now);
-  dailyData[today] = (dailyData[today] || 0) + 1;
-  updateUI();
-  renderCalendar(currentDate);
-
-  if (user) {
-    user.progress.count = count;
-    user.progress.dailyData = dailyData;
-    user.progress.dailyDataWithTime = dailyDataWithTime;
-    await userService.saveUserData(user.id, user); // Сохраняем прогресс
-  }
-});
-
-// Обработчик кнопки "Сбросить"
-resetBtn.addEventListener('click', () => {
-  const today = new Date().toISOString().split('T')[0]; // Сегодняшняя дата в формате YYYY-MM-DD
-  count -= dailyData[today] || 0; // Уменьшаем общее количество на сегодняшние данные
-  dailyData[today] = 0; // Сбрасываем данные за сегодня
-  dailyDataWithTime[today] = []; // Очищаем данные о времени
-  updateUI();
-  renderCalendar(currentDate);
-});
-
-// Смена темы
-themeToggleBtn.addEventListener('click', () => {
-  if (body.classList.contains('dark-theme')) {
-    body.classList.remove('dark-theme');
-    themeIcon.src = 'banana-light.ico';
-    localStorage.setItem('theme', 'light');
-  } else {
-    body.classList.add('dark-theme');
-    themeIcon.src = 'banana-night.ico';
-    localStorage.setItem('theme', 'dark');
-  }
-});
-
+// Обновление интерфейса после принятия/отклонения соглашения
 function updateUIAfterLicenseAcceptance() {
   const isLicenseAccepted = localStorage.getItem('licenseAccepted') === 'true';
   const registerBtn = document.getElementById('registerBtn');
@@ -114,123 +89,8 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-// Проверка сохраненной темы при загрузке страницы
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  body.classList.add('dark-theme');
-  themeIcon.src = 'banana-night.ico';
-} else {
-  themeIcon.src = 'banana-light.ico';
-}
-
-// Календарь
-function renderCalendar(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const daysInMonth = lastDay.getDate();
-  const startingDay = firstDay.getDay();
-
-  currentMonthElement.textContent = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' }).format(date);
-
-  calendarGrid.innerHTML = '';
-
-  for (let i = 0; i < startingDay; i++) {
-    const emptyDay = document.createElement('div');
-    emptyDay.classList.add('day', 'empty');
-    calendarGrid.appendChild(emptyDay);
-  }
-
-  for (let i = 1; i <= daysInMonth; i++) {
-    const day = document.createElement('div');
-    day.classList.add('day');
-    day.textContent = i;
-    const dayDate = new Date(year, month, i).toISOString().split('T')[0];
-    if (dailyData[dayDate]) {
-      day.classList.add('active');
-    }
-    if (dayDate === new Date().toISOString().split('T')[0]) {
-      day.classList.add('today');
-    }
-    day.addEventListener('click', () => {
-      selectedDate = new Date(year, month, i);
-      updateUIForSelectedDate();
-      document.querySelectorAll('.day.selected').forEach(d => d.classList.remove('selected'));
-      day.classList.add('selected');
-    });
-    calendarGrid.appendChild(day);
-  }
-}
-
-function updateUIForSelectedDate() {
-  const selectedDateStr = selectedDate.toISOString().split('T')[0];
-  const selectedCount = dailyData[selectedDateStr] || 0;
-  const selectedTimes = dailyDataWithTime[selectedDateStr] || [];
-  commentElement.textContent = `На ${selectedDateStr}: ${selectedCount} действий. Время: ${selectedTimes.join(', ')}`;
-}
-
-prevMonthBtn.addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  renderCalendar(currentDate);
-});
-
-nextMonthBtn.addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  renderCalendar(currentDate);
-});
-
 // Инициализация календаря
 renderCalendar(currentDate);
-
-// Проверка авторизации при загрузке страницы
-function checkAuth() {
-  const savedUser = localStorage.getItem('currentUser');
-  if (savedUser) {
-    user = JSON.parse(savedUser);
-    count = user.progress.count || 0;
-    dailyData = user.progress.dailyData || {};
-    dailyDataWithTime = user.progress.dailyDataWithTime || {};
-    updateUI();
-    loginSection.style.display = 'none';
-    appSection.style.display = 'block';
-    userNameSpan.textContent = user.name || 'Аноним';
-    userIdSpan.textContent = user.id; // Отображаем ID пользователя
-  }
-}
-
-// Обновление интерфейса
-function updateUI() {
-  counterElement.textContent = `Количество: ${count}`;
-  updateComment();
-  if (user) {
-    user.progress.count = count;
-    user.progress.dailyData = dailyData;
-    user.progress.dailyDataWithTime = dailyDataWithTime;
-    saveUserToLocalStorage(user);
-  }
-}
-
-// Сохранение пользователя в localStorage
-function saveUserToLocalStorage(user) {
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const userIndex = users.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    users[userIndex] = user;
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-}
-
-// Обновление комментария
-function updateComment() {
-  if (count < 10) {
-    commentElement.textContent = 'Ты начинающий 😊';
-  } else if (count >= 10 && count < 20) {
-    commentElement.textContent = 'Ты в ударе! 🚀';
-  } else {
-    commentElement.textContent = 'Пора отдохнуть! 🛑';
-  }
-}
 
 // Обновление видимости кнопок социальной авторизации при загрузке
 updateUIAfterLicenseAcceptance();
