@@ -24,6 +24,19 @@ const body = document.body;
 const userNameSpan = document.getElementById('userNameSpan');
 const userIdSpan = document.getElementById('userIdSpan');
 
+// Добавляем обработчик для кнопки "Принять"
+const acceptLicense = document.getElementById('acceptLicense');
+acceptLicense.addEventListener('click', () => {
+  licenseModal.style.display = 'none'; // Скрываем модальное окно
+  localStorage.setItem('licenseAccepted', 'true'); // Сохраняем согласие
+});
+
+// Добавляем обработчик для кнопки "Отклонить"
+const declineLicense = document.getElementById('declineLicense');
+declineLicense.addEventListener('click', () => {
+  licenseModal.style.display = 'none'; // Скрываем модальное окно
+});
+
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
 const showLicense = document.getElementById('showLicense');
@@ -34,6 +47,11 @@ function handleCredentialResponse(response) {
   const idToken = response.credential;
   const user = parseJwt(idToken); // Распарсиваем JWT-токен
 
+showLicense.addEventListener('click', (event) => {
+  event.preventDefault(); // Отменяем стандартное поведение ссылки
+  licenseModal.style.display = 'block'; // Показываем модальное окно
+});
+  
   // Сохраняем данные пользователя в localStorage
   localStorage.setItem('currentUser', JSON.stringify(user));
   checkAuth(); // Обновляем интерфейс
