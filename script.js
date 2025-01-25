@@ -41,39 +41,58 @@ declineLicense.addEventListener('click', () => {
 const licenseModal = document.getElementById('licenseModal');
 const showLicense = document.getElementById('showLicense');
 
+// ... существующий код ...
+
+// ... существующий код ...
+
 function handleCredentialResponse(response) {
-  const idToken = response.credential;
-  const user = parseJwt(idToken); // Распарсиваем JWT-токен
-  localStorage.setItem('currentUser', JSON.stringify(user)); // Сохраняем пользователя
-  checkAuth(); // Обновляем интерфейс
-}
-
-showLicense.addEventListener('click', (event) => {
-  event.preventDefault(); // Отменяем стандартное поведение ссылки
-  licenseModal.style.display = 'block'; // Показываем модальное окно
-});
-  
-  // Сохраняем данные пользователя в localStorage
-  localStorage.setItem('currentUser', JSON.stringify(user));
-  checkAuth(); // Обновляем интерфейс
-}
-
-// Функция для распарсивания JWT-токена
-function parseJwt(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  return JSON.parse(atob(base64));
+  try {
+    const idToken = response.credential;
+    const user = parseJwt(idToken);
+    
+    // Сохраняем данные пользователя
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    
+    // Обновляем интерфейс
+    document.getElementById('userNameSpan').textContent = user.name || user.given_name || 'Аноним';
+    document.getElementById('userIdSpan').textContent = user.sub;
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('appSection').style.display = 'block';
+  } catch (error) {
+    console.error('Ошибка при обработке входа:', error);
+  }
 }
 
 // Инициализация Google Sign-In
 window.onload = function () {
-  google.accounts.id.initialize({
-    client_id: '432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com',
-    callback: handleCredentialResponse,
-  });
+  try {
+    google.accounts.id.initialize({
+      client_id: '432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com',
+      callback: handleCredentialResponse,
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
 
-  // Проверка авторизации при загрузке страницы
-  checkAuth();
+    // Отображаем кнопку входа через Google
+    google.accounts.id.renderButton(
+      document.getElementById("loginSection"),
+      { 
+        theme: "outline", 
+        size: "large",
+        type: "standard",
+        shape: "rectangular",
+        text: "signin_with",
+        logo_alignment: "left"
+      }
+    );
+
+    // Проверяем авторизацию при загрузке
+    checkAuth();
+    
+    // ... остальной код onload ...
+  } catch (error) {
+    console.error('Ошибка при инициализации Google Sign-In:', error);
+  }
 
   // Проверка сохраненной темы при загрузке страницы
   const savedTheme = localStorage.getItem('theme');
