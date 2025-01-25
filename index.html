@@ -164,9 +164,9 @@
 
     // Функция для распарсивания JWT-токена
     function parseJwt(token) {
-      const base64Url = token.split('.')[1]; // Получаем payload
+      const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      return JSON.parse(atob(base64)); // Декодируем и возвращаем объект
+      return JSON.parse(atob(base64));
     }
 
     // Инициализация Google Sign-In
