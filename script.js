@@ -33,21 +33,22 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbyhDPs9GVKYT2F6pnJlCM-nop0HJOYp-lJ3-sWyBIEjLstAcubj4is0dqPYdBbpZNfJ/exec'; // Ваш URL Google Apps Script
+const API_URL = 'https://script.google.com/macros/s/AKfycbyFfAbxcyD52XLpVKfwpKu5BzICnOWRPPA0CNCATNz6_Re-zMOZPHaQO56i9nacI7ss/exec';
 
 // Вход и регистрация пользователей
 const userService = {
   async registerUser(name) {
-    const userId = Math.random().toString(36).substring(2, 9); // Генерация уникального ID
-    const newUser = {
-      id: userId,
-      name,
-      progress: {
-        count: 0,
-        dailyData: {},
-        dailyDataWithTime: {},
-      },
-    };
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'register',
+        name,
+        progress: { count: 0, dailyData: {} },
+      }),
+    });
+    const data = await response.json();
+    return { id: data.id, name, progress: { count: 0, dailyData: {} } };
+  },
 
     await this.saveUserData(userId, newUser);
     localStorage.setItem('currentUser', JSON.stringify(newUser));
@@ -55,14 +56,11 @@ const userService = {
   },
 
   async loginUser(userId) {
-    const userData = await this.fetchUserData(userId);
-    if (userData) {
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      return userData;
-    } else {
-      throw new Error('User not found');
-    }
+    const response = await fetch(`${API_URL}?action=login&id=${userId}`);
+    const data = await response.json();
+    return data;
   },
+};
 
   async fetchUserData(userId) {
     try {
