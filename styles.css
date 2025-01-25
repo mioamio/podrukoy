@@ -5,13 +5,13 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Сдвигаем контент вниз */
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
-  user-select: none; /* Отключаем выделение текста и элементов */
-  -webkit-user-select: none; /* Для Safari */
-  -moz-user-select: none; /* Для Firefox */
-  -ms-user-select: none; /* Для IE/Edge */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .container {
@@ -25,7 +25,7 @@ body {
   backdrop-filter: blur(10px);
   transition: background 0.5s ease, box-shadow 0.5s ease;
   margin: 20px;
-  margin-top: 80px; /* Сдвигаем контент ниже */
+  margin-top: 80px;
 }
 
 .header-text {
@@ -57,28 +57,7 @@ body {
   margin-top: 10px;
 }
 
-/* Стили для поля ввода имени */
-.input-field {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-.input-field:focus {
-  border-color: #6a82fb;
-  outline: none;
-}
-
-.input-field:disabled {
-  background: #f5f5f5;
-  cursor: not-allowed;
-}
-
-/* Стили для кнопок регистрации и входа */
+/* Стили для кнопок */
 .login-btn {
   background: linear-gradient(135deg, #6a82fb, #fc5c7d);
   color: white;
@@ -108,6 +87,49 @@ body {
   cursor: not-allowed;
 }
 
+#vkLoginBtn {
+  background-color: #4a76a8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  display: block;
+}
+
+#vkLoginBtn:hover {
+  background-color: #3a5f8a;
+}
+
+#vkLoginBtn:active {
+  background-color: #2a4a6a;
+}
+
+.license-link {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.license-link a {
+  color: #6a82fb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.license-link a:hover {
+  color: #fc5c7d;
+}
+
+/* Стили для счетчика */
 #counter {
   font-size: 24px;
   font-weight: 600;
@@ -121,6 +143,7 @@ body {
   margin: 10px 0;
 }
 
+/* Горизонтальный макет */
 .horizontal-layout {
   display: flex;
   justify-content: space-between;
@@ -128,6 +151,7 @@ body {
   width: 100%;
 }
 
+/* Календарь */
 #calendar {
   flex: 1;
   margin-top: 20px;
@@ -181,6 +205,7 @@ body {
   color: white;
 }
 
+/* Секция действий */
 .actions {
   flex: 1;
   display: flex;
@@ -204,23 +229,6 @@ body {
 }
 
 #logoutBtn:hover {
-  color: #fc5c7d;
-}
-
-/* Ссылка на пользовательское соглашение */
-.license-link {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.license-link a {
-  color: #6a82fb;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.license-link a:hover {
   color: #fc5c7d;
 }
 
@@ -278,6 +286,7 @@ body {
 .modal-btn.decline:hover {
   background: #e64a6f;
 }
+
 /* Иконка смены темы */
 #themeToggleContainer {
   position: fixed;
@@ -319,7 +328,7 @@ body.light-theme {
 
 /* Темная тема */
 body.dark-theme {
-  background: #000; /* AMOLED-черный фон */
+  background: #000;
   color: #e0e0e0;
 }
 
@@ -333,31 +342,6 @@ body.dark-theme {
   background: linear-gradient(135deg, #6a82fb, #fc5c7d);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-#vkLoginBtn {
-  background-color: #4a76a8;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-  width: 100%;
-  max-width: 300px;
-  text-align: center;
-  display: block; /* Убедитесь, что кнопка отображается */
-}
-
-#vkLoginBtn:hover {
-  background-color: #3a5f8a;
-}
-
-#vkLoginBtn:active {
-  background-color: #2a4a6a;
 }
 
 .dark-theme button:hover {
@@ -412,15 +396,15 @@ body.dark-theme {
   color: #aaa;
 }
 
-/* Добавляем стили для выбранного дня */
+/* Стили для выбранного дня */
 .day.selected {
-  background: #ffeb3b !important; /* Желтый цвет */
+  background: #ffeb3b !important;
   color: #333 !important;
 }
 
 /* Стили для сегодняшней даты */
 .day.today {
-  background: #6a82fb !important; /* Обычный цвет для сегодняшней даты */
+  background: #6a82fb !important;
   color: white !important;
 }
 
@@ -454,9 +438,9 @@ body.dark-theme {
     margin: 10px;
     width: 95%;
     max-width: 100%;
-    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для контейнера */
-    color: #333; /* Темный текст для контраста */
-    margin-top: 60px; /* Сдвигаем контент ниже */
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    margin-top: 60px;
   }
 
   #mainTitle {
@@ -465,9 +449,9 @@ body.dark-theme {
   }
 
   #slogan {
-    font-size: 1rem; /* Увеличиваем шрифт слогана */
-    margin-top: 20px; /* Сдвигаем слоган ниже */
-    text-align: center; /* Центрируем текст */
+    font-size: 1rem;
+    margin-top: 20px;
+    text-align: center;
   }
 
   button {
@@ -480,8 +464,8 @@ body.dark-theme {
   .input-field {
     padding: 8px;
     font-size: 14px;
-    width: 90%; /* Центрируем поля ввода */
-    margin: 10px auto; /* Центрируем поля ввода */
+    width: 90%;
+    margin: 10px auto;
   }
 
   #counter {
@@ -527,9 +511,9 @@ body.dark-theme {
   }
 
   .license-link {
-    font-size: 0.9rem; /* Увеличиваем шрифт ссылки на соглашение */
-    margin-top: 30px; /* Сдвигаем ссылку ниже */
-    text-align: center; /* Центрируем текст */
+    font-size: 0.9rem;
+    margin-top: 30px;
+    text-align: center;
   }
 
   .modal-content {
@@ -542,45 +526,25 @@ body.dark-theme {
     font-size: 14px;
   }
 
-#userIdDisplay {
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 5px;
-}
+  #userIdDisplay {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 5px;
+  }
 
   #themeToggleContainer {
     top: 10px;
     right: 10px;
   }
 
-/* Стили для поля ввода ID */
-#userIdInput {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-#userIdInput:focus {
-  border-color: #6a82fb;
-  outline: none;
-}
-
-#userIdInput:disabled {
-  background: #f5f5f5;
-  cursor: not-allowed;
-}
   #themeToggleBtn img {
-    width: 28px; /* Увеличиваем размер иконки смены темы */
+    width: 28px;
     height: 28px;
   }
 
   /* Темная тема для мобильных устройств */
   body.dark-theme {
-    background: #000; /* AMOLED-черный фон */
+    background: #000;
   }
 
   .dark-theme .container {
@@ -589,17 +553,18 @@ body.dark-theme {
   }
 }
 
+/* Кнопка копирования */
 .copy-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.2rem; /* Увеличили размер */
+  font-size: 1.2rem;
   margin-left: 5px;
   transition: transform 0.2s ease;
-  color: #6a82fb; /* Синий цвет */
+  color: #6a82fb;
 }
 
 .copy-btn:hover {
   transform: scale(1.1);
-  color: #fc5c7d; /* Розовый цвет при наведении */
+  color: #fc5c7d;
 }
