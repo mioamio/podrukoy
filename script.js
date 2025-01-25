@@ -124,8 +124,6 @@ function updateUIAfterLicenseAcceptance() {
   }
 }
 
-<script src="script.js"></script>
-
 // Инициализация календаря
 renderCalendar(currentDate);
 
