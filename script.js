@@ -40,7 +40,6 @@ declineLicense.addEventListener('click', () => {
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
 const showLicense = document.getElementById('showLicense');
-const declineLicense = document.getElementById('declineLicense');
 
 function handleCredentialResponse(response) {
   const idToken = response.credential;
