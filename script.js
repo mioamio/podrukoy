@@ -133,9 +133,8 @@ function updateUIAfterLicenseAcceptance() {
 }
 
 // Регистрация нового пользователя
+// Регистрация пользователя
 registerBtn.addEventListener('click', async () => {
-  if (!isLicenseAccepted) return;
-
   const userName = userNameInput.value.trim() || 'Аноним';
   if (!userName) {
     alert('Введите имя.');
@@ -145,6 +144,7 @@ registerBtn.addEventListener('click', async () => {
   try {
     const user = await userService.registerUser(userName);
     if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
       checkAuth();
       alert(`Вы успешно зарегистрированы. Ваш ID: ${user.id}`);
     }
@@ -156,10 +156,7 @@ registerBtn.addEventListener('click', async () => {
 
 // Вход пользователя
 loginBtn.addEventListener('click', async () => {
-  if (!isLicenseAccepted) return;
-
   const userId = userIdInput.value.trim();
-
   if (!userId) {
     alert('Введите ID.');
     return;
@@ -168,6 +165,7 @@ loginBtn.addEventListener('click', async () => {
   try {
     const user = await userService.loginUser(userId);
     if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
       checkAuth();
       alert(`Добро пожаловать, ${user.name}!`);
     }
