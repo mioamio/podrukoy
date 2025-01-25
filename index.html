@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-
     .login-btn {
       background-color: #0077FF;
       color: white;
@@ -65,33 +64,34 @@
   </div>
 
   <div class="container">
-
+    <!-- Секция авторизации -->
     <div id="loginSection">
-  <!-- Кнопка Google Sign-In -->
-  <div id="g_id_onload"
-       data-client_id="432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com"
-       data-callback="handleCredentialResponse"
-       data-auto_prompt="false">
-  </div>
-  <div class="g_id_signin"
-       data-type="standard"
-       data-size="large"
-       data-theme="outline"
-       data-text="sign_in_with"
-       data-shape="rectangular"
-       data-logo_alignment="left">
-  </div>
+      <!-- Кнопка Google Sign-In -->
+      <div id="g_id_onload"
+           data-client_id="432626767315-fddir63v48gd3p1fmttng9us3d7jet9o.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
 
-  <div id="loginSection">
-  <button id="vkLoginBtn" class="login-btn">
-    <i class="fab fa-vk"></i> Войти через VK
-  </button>
-</div>
+      <!-- Кнопка для входа через VK -->
+      <button id="vkLoginBtn" class="login-btn">
+        <i class="fab fa-vk"></i> Войти через VK
+      </button>
 
-  <p class="license-link">
-    <a href="#" id="showLicense">Пользовательское соглашение</a>
-  </p>
-</div>
+      <!-- Ссылка на пользовательское соглашение -->
+      <p class="license-link">
+        <a href="#" id="showLicense">Пользовательское соглашение</a>
+      </p>
+    </div>
+
     <!-- Секция приложения (скрыта по умолчанию) -->
     <div id="appSection" style="display: none;">
       <div class="header">
