@@ -21,11 +21,8 @@ const nextMonthBtn = document.getElementById('nextMonthBtn');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const themeIcon = document.getElementById('themeIcon');
 const body = document.body;
-const userNameInput = document.getElementById('userNameInput');
-const userIdInput = document.getElementById('userIdInput');
 const userNameSpan = document.getElementById('userNameSpan');
-const registerBtn = document.getElementById('registerBtn');
-const loginBtn = document.getElementById('loginBtn');
+const userIdSpan = document.getElementById('userIdSpan');
 
 // Модальное окно с пользовательским соглашением
 const licenseModal = document.getElementById('licenseModal');
@@ -33,130 +30,36 @@ const showLicense = document.getElementById('showLicense');
 const acceptLicense = document.getElementById('acceptLicense');
 const declineLicense = document.getElementById('declineLicense');
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbyFfAbxcyD52XLpVKfwpKu5BzICnOWRPPA0CNCATNz6_Re-zMOZPHaQO56i9nacI7ss/exec';
+// Обработка входа через Google
+function handleCredentialResponse(response) {
+  const idToken = response.credential;
 
-// Вход и регистрация пользователей
-const userService = {
-  async registerUser(name) {
-    const userId = Math.random().toString(36).substring(2, 9); // Генерация уникального ID
-    const newUser = {
-      id: userId,
-      name,
-      progress: {
-        count: 0,
-        dailyData: {},
-        dailyDataWithTime: {},
-      },
-    };
-
-    // Исправленная строка:
-    await this.saveUserData(userId, newUser); // Убрали лишнюю скобку
-
-    localStorage.setItem('currentUser', JSON.stringify(newUser));
-    return newUser;
-  },
-
-  async saveUserData(userId, userData) {
-    try {
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'saveUser',
-          id: userId,
-          data: userData,
-        }),
-      });
-    } catch (error) {
-      console.error('Error saving user data:', error);
-    }
-  },
-};
-
-// Открытие модального окна с соглашением
-showLicense.addEventListener('click', (e) => {
-  e.preventDefault();
-  licenseModal.style.display = 'flex';
-});
-
-// Закрытие модального окна при клике вне его
-licenseModal.addEventListener('click', (e) => {
-  if (e.target === licenseModal) {
-    licenseModal.style.display = 'none';
-  }
-});
-
-// Принятие соглашения
-acceptLicense.addEventListener('click', () => {
-  isLicenseAccepted = true;
-  localStorage.setItem('licenseAccepted', 'true');
-  licenseModal.style.display = 'none';
-  updateUIAfterLicenseAcceptance();
-});
-
-// Отклонение соглашения
-declineLicense.addEventListener('click', () => {
-  isLicenseAccepted = false;
-  localStorage.setItem('licenseAccepted', 'false');
-  licenseModal.style.display = 'none';
-  updateUIAfterLicenseAcceptance();
-});
-
-// Обновление интерфейса после принятия/отклонения соглашения
-function updateUIAfterLicenseAcceptance() {
-  if (isLicenseAccepted) {
-    registerBtn.disabled = false;
-    loginBtn.disabled = false;
-  } else {
-    registerBtn.disabled = true;
-    loginBtn.disabled = true;
-  }
+  // Отправьте idToken на ваш сервер для проверки и получения данных пользователя
+  fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ idToken }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Сохраните данные пользователя в localStorage
+      localStorage.setItem('currentUser', JSON.stringify(data.user));
+      checkAuth();
+    })
+    .catch((error) => {
+      console.error('Ошибка при входе через Google:', error);
+    });
 }
 
-// Регистрация нового пользователя
-// Регистрация пользователя
-registerBtn.addEventListener('click', async () => {
-  const userName = userNameInput.value.trim() || 'Аноним';
-  if (!userName) {
-    alert('Введите имя.');
-    return;
-  }
-
-  try {
-    const user = await userService.registerUser(userName);
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      checkAuth();
-      alert(`Вы успешно зарегистрированы. Ваш ID: ${user.id}`);
-    }
-  } catch (error) {
-    console.error('Ошибка при регистрации:', error);
-    alert('Ошибка при регистрации. Попробуйте снова.');
-  }
-});
-
-// Вход пользователя
-loginBtn.addEventListener('click', async () => {
-  const userId = userIdInput.value.trim();
-  if (!userId) {
-    alert('Введите ID.');
-    return;
-  }
-
-  try {
-    const user = await userService.loginUser(userId);
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      checkAuth();
-      alert(`Добро пожаловать, ${user.name}!`);
-    }
-  } catch (error) {
-    console.error('Ошибка при входе:', error);
-    alert('Пользователь не найден. Зарегистрируйтесь.');
-  }
-});
+// Инициализация Google Sign-In
+window.onload = function () {
+  google.accounts.id.initialize({
+    client_id: 'YOUR_GOOGLE_CLIENT_ID',
+    callback: handleCredentialResponse,
+  });
+};
 
 // Выход
 logoutBtn.addEventListener('click', () => {
