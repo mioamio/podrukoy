@@ -38,39 +38,22 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyFfAbxcyD52XLpVKfwpKu5
 // Вход и регистрация пользователей
 const userService = {
   async registerUser(name) {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'register',
-        name,
-        progress: { count: 0, dailyData: {} },
-      }),
-    });
-    const data = await response.json();
-    return { id: data.id, name, progress: { count: 0, dailyData: {} } };
-  },
+    const userId = Math.random().toString(36).substring(2, 9); // Генерация уникального ID
+    const newUser = {
+      id: userId,
+      name,
+      progress: {
+        count: 0,
+        dailyData: {},
+        dailyDataWithTime: {},
+      },
+    };
 
-    await this.saveUserData(userId, newUser);
+    // Исправленная строка:
+    await this.saveUserData(userId, newUser); // Убрали лишнюю скобку
+
     localStorage.setItem('currentUser', JSON.stringify(newUser));
     return newUser;
-  },
-
-  async loginUser(userId) {
-    const response = await fetch(`${API_URL}?action=login&id=${userId}`);
-    const data = await response.json();
-    return data;
-  },
-};
-
-  async fetchUserData(userId) {
-    try {
-      const response = await fetch(`${API_URL}?action=getUser&id=${userId}`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      return null;
-    }
   },
 
   async saveUserData(userId, userData) {
