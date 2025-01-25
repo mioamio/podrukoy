@@ -247,10 +247,6 @@ body {
   overflow-y: auto;
 }
 
-.license-text {
-  margin-bottom: 20px;
-}
-
 .modal-buttons {
   display: flex;
   justify-content: space-between;
@@ -282,7 +278,6 @@ body {
 .modal-btn.decline:hover {
   background: #e64a6f;
 }
-
 /* Иконка смены темы */
 #themeToggleContainer {
   position: fixed;
