@@ -56,6 +56,15 @@ window.onload = function () {
 
   // Проверка авторизации при загрузке страницы
   checkAuth();
+
+  // Проверка сохраненной темы при загрузке страницы
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-theme');
+    themeIcon.src = 'banana-night.ico';
+  } else {
+    themeIcon.src = 'banana-light.ico';
+  }
 };
 
 // Проверка авторизации
@@ -75,6 +84,19 @@ logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('currentUser');
   document.getElementById('loginSection').style.display = 'block';
   document.getElementById('appSection').style.display = 'none';
+});
+
+// Смена темы
+themeToggleBtn.addEventListener('click', () => {
+  if (body.classList.contains('dark-theme')) {
+    body.classList.remove('dark-theme');
+    themeIcon.src = 'banana-light.ico';
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.classList.add('dark-theme');
+    themeIcon.src = 'banana-night.ico';
+    localStorage.setItem('theme', 'dark');
+  }
 });
 
 // Обновление интерфейса после принятия/отклонения соглашения
