@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Стили для кнопки входа через VK */
-    #vkid-login-btn {
-      background-color: #0077FF; /* Цвет VK */
+    /* Стили для кнопок */
+    .login-btn {
+      background-color: #0077FF;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -26,12 +26,12 @@
       text-align: center;
     }
 
-    #vkid-login-btn:hover {
-      background-color: #0055CC; /* Темный оттенок для hover */
+    .login-btn:hover {
+      background-color: #0055CC;
     }
 
-    #vkid-login-btn:active {
-      background-color: #0044AA; /* Еще темнее для active */
+    .login-btn:active {
+      background-color: #0044AA;
     }
 
     .license-link {
@@ -41,13 +41,13 @@
     }
 
     .license-link a {
-      color: #0077FF; /* Цвет ссылки */
+      color: #0077FF;
       text-decoration: none;
       transition: color 0.3s ease;
     }
 
     .license-link a:hover {
-      color: #0055CC; /* Темный оттенок для hover */
+      color: #0055CC;
     }
   </style>
 </head>
@@ -67,11 +67,14 @@
   <div class="container">
     <!-- Секция авторизации -->
     <div id="loginSection">
-      <button id="vkid-login-btn">Войти через VK</button>
-      <p class="license-link">
-        <a href="#" id="showLicense">Пользовательское соглашение</a>
-      </p>
-    </div>
+  <input type="text" id="userNameInput" class="input-field" placeholder="Введите ваше имя">
+  <input type="text" id="userIdInput" class="input-field" placeholder="Введите ваш ID (если есть)">
+  <button id="registerBtn" class="login-btn">Зарегистрироваться</button>
+  <button id="loginBtn" class="login-btn">Войти</button>
+  <p class="license-link">
+    <a href="#" id="showLicense">Пользовательское соглашение</a>
+  </p>
+</div>
 
     <!-- Секция приложения (скрыта по умолчанию) -->
     <div id="appSection" style="display: none;">
@@ -89,12 +92,13 @@
           <div id="calendarGrid"></div>
         </div>
         <div class="actions">
-          <p id="counter">Количество: 0</p>
-          <button id="startBtn" class="action-btn">🚀 Начать</button>
-          <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
-          <p id="comment">Ты начинающий</p>
-          <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
-        </div>
+  <p id="counter">Количество: 0</p>
+  <button id="startBtn" class="action-btn">🚀 Начать</button>
+  <button id="resetBtn" class="action-btn">🔄 Сбросить</button>
+  <p id="comment">Ты начинающий</p>
+  <p id="userNameDisplay">Имя: <span id="userNameSpan"></span></p>
+  <p id="userIdDisplay">ID: <span id="userIdSpan"></span></p> <!-- Добавлено отображение ID -->
+</div>
       </div>
     </div>
   </div>
@@ -136,28 +140,6 @@
     </div>
   </div>
 
-  <script>
-    // Обработчик кнопки входа через VK
-    document.getElementById('vkid-login-btn').addEventListener('click', () => {
-      fetch('https://mioamio.github.io/podrukoy/user-data.json')
-  .then(response => response.json())
-  .then(userData => {
-    const user = userData.response[0];
-    document.getElementById('userNameSpan').textContent = `${user.first_name} ${user.last_name}`;
-    document.getElementById('loginSection').style.display = 'none';
-    document.getElementById('appSection').style.display = 'block';
-    localStorage.setItem('user', JSON.stringify(user));
-    alert('Авторизация прошла успешно!');
-  })
-  .catch(error => console.error('Ошибка при получении данных:', error));
-    });
-
-    // Обработчик кнопки выхода
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('user');
-      document.getElementById('loginSection').style.display = 'block';
-      document.getElementById('appSection').style.display = 'none';
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
