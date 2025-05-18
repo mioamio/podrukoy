@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!appData.sessions) appData.sessions = [];
                 if (appData.nickname === undefined) appData.nickname = null;
             } catch (e) {
-                console.error("Ошибка парсинга данных из LocalStorage:", e);
                 appData = { nickname: null, sessions: [] };
             }
         }
@@ -82,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             localStorage.setItem(localStorageKey, JSON.stringify(appData));
         } catch (e) {
-            console.error("Ошибка сохранения данных в LocalStorage:", e);
             showFeedback("Не удалось сохранить данные. Хранилище может быть переполнено.", "error");
         }
     }
@@ -177,10 +175,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (count > 1 && count <= 2) dayEl.classList.add('level-2');
                 else if (count > 2 && count <= 4) dayEl.classList.add('level-3');
                 else if (count > 4) dayEl.classList.add('level-4');
+                dayEl.setAttribute('tabindex', '0'); // Make it focusable
+                dayEl.setAttribute('role', 'button');
+                dayEl.setAttribute('aria-label', `Данные за ${dateStr}: ${count} сессий`);
                 dayEl.addEventListener('click', () => {
                     if (selectedDateInputEl) {
                         selectedDateInputEl.value = dateStr;
                         displayDataForDate(dateStr);
+                    }
+                });
+                 dayEl.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (selectedDateInputEl) {
+                            selectedDateInputEl.value = dateStr;
+                            displayDataForDate(dateStr);
+                            selectedDateInputEl.focus(); // Focus on the date input after selection
+                        }
                     }
                 });
             } else {
