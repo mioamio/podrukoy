@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Для favicon (если у вас есть banana.ico) -->
-    <!-- <link rel="icon" href="banana.ico" type="image/x-icon"> -->
 </head>
 <body>
 
@@ -37,10 +35,10 @@
 
     <div class="container">
         <header>
-            <h1>Под рукой - мастерство в каждом движении</h1>
-            <p id="welcomeMessage">Анализируй свой личный ритм</p>
+            <h1>Под рукой - мастерство в каждом движении.</h1>
+            <p id="welcomeMessage">Анализируйте свой личный ритм.</p>
             <div class="nickname-section">
-                <input type="text" id="nicknameInput" placeholder="Имя (опционально)">
+                <input type="text" id="nicknameInput" placeholder="Ваш псевдоним (опционально)">
                 <button id="saveNicknameBtn" class="btn">Сохранить</button>
             </div>
         </header>
@@ -81,8 +79,23 @@
                 </div>
             </section>
 
+            <section class="date-details">
+                <h2>Детали за выбранный день</h2>
+                <div class="date-selector">
+                    <label for="selectedDateInput">Выберите дату:</label>
+                    <input type="date" id="selectedDateInput">
+                </div>
+                <div id="selectedDateInfo" class="selected-info-container" style="display: none;">
+                    <p><strong>Активность:</strong> <span id="selectedDateCount">0</span> сессий</p>
+                    <h4>Заметки:</h4>
+                    <ul id="selectedDateNotes">
+                        <li class="no-notes" style="display: none;">Заметок за этот день нет.</li>
+                    </ul>
+                </div>
+            </section>
+
             <section class="tips">
-                <h2>Советы</h2>
+                <h2>Советы и лайфхаки</h2>
                 <div id="tipsContainer">
                 </div>
             </section>
@@ -90,9 +103,9 @@
     </div>
 
     <footer>
-        <p>Все данные хранятся локально в вашем браузере</p>
-	<button id="resetDataBtn" class="btn btn-danger">Обнулить и начать заново</button>
-        <p><a href="https://github.com/mioamio" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+        <p>Все данные хранятся локально в вашем браузере.</p>
+	<button id="resetDataBtn" class="btn btn-danger">Обнулить и начать </button>
+        <p><a href="https://github.com/mioamio" target="_blank" rel="noopener noreferrer">Посмотреть на GitHub</a></p>
     </footer>
 
     <script src="script.js"></script>
