@@ -31,13 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGender = localStorage.getItem(genderKey);
     let currentTheme = localStorage.getItem(themeKey) || 'light';
     const tips = [
-        { title: "Прислушивайтесь к себе", text: "Обращайте внимание на свои ощущения и желания. Это ключ к самопознанию и глубокому удовольствию." },
-        { title: "Без осуждения, с наслаждением", text: "Принимайте свою сексуальность как естественную и прекрасную часть жизни. Эта статистика — ваш личный дневник страсти." },
-        { title: "Ритуалы и атмосфера", text: "Создайте особое настроение. Свечи, музыка, ароматы – все, что помогает вам раскрыться и почувствовать момент." },
+        { title: "Прислушивайся к себе", text: "Обращай внимание на свои ощущения и желания. Это ключ к самопознанию и глубокому удовольствию" },
+        { title: "Без осуждения, с наслаждением", text: "Принимай свою сексуальность, как естественную и прекрасную часть жизни. Эта статистика — твой личный дневник страсти" },
         { title: "Исследуйте свои фантазии", text: "Не бойтесь мечтать и воплощать. Ваши самые смелые мысли могут стать источником невероятных ощущений." },
-        { title: "Мастурбация как искусство", text: "Это не просто физиология, это танец с собственным телом. Изучайте его, любите его, наслаждайтесь каждым движением." },
-        { title: "Энергия страсти", text: "Направьте эту мощную энергию не только на удовольствие, но и на творчество, на достижение целей. Почувствуйте ее силу." },
-        { title: "Ваше тело – ваш храм", text: "Относитесь к нему с любовью и уважением. Забота о себе усиливает каждое прикосновение, каждое ощущение." }
+        { title: "Мастурбация, как искусство", text: "Это не просто физиология, это танец с собственным телом. Изучай его, люби его, наслаждайся каждым движением" },
+        { title: "Энергия страсти", text: "Направь эту мощную энергию не только на удовольствие, но и на творчество, на достижение целей. Почувствуй ее силу" },
+        { title: "Твое тело – твой храм", text: "Относись к нему с любовью и уважением. Забота о себе усиливает каждое прикосновение, каждое ощущение" }
     ];
     function applyThemeAndGender() {
         if (!bodyEl) return;
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             localStorage.setItem(localStorageKey, JSON.stringify(appData));
         } catch (e) {
-            showFeedback("Не удалось сохранить данные. Хранилище может быть переполнено.", "error");
+            showFeedback("Не удалось сохранить данные. Хранилище может быть переполнено", "error");
         }
     }
     function getTodayDateString() { return new Date().toISOString().split('T')[0]; }
@@ -90,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const todayStr = getTodayDateString();
         const count = parseInt(sessionCountInputEl.value) || 1;
         const note = sessionNotesInputEl.value.trim();
-        if (count < 1) { showFeedback("Количество должно быть не меньше 1.", "error"); return; }
+        if (count < 1) { showFeedback("Количество должно быть не меньше 1", "error"); return; }
         let sessionForToday = appData.sessions.find(s => s.date === todayStr);
         if (sessionForToday) {
             sessionForToday.count += count;
@@ -104,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         appData.sessions.sort((a, b) => new Date(a.date) - new Date(b.date));
         saveData();
         updateUI();
-        showFeedback(`Сессия (${count} раз(а)) добавлена! Наслаждайтесь моментом.`, "success");
+        showFeedback(`Сессия (${count} раз(а)) добавлена! Наслаждайся моментом`, "success");
         sessionCountInputEl.value = "1";
         sessionNotesInputEl.value = "";
     }
@@ -237,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeMessageEl.textContent = `Твой личный ритм, ${appData.nickname}!`;
             if (nicknameInputEl) nicknameInputEl.value = appData.nickname;
         } else {
-            welcomeMessageEl.textContent = "Анализируйте свой личный ритм.";
+            welcomeMessageEl.textContent = "Анализируйте свой личный ритм";
         }
     }
     function saveNickname() {
@@ -246,17 +245,17 @@ document.addEventListener('DOMContentLoaded', () => {
         appData.nickname = newNickname ? newNickname : null;
         saveData();
         updateWelcomeMessage();
-        showFeedback(newNickname ? "Псевдоним сохранен!" : "Псевдоним сброшен.", "success");
+        showFeedback(newNickname ? "Псевдоним сохранен!" : "Псевдоним сброшен", "success");
     }
     function resetData() {
-        if (confirm("Вы уверены, что хотите удалить всю статистику? Это действие необратимо.")) {
+        if (confirm("Ты уверен, что хочешь удалить всю статистику? Это действие необратимо")) {
             appData = { nickname: null, sessions: [] };
             saveData();
             if (nicknameInputEl) nicknameInputEl.value = "";
             if (selectedDateInputEl) selectedDateInputEl.value = "";
             if (selectedDateInfoEl) selectedDateInfoEl.style.display = 'none';
             updateUI();
-            showFeedback("Все данные сброшены. Начните новую главу.", "success");
+            showFeedback("Все данные сброшены. Начни новую главу", "success");
         }
     }
     function showFeedback(message, type = "success") {
