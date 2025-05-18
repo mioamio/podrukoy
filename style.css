@@ -3,16 +3,6 @@
     --border-radius-sm: 4px;
     --border-radius-md: 6px;
     --border-radius-lg: 8px;
-
-    /* --w3c-link-color: #005a9c; */
-    /* --w3c-link-hover-color: #003366; */
-    /* --w3c-focus-outline-color: #005a9c; */
-    /* --w3c-button-bg: #f0f0f0; */
-    /* --w3c-button-text: #202122; */
-    /* --w3c-button-hover-bg: #e0e0e0; */
-    /* --w3c-button-active-bg: #c8c8c8; */
-    /* --w3c-border-color: #c5c5c5; */
-
     --current-bg-gradient: #f8f9fa;
     --current-content-bg: #ffffff;
     --current-text-color: #212529;
@@ -32,62 +22,44 @@
     --current-tip-card-border-start: var(--current-primary-grad-start);
     --current-tip-card-border-end: var(--current-primary-grad-end);
 
-    /* Мужская тема - Светлая (сине-зеленая) */
-    --male-bg-light: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Светло-голубой фон */
+    --male-bg-light: linear-gradient(135deg, #e0f7fa, #b2ebf2);
     --male-content-light: #ffffff;
-    --male-text-light: #004d40; /* Темно-бирюзовый текст */
-    --male-grad-start-light: #00796b; /* Бирюзовый */
-    --male-grad-end-light: #0288d1; /* Голубой */
+    --male-text-light: #004d40;
+    --male-grad-start-light: #00796b;
+    --male-grad-end-light: #0288d1;
     --male-heatmap-l1-light: #b2dfdb;
     --male-heatmap-l2-light: #80cbc4;
     --male-heatmap-l3-light: #4db6ac;
     --male-heatmap-l4-light: #00796b;
     --male-tip-card-bg-light: #e0f2f1;
 
-    /* Мужская тема - Темная (глубокий синий/графит) */
-    --male-bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Как было */
-    --male-content-dark: #1a2634; /* Как было */
-    --male-text-dark: #e0e7ef; /* Как было */
-    --male-grad-start-dark: #1e88e5; /* Яркий синий */
-    --male-grad-end-dark: #43a047; /* Зеленый */
+    --male-bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --male-content-dark: #1a2634;
+    --male-text-dark: #e0e7ef;
+    --male-grad-start-dark: #1e88e5;
+    --male-grad-end-dark: #43a047;
     --male-heatmap-l1-dark: #2a3b69;
     --male-heatmap-l2-dark: #3c5591;
     --male-heatmap-l3-dark: #4e6fb9;
-    --male-heatmap-l4-dark: #1565c0; /* Темно-синий */
-    --male-tip-card-bg-dark: #232f3e; /* Как было */
+    --male-heatmap-l4-dark: #1565c0;
+    --male-tip-card-bg-dark: #232f3e;
 
-    /* Женская тема - Светлая (персиково-коралловая / мятная) */
-    --female-bg-light: linear-gradient(135deg, #fff0e8, #ffe0d4); /* Светло-персиковый фон */
+    --female-bg-light: linear-gradient(135deg, #fff0e8, #ffe0d4);
     --female-content-light: #ffffff;
-    --female-text-light: #bf360c; /* Глубокий оранжево-красный текст */
-    --female-grad-start-light: #ff7043; /* Коралловый */
-    --female-grad-end-light: #ffca28; /* Янтарный */
-    /* Альтернатива (мятно-зеленая):
-    --female-bg-light: linear-gradient(135deg, #e6fffa, #cfffed);
-    --female-content-light: #ffffff;
-    --female-text-light: #00695c;
-    --female-grad-start-light: #26a69a;
-    --female-grad-end-light: #80cbc4;
-    */
+    --female-text-light: #bf360c;
+    --female-grad-start-light: #ff7043;
+    --female-grad-end-light: #ffca28;
     --female-heatmap-l1-light: #ffccbc;
     --female-heatmap-l2-light: #ffab91;
     --female-heatmap-l3-light: #ff8a65;
     --female-heatmap-l4-light: #ff5722;
     --female-tip-card-bg-light: #fff3e0;
 
-    /* Женская тема - Темная (индиго/сливовый) */
-    --female-bg-dark: linear-gradient(135deg, #1a237e, #303f9f, #3f51b5); /* Индиго фон */
-    --female-content-dark: #283593; /* Темный индиго для контента */
-    --female-text-dark: #e8eaf6; /* Светлый лавандовый текст */
-    --female-grad-start-dark: #7e57c2; /* Аметистовый */
-    --female-grad-end-dark: #5c6bc0; /* Индиго */
-    /* Альтернатива (глубокий изумруд):
-    --female-bg-dark: linear-gradient(135deg, #00332a, #004d40, #00695c);
-    --female-content-dark: #002922;
-    --female-text-dark: #e0f2f1;
-    --female-grad-start-dark: #26a69a;
-    --female-grad-end-dark: #00897b;
-    */
+    --female-bg-dark: linear-gradient(135deg, #1a237e, #303f9f, #3f51b5);
+    --female-content-dark: #283593;
+    --female-text-dark: #e8eaf6;
+    --female-grad-start-dark: #7e57c2;
+    --female-grad-end-dark: #5c6bc0;
     --female-heatmap-l1-dark: #5c6bc0;
     --female-heatmap-l2-dark: #3f51b5;
     --female-heatmap-l3-dark: #303f9f;
@@ -110,7 +82,7 @@ body {
     font-size: 16px;
     transition: background 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
-    text-align: center; /* Центрируем все по умолчанию */
+    text-align: center;
 }
 .container {
     max-width: 900px;
@@ -134,7 +106,7 @@ header {
 header h1 {
     font-size: 2.2em;
     margin: 0 0 8px 0;
-    font-weight: 700; /* Сделал жирнее */
+    font-weight: 700;
     background: linear-gradient(45deg, var(--current-primary-grad-start), var(--current-primary-grad-end));
     background-size: 200% 200%;
     -webkit-background-clip: text;
@@ -153,7 +125,7 @@ header p#welcomeMessage {
     transition: color 0.3s ease;
 }
 .nickname-section {
-    margin-top: 15px; display: flex; justify-content: center; /* Центрирование */
+    margin-top: 15px; display: flex; justify-content: center;
     gap: 10px; align-items: center; flex-wrap: wrap;
 }
 .nickname-section input[type="text"] {
@@ -174,7 +146,7 @@ header p#welcomeMessage {
 .date-selector input[type="date"]:focus {
     outline: none;
     border-color: var(--current-primary-grad-start);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--current-primary-grad-start) 30%, transparent); /* Тень при фокусе */
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--current-primary-grad-start) 30%, transparent);
 }
 main section {
     margin-bottom: 30px; padding: 0;
@@ -209,7 +181,6 @@ h3 {
 section.statistics h3 {
     text-align: left;
 }
-
 
 .button {
   align-items: center;
@@ -255,7 +226,6 @@ section.statistics h3 {
   box-shadow: #D6D6E7 0 3px 7px inset;
   transform: translateY(2px);
 }
-
 .button.icon-button {
     padding-left: 16px;
     padding-right: 16px;
@@ -275,8 +245,7 @@ section.statistics h3 {
     padding-bottom: 10px;
 }
 
-
-.session-details { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; margin-left: auto; margin-right: auto; max-width: 400px;
+.session-details { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; margin-left: auto; margin-right: auto; max-width: 400px; }
 .session-details label { font-size: 0.95em; color: var(--current-text-muted); font-weight: normal; text-align: left;}
 .session-details input[type="number"], .session-details textarea {
     padding: 10px 12px;
@@ -310,7 +279,7 @@ section.statistics h3 {
 .heatmap { display: grid; grid-template-columns: repeat(13, 1fr); gap: 4px; padding: 10px 0; margin-bottom: 10px; }
 .heatmap-day {
     width: 100%; padding-bottom: 100%; position: relative; background-color: var(--current-heatmap-base);
-    border-radius: 3px; /* Немного скруглил */
+    border-radius: 3px;
     border: 1px solid color-mix(in srgb, var(--current-heatmap-base) 85%, black 15%);
     cursor: pointer;
     transition: background-color 0.15s ease, transform 0.1s ease;
@@ -358,7 +327,6 @@ footer {
     border-top: 1px solid var(--current-border-color);
 }
 footer p { margin-bottom: 10px; }
-
 .btn-github-link {
     text-decoration: none;
     display: inline-block;
@@ -397,9 +365,8 @@ footer p { margin-bottom: 10px; }
   background-color: #444;
 }
 #resetDataBtn {
-    margin-bottom: 20px; /* Отступ от кнопки GitHub */
+    margin-bottom: 20px;
 }
-
 
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -423,7 +390,6 @@ footer p { margin-bottom: 10px; }
     background: none; -webkit-background-clip: initial; -webkit-text-fill-color: initial;
 }
 .gender-options { display: flex; justify-content: space-around; gap: 20px; }
-/* Кнопки в модальном окне уже стилизованы через .button */
 
 #themeToggleContainer {
     position: fixed; top: 15px; right: 15px; z-index: 1001;
@@ -433,8 +399,7 @@ footer p { margin-bottom: 10px; }
     height: 48px;
     padding: 0;
 }
-#themeToggleBtn img { display: block; width: 24px; height: 24px; margin: auto;
-
+#themeToggleBtn img { display: block; width: 24px; height: 24px; margin: auto; }
 
 body.light-theme {
 }
@@ -481,8 +446,8 @@ body.dark-theme {
     --current-text-color: #e0e0e0;
     --current-text-muted: #a0a0a0;
     --current-border-color: #3a3a3a;
-    --current-primary-grad-start: #58a6ff; /* Яркий голубой */
-    --current-primary-grad-end: #39d353; /* Яркий зеленый */
+    --current-primary-grad-start: #58a6ff;
+    --current-primary-grad-end: #39d353;
     --current-shadow-color: rgba(0,0,0,0.3);
     --is-dark-theme: 1;
     --current-heatmap-base: #2d2d2d;
@@ -495,9 +460,9 @@ body.dark-theme {
     --current-tip-card-border-end: var(--current-primary-grad-end);
 }
 body.dark-theme .button {
-    background-color: #2c2c3e; /* Темно-сине-фиолетовый фон */
-    border-color: #7986CB; /* Лавандовый цвет рамки */
-    color: #C5CAE9; /* Светло-лавандовый текст */
+    background-color: #2c2c3e;
+    border-color: #7986CB;
+    color: #C5CAE9;
     box-shadow: rgba(121, 134, 203, 0.2) 0 2px 4px, rgba(121, 134, 203, 0.15) 0 7px 13px -3px, #42425a 0 -3px 0 inset;
 }
 body.dark-theme .button:focus {
@@ -517,7 +482,6 @@ body.dark-theme .btn-github:hover {
     background-color: #333;
     color: var(--current-primary-grad-start);
 }
-
 
 body.dark-theme.male-theme-base {
     --current-bg-gradient: var(--male-bg-dark);
@@ -557,7 +521,7 @@ body.dark-theme.female-theme-base {
 .date-details h2 { margin-bottom: 20px; text-align: center; }
 .date-selector {
     display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
-    justify-content: center; /* Центрируем выбор даты */
+    justify-content: center;
 }
 .date-selector label { font-size: 0.95em; color: var(--current-text-muted); }
 .date-selector input[type="date"] {
@@ -573,7 +537,7 @@ body.dark-theme.female-theme-base {
     margin-top: 15px; padding: 20px;
     border: 1px solid var(--current-border-color);
     border-radius: var(--border-radius-md);
-    background-color: color-mix(in srgb, var(--current-content-bg) 95%, var(--current-border-color) 5%); /* Легкий фон */
+    background-color: color-mix(in srgb, var(--current-content-bg) 95%, var(--current-border-color) 5%);
 }
 .selected-info-container p { font-size: 1em; margin-bottom: 10px; }
 .selected-info-container p strong { color: var(--current-text-muted); font-weight: normal; }
@@ -601,44 +565,55 @@ body.dark-theme.female-theme-base {
     #themeToggleBtn img { width: 22px; height: 22px; }
 }
 @media (max-width: 600px) {
-    body { padding: 15px 0 0 0;
+    body { padding: 15px 0 0 0; }
     .container {
         padding: 20px 15px; margin-top: 0; margin-bottom: 20px;
         border-radius: 0; border-left:none; border-right: none;
         width: 100%;
     }
     header { padding-bottom: 15px; margin-bottom: 20px;}
-    header h1 { font-size: 1.8em; }
-    header p#welcomeMessage { font-size: 1em; }
+    header h1 { font-size: 1.7em; }
+    header p#welcomeMessage { font-size: 0.95em; }
 
     .nickname-section { flex-direction: column; gap: 15px; }
-    .nickname-section input[type="text"], .nickname-section .button { width: 100%; max-width: 320px; margin-left:auto; margin-right:auto;}
+    .nickname-section input[type="text"] {
+        width: 100%;
+        max-width: 320px;
+        margin-left:auto;
+        margin-right:auto;
+    }
 
     .stats-cards { grid-template-columns: 1fr; gap: 15px; }
     .stat-card p { font-size: 1.8em; }
+
     .button {
         font-size: 16px;
         height: 50px;
         padding-left: 18px;
         padding-right: 18px;
+    }
+
+    .nickname-section .button,
+    #addSessionBtn,
+    .gender-options .button,
+    #resetDataBtn {
+        display: block;
         width: 100%;
         max-width: 320px;
         margin-left: auto;
         margin-right: auto;
-        display: flex;
-    }
-    #addSessionBtn {
-        display: block;
     }
      .gender-options { flex-direction: column; gap: 15px; }
      .gender-options .button {
         width: 100%;
-        max-width: none;
      }
 
+    h2 { font-size: 1.4em; }
+    h3 { font-size: 1.1em; }
+    main section {
+        margin-bottom: 20px;
+    }
 
-    h2 { font-size: 1.5em; }
-    h3 { font-size: 1.2em; }
     .heatmap { grid-template-columns: repeat(7, 1fr); gap: 3px; }
     .tip-card { padding: 15px; }
     .tip-card h4 { font-size: 1.1em; }
@@ -647,14 +622,44 @@ body.dark-theme.female-theme-base {
     .gender-options .button svg { width: 28px; height: 28px; }
 
     #themeToggleContainer { top: 10px; right: 10px; }
-    #themeToggleBtn { width: 42px; height: 42px; }
+    #themeToggleBtn {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 50%;
+        border-width: 1.5px;
+        box-shadow: rgba(83, 109, 254, 0.1) 0 1px 2px, rgba(83, 109, 254, 0.08) 0 2px 4px -1px, #D6D6E7 0 -1px 0 inset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #themeToggleBtn:focus {
+      box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(83, 109, 254, 0.25) 0 1px 2px, rgba(83, 109, 254, 0.15) 0 2px 4px -1px, #D6D6E7 0 -1px 0 inset;
+    }
+    #themeToggleBtn:hover {
+      box-shadow: rgba(83, 109, 254, 0.18) 0 2px 4px, rgba(83, 109, 254, 0.12) 0 3px 6px -2px, #D6D6E7 0 -1px 0 inset;
+      transform: translateY(-1px);
+    }
+    #themeToggleBtn:active {
+      box-shadow: #D6D6E7 0 1.5px 3px inset;
+      transform: translateY(1px);
+    }
+    body.dark-theme #themeToggleBtn {
+        box-shadow: rgba(121, 134, 203, 0.1) 0 1px 2px, rgba(121, 134, 203, 0.08) 0 2px 4px -1px, #42425a 0 -1px 0 inset;
+    }
+    body.dark-theme #themeToggleBtn:focus {
+      box-shadow: #42425a 0 0 0 1.5px inset, rgba(121, 134, 203, 0.25) 0 1px 2px, rgba(121, 134, 203, 0.15) 0 2px 4px -1px, #42425a 0 -1px 0 inset;
+    }
+    body.dark-theme #themeToggleBtn:hover {
+      box-shadow: rgba(121, 134, 203, 0.18) 0 2px 4px, rgba(121, 134, 203, 0.12) 0 3px 6px -2px, #42425a 0 -1px 0 inset;
+    }
+    body.dark-theme #themeToggleBtn:active {
+      box-shadow: #42425a 0 1.5px 3px inset;
+    }
     #themeToggleBtn img { width: 20px; height: 20px; }
 
     footer { padding: 20px 15px; }
-    #resetDataBtn {
-        display: block;
-        margin-bottom: 15px;
-    }
+
     .btn-github-link {
         display: block;
         margin-top: 0;
@@ -662,6 +667,9 @@ body.dark-theme.female-theme-base {
     .btn-github {
         width: 100%;
         max-width: 320px;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .date-details { padding: 20px 15px; }
