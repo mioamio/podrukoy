@@ -1,10 +1,9 @@
 :root {
-    --font-primary: 'Inter', 'Manrope', 'JetBrains Mono', sans-serif; /* Добавлен JetBrains Mono */
+    --font-primary: 'Inter', 'Manrope', 'JetBrains Mono', sans-serif;
     --border-radius-sm: 4px;
     --border-radius-md: 6px;
     --border-radius-lg: 8px;
 
-    /* W3C-like defaults - можно удалить, если все кнопки заменены */
     /* --w3c-link-color: #005a9c; */
     /* --w3c-link-hover-color: #003366; */
     /* --w3c-focus-outline-color: #005a9c; */
@@ -14,21 +13,20 @@
     /* --w3c-button-active-bg: #c8c8c8; */
     /* --w3c-border-color: #c5c5c5; */
 
-    /* Общие переменные темы (нейтральная светлая) */
     --current-bg-gradient: #f8f9fa;
     --current-content-bg: #ffffff;
     --current-text-color: #212529;
     --current-text-muted: #6c757d;
-    --current-border-color: #dee2e6; /* Немного светлее */
-    --current-primary-grad-start: #4A90E2; /* Голубой */
-    --current-primary-grad-end: #50E3C2; /* Бирюзовый */
+    --current-border-color: #dee2e6;
+    --current-primary-grad-start: #4A90E2;
+    --current-primary-grad-end: #50E3C2;
     --current-shadow-color: rgba(0, 0, 0, 0.05);
 
     --current-heatmap-base: #ebedf0;
-    --current-heatmap-l1: #c6e48b; /* Светло-зеленый */
+    --current-heatmap-l1: #c6e48b;
     --current-heatmap-l2: #7bc96f;
     --current-heatmap-l3: #239a3b;
-    --current-heatmap-l4: #196127; /* Темно-зеленый */
+    --current-heatmap-l4: #196127;
 
     --current-tip-card-bg: #f8f9fa;
     --current-tip-card-border-start: var(--current-primary-grad-start);
@@ -119,15 +117,15 @@ body {
     width: 100%;
     background-color: var(--current-content-bg);
     padding: 25px;
-    border-radius: var(--border-radius-lg); /* Увеличил радиус для общей эстетики */
-    box-shadow: 0 4px 10px var(--current-shadow-color); /* Немного увеличил тень */
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 10px var(--current-shadow-color);
     border: 1px solid var(--current-border-color);
-    text-align: left; /* Возвращаем выравнивание по левому краю для основного контента */
-    margin: 20px auto 30px auto; /* Центрирование контейнера */
+    text-align: left;
+    margin: 20px auto 30px auto;
     transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 header {
-    text-align: center; /* Центрирование заголовка */
+    text-align: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--current-border-color);
@@ -159,23 +157,23 @@ header p#welcomeMessage {
     gap: 10px; align-items: center; flex-wrap: wrap;
 }
 .nickname-section input[type="text"] {
-    padding: 12px 15px; /* Увеличил паддинги для соответствия кнопке */
-    border: 2px solid var(--current-border-color); /* Толще рамка */
+    padding: 12px 15px;
+    border: 2px solid var(--current-border-color);
     border-radius: var(--border-radius-lg);
     background-color: var(--current-content-bg);
     color: var(--current-text-color);
     font-size: 1em; width: auto;
-    min-width: 200px; /* Немного увеличил */
-    font-family: 'JetBrains Mono', monospace; /* Шрифт как у кнопки */
+    min-width: 200px;
+    font-family: 'JetBrains Mono', monospace;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    height: 56px; /* Высота как у кнопки */
+    height: 56px;
     box-sizing: border-box;
 }
 .nickname-section input[type="text"]:focus,
 .session-details input:focus, .session-details textarea:focus,
 .date-selector input[type="date"]:focus {
     outline: none;
-    border-color: var(--current-primary-grad-start); /* Цвет рамки при фокусе */
+    border-color: var(--current-primary-grad-start);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--current-primary-grad-start) 30%, transparent); /* Тень при фокусе */
 }
 main section {
@@ -183,44 +181,43 @@ main section {
     border-radius: 0;
     background-color: transparent;
     border: none;
-    text-align: left; /* Сохраняем выравнивание по левому краю для секций */
+    text-align: left;
 }
 section.actions, section.statistics {
-    text-align: center; /* Центрируем содержимое этих секций */
+    text-align: center;
 }
 section.actions .session-details,
 section.statistics .stats-cards,
 section.statistics #heatmapCalendar,
 section.statistics .legend {
-    text-align: left; /* Но внутренние блоки оставляем по левому краю */
-}
-
-
-h2 {
-    font-size: 1.8em; font-weight: 600; margin-top: 20px; margin-bottom: 20px; /* Увеличил отступы */
-    color: var(--current-text-color);
-    padding-bottom: 10px; border-bottom: 1px solid var(--current-border-color);
-    text-align: center; /* Центрирование заголовков секций */
-    transition: color 0.3s ease, border-color 0.3s ease;
-}
-h3 {
-    font-size: 1.3em; font-weight: 600; margin-top: 20px; margin-bottom: 15px; /* Увеличил */
-    color: var(--current-text-color);
-    text-align: center; /* Центрирование подзаголовков */
-}
-section.statistics h3 { /* Для "Календарь активности" и др. */
     text-align: left;
 }
 
 
-/* Новый стиль кнопки */
+h2 {
+    font-size: 1.8em; font-weight: 600; margin-top: 20px; margin-bottom: 20px;
+    color: var(--current-text-color);
+    padding-bottom: 10px; border-bottom: 1px solid var(--current-border-color);
+    text-align: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+h3 {
+    font-size: 1.3em; font-weight: 600; margin-top: 20px; margin-bottom: 15px;
+    color: var(--current-text-color);
+    text-align: center;
+}
+section.statistics h3 {
+    text-align: left;
+}
+
+
 .button {
   align-items: center;
   appearance: none;
   background-color: #EEF2FF;
   border-radius: 8px;
   border-width: 2px;
-  border-color: #536DFE; /* Основной синий из примера */
+  border-color: #536DFE;
   box-shadow: rgba(83, 109, 254, 0.2) 0 2px 4px, rgba(83, 109, 254, 0.15) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
   box-sizing: border-box;
   color: #536DFE;
@@ -243,7 +240,7 @@ section.statistics h3 { /* Для "Календарь активности" и �
   touch-action: manipulation;
   white-space: nowrap;
   will-change: box-shadow, transform;
-  font-size: 18px; /* Немного уменьшил для лучшего вида с иконками/коротким текстом */
+  font-size: 18px;
   font-weight: 500;
 }
 .button:focus {
@@ -259,28 +256,27 @@ section.statistics h3 { /* Для "Календарь активности" и �
   transform: translateY(2px);
 }
 
-/* Адаптация нового стиля для кнопок с иконками (если нужно меньше паддинги) */
-.button.icon-button { /* Пример, если нужно будет */
+.button.icon-button {
     padding-left: 16px;
     padding-right: 16px;
 }
-.button svg { /* Для иконок внутри кнопок */
+.button svg {
     margin-right: 8px;
 }
-.gender-options .button svg { /* Убрать отступ справа для иконок в гендерных кнопках, т.к. текст под ними */
+.gender-options .button svg {
     margin-right: 0;
-    margin-bottom: 5px; /* Отступ снизу до текста */
+    margin-bottom: 5px;
 }
 .gender-options .button {
-    flex-direction: column; /* Иконка над текстом */
-    height: auto; /* Автоматическая высота для многострочного контента */
-    min-height: 70px; /* Минимальная высота */
+    flex-direction: column;
+    height: auto;
+    min-height: 70px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 
-.session-details { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; margin-left: auto; margin-right: auto; max-width: 400px; /* Центрирование и ограничение ширины */ }
+.session-details { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; margin-left: auto; margin-right: auto; max-width: 400px;
 .session-details label { font-size: 0.95em; color: var(--current-text-muted); font-weight: normal; text-align: left;}
 .session-details input[type="number"], .session-details textarea {
     padding: 10px 12px;
@@ -299,7 +295,7 @@ section.statistics h3 { /* Для "Календарь активности" и �
     background-color: var(--current-content-bg);
     padding: 20px;
     border-radius: var(--border-radius-lg);
-    text-align: center; /* Центрируем текст в карточках */
+    text-align: center;
     border: 1px solid var(--current-border-color);
     box-shadow: 0 2px 4px var(--current-shadow-color);
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
@@ -341,11 +337,11 @@ section.statistics h3 { /* Для "Календарь активности" и �
     padding: 20px;
     border-radius: var(--border-radius-lg);
     border-left: 5px solid var(--current-primary-grad-start);
-    border-image: none; /* Убедимся, что border-image не мешает */
+    border-image: none;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px var(--current-shadow-color);
-    border: 1px solid var(--current-border-color); /* Добавим общую границу */
-    border-left-width: 5px; /* Восстановим толщину левой границы */
+    border: 1px solid var(--current-border-color);
+    border-left-width: 5px;
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
     text-align: left;
 }
@@ -356,49 +352,49 @@ section.statistics h3 { /* Для "Календарь активности" и �
 .tip-card p { color: var(--current-text-muted); font-size: 1em; }
 
 footer {
-    text-align: center; /* Центрирование футера */
+    text-align: center;
     margin-top: auto; padding: 25px 0; width: 100%;
     font-size: 0.9em; color: var(--current-text-muted);
     border-top: 1px solid var(--current-border-color);
 }
 footer p { margin-bottom: 10px; }
-/* Стили для кнопки GitHub */
+
 .btn-github-link {
     text-decoration: none;
-    display: inline-block; /* Чтобы кнопка не растягивалась на всю ширину */
+    display: inline-block;
     margin-top: 15px;
 }
 .btn-github {
   cursor: pointer;
-  display: inline-flex; /* Изменено на inline-flex для лучшего контроля */
-  align-items: center; /* Выравнивание иконки и текста */
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
   border: none;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   border-radius: 100px;
-  font-weight: 600; /* Немного уменьшил жирность */
+  font-weight: 600;
   place-content: center;
-  padding: 0.6rem 1.2rem; /* Немного изменил паддинги */
-  font-size: 0.9rem;    /* Немного изменил размер шрифта */
-  line-height: 1;       /* Для лучшего вертикального выравнивания */
-  background-color: #333; /* Темный фон для лучшего контраста с белым текстом */
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  background-color: #333;
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
     inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   color: #fff;
-  font-family: var(--font-primary); /* Используем основной шрифт */
+  font-family: var(--font-primary);
 }
 .btn-github svg {
-    width: 18px; /* Увеличил иконку */
+    width: 18px;
     height: 18px;
 }
 .btn-github:hover {
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-    inset 0 0 0 1px rgba(var(--current-primary-grad-start), 0.5); /* Используем цвет темы */
-  color: color-mix(in srgb, var(--current-primary-grad-start) 80%, white); /* Цвет темы при наведении */
+    inset 0 0 0 1px rgba(var(--current-primary-grad-start), 0.5);
+  color: color-mix(in srgb, var(--current-primary-grad-start) 80%, white);
   transform: translateY(-2px);
-  background-color: #444; /* Немного светлее при наведении */
+  background-color: #444;
 }
 #resetDataBtn {
     margin-bottom: 20px; /* Отступ от кнопки GitHub */
@@ -407,9 +403,9 @@ footer p { margin-bottom: 10px; }
 
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Сделал темнее */
+    background-color: rgba(0, 0, 0, 0.75);
     display: flex; justify-content: center;
-    align-items: center; z-index: 1000; backdrop-filter: blur(5px); /* Уменьшил блюр */
+    align-items: center; z-index: 1000; backdrop-filter: blur(5px);
     opacity: 0; animation: fadeInOverlay 0.3s forwards;
 }
 @keyframes fadeInOverlay { to { opacity: 1; } }
@@ -432,17 +428,15 @@ footer p { margin-bottom: 10px; }
 #themeToggleContainer {
     position: fixed; top: 15px; right: 15px; z-index: 1001;
 }
-#themeToggleBtn { /* Уже стилизована через .button */
-    width: 48px; /* Ширина кнопки темы под иконку */
-    height: 48px; /* Высота кнопки темы под иконку */
-    padding: 0; /* Убираем внутренние отступы, чтобы иконка была по центру */
+#themeToggleBtn {
+    width: 48px;
+    height: 48px;
+    padding: 0;
 }
-#themeToggleBtn img { display: block; width: 24px; height: 24px; margin: auto; /* Центрирование иконки */ }
+#themeToggleBtn img { display: block; width: 24px; height: 24px; margin: auto;
 
 
-/* Светлая тема по умолчанию (базовая) */
 body.light-theme {
-    /* уже определено в :root как --current-... */
 }
 body.light-theme.male-theme-base {
     --current-bg-gradient: var(--male-bg-light);
@@ -481,17 +475,16 @@ body.light-theme.female-theme-base {
     --current-tip-card-border-end: var(--female-grad-end-light);
 }
 
-/* Темная тема (базовая) */
 body.dark-theme {
     --current-bg-gradient: #121212;
     --current-content-bg: #1e1e1e;
     --current-text-color: #e0e0e0;
     --current-text-muted: #a0a0a0;
-    --current-border-color: #3a3a3a; /* Темнее для лучшего контраста */
+    --current-border-color: #3a3a3a;
     --current-primary-grad-start: #58a6ff; /* Яркий голубой */
     --current-primary-grad-end: #39d353; /* Яркий зеленый */
     --current-shadow-color: rgba(0,0,0,0.3);
-    --is-dark-theme: 1; /* Для инвертирования календаря */
+    --is-dark-theme: 1;
     --current-heatmap-base: #2d2d2d;
     --current-heatmap-l1: #0e4429;
     --current-heatmap-l2: #006d32;
@@ -501,7 +494,7 @@ body.dark-theme {
     --current-tip-card-border-start: var(--current-primary-grad-start);
     --current-tip-card-border-end: var(--current-primary-grad-end);
 }
-body.dark-theme .button { /* Стили для кнопок в темной теме */
+body.dark-theme .button {
     background-color: #2c2c3e; /* Темно-сине-фиолетовый фон */
     border-color: #7986CB; /* Лавандовый цвет рамки */
     color: #C5CAE9; /* Светло-лавандовый текст */
@@ -559,9 +552,9 @@ body.dark-theme.female-theme-base {
     margin-bottom: 30px; padding: 25px; border-radius: var(--border-radius-lg);
     background-color: var(--current-content-bg); border: 1px solid var(--current-border-color);
     box-shadow: 0 2px 4px var(--current-shadow-color);
-    text-align: left; /* Выравнивание по левому краю */
+    text-align: left;
 }
-.date-details h2 { margin-bottom: 20px; text-align: center; } /* Заголовок центрируем */
+.date-details h2 { margin-bottom: 20px; text-align: center; }
 .date-selector {
     display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
     justify-content: center; /* Центрируем выбор даты */
@@ -608,7 +601,7 @@ body.dark-theme.female-theme-base {
     #themeToggleBtn img { width: 22px; height: 22px; }
 }
 @media (max-width: 600px) {
-    body { padding: 15px 0 0 0; /* Убрал боковые отступы у body, контейнер будет по ширине */ }
+    body { padding: 15px 0 0 0;
     .container {
         padding: 20px 15px; margin-top: 0; margin-bottom: 20px;
         border-radius: 0; border-left:none; border-right: none;
@@ -624,23 +617,23 @@ body.dark-theme.female-theme-base {
     .stats-cards { grid-template-columns: 1fr; gap: 15px; }
     .stat-card p { font-size: 1.8em; }
     .button {
-        font-size: 16px; /* Чуть меньше на мобильных */
+        font-size: 16px;
         height: 50px;
         padding-left: 18px;
         padding-right: 18px;
-        width: 100%; /* Кнопки на всю ширину в некоторых случаях */
-        max-width: 320px; /* Ограничение ширины */
+        width: 100%;
+        max-width: 320px;
         margin-left: auto;
         margin-right: auto;
-        display: flex; /* Чтобы justify-content работал */
+        display: flex;
     }
     #addSessionBtn {
-        display: block; /* Чтобы margin auto работал */
+        display: block;
     }
      .gender-options { flex-direction: column; gap: 15px; }
      .gender-options .button {
         width: 100%;
-        max-width: none; /* Разрешаем кнопкам выбора гендера быть шире */
+        max-width: none;
      }
 
 
@@ -654,16 +647,16 @@ body.dark-theme.female-theme-base {
     .gender-options .button svg { width: 28px; height: 28px; }
 
     #themeToggleContainer { top: 10px; right: 10px; }
-    #themeToggleBtn { width: 42px; height: 42px; } /* Размер кнопки темы на мобильных */
+    #themeToggleBtn { width: 42px; height: 42px; }
     #themeToggleBtn img { width: 20px; height: 20px; }
 
     footer { padding: 20px 15px; }
     #resetDataBtn {
-        display: block; /* Чтобы margin auto работал */
+        display: block;
         margin-bottom: 15px;
     }
     .btn-github-link {
-        display: block; /* Чтобы margin auto работал */
+        display: block;
         margin-top: 0;
     }
     .btn-github {
