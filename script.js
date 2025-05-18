@@ -17,17 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const legendContainerEl = document.querySelector('.legend');
     const tipsContainerEl = document.getElementById('tipsContainer');
     const resetDataBtn = document.getElementById('resetDataBtn');
-
     const genderModalEl = document.getElementById('genderModal');
     const selectMaleBtn = document.getElementById('selectMale');
     const selectFemaleBtn = document.getElementById('selectFemale');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIconEl = document.getElementById('themeIcon');
-
+    const selectedDateInputEl = document.getElementById('selectedDateInput');
+    const selectedDateInfoEl = document.getElementById('selectedDateInfo');
+    const selectedDateCountEl = document.getElementById('selectedDateCount');
+    const selectedDateNotesEl = document.getElementById('selectedDateNotes');
+    const noNotesMessageEl = selectedDateNotesEl ? selectedDateNotesEl.querySelector('.no-notes') : null;
     let appData = { nickname: null, sessions: [] };
     let currentGender = localStorage.getItem(genderKey);
     let currentTheme = localStorage.getItem(themeKey) || 'light';
-
     const tips = [
         { title: "Прислушивайтесь к себе", text: "Обращайте внимание на свои ощущения и желания. Это ключ к самопознанию и глубокому удовольствию." },
         { title: "Без осуждения, с наслаждением", text: "Принимайте свою сексуальность как естественную и прекрасную часть жизни. Эта статистика — ваш личный дневник страсти." },
@@ -37,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Энергия страсти", text: "Направьте эту мощную энергию не только на удовольствие, но и на творчество, на достижение целей. Почувствуйте ее силу." },
         { title: "Ваше тело – ваш храм", text: "Относитесь к нему с любовью и уважением. Забота о себе усиливает каждое прикосновение, каждое ощущение." }
     ];
-
     function applyThemeAndGender() {
         if (!bodyEl) return;
         bodyEl.classList.remove('light-theme', 'dark-theme', 'male-theme-base', 'female-theme-base');
@@ -52,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderLegend();
         renderHeatmap();
     }
-
     function handleGenderSelection(gender) {
         currentGender = gender;
         localStorage.setItem(genderKey, gender);
@@ -60,13 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         applyThemeAndGender();
         updateUI();
     }
-
     function toggleTheme() {
         currentTheme = currentTheme === 'light' ? 'dark' : 'light';
         localStorage.setItem(themeKey, currentTheme);
         applyThemeAndGender();
     }
-
     function loadData() {
         const storedData = localStorage.getItem(localStorageKey);
         if (storedData) {
@@ -80,24 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
     function saveData() {
         try {
             localStorage.setItem(localStorageKey, JSON.stringify(appData));
         } catch (e) {
             console.error("Ошибка сохранения данных в LocalStorage:", e);
-            showFeedback("Не удалось сохранить данные. Хранилище может быть переполнено", "error");
+            showFeedback("Не удалось сохранить данные. Хранилище может быть переполнено.", "error");
         }
     }
-
     function getTodayDateString() { return new Date().toISOString().split('T')[0]; }
-
     function addSession() {
         if (!sessionCountInputEl || !sessionNotesInputEl) return;
         const todayStr = getTodayDateString();
         const count = parseInt(sessionCountInputEl.value) || 1;
         const note = sessionNotesInputEl.value.trim();
-        if (count < 1) { showFeedback("Количество должно быть не меньше 1", "error"); return; }
+        if (count < 1) { showFeedback("Количество должно быть не меньше 1.", "error"); return; }
         let sessionForToday = appData.sessions.find(s => s.date === todayStr);
         if (sessionForToday) {
             sessionForToday.count += count;
@@ -111,11 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         appData.sessions.sort((a, b) => new Date(a.date) - new Date(b.date));
         saveData();
         updateUI();
-        showFeedback(`Сессия (${count} раз(а)) добавлена! Наслаждайся моментом`, "success");
+        showFeedback(`Сессия (${count} раз(а)) добавлена! Наслаждайтесь моментом.`, "success");
         sessionCountInputEl.value = "1";
         sessionNotesInputEl.value = "";
     }
-
     function updateStats() {
         if (!todayCountEl || !totalCountEl || !averagePerDayEl) return;
         const todayStr = getTodayDateString();
@@ -134,7 +128,29 @@ document.addEventListener('DOMContentLoaded', () => {
             averagePerDayEl.textContent = "0.0";
         }
     }
-
+    function displayDataForDate(dateString) {
+        if (!selectedDateInfoEl || !selectedDateCountEl || !selectedDateNotesEl || !noNotesMessageEl) return;
+        const sessionForDate = appData.sessions.find(s => s.date === dateString);
+        selectedDateInfoEl.style.display = 'block';
+        if (sessionForDate) {
+            selectedDateCountEl.textContent = sessionForDate.count;
+            selectedDateNotesEl.innerHTML = '';
+            if (sessionForDate.notes && sessionForDate.notes.length > 0) {
+                noNotesMessageEl.style.display = 'none';
+                sessionForDate.notes.forEach(noteText => {
+                    const li = document.createElement('li');
+                    li.textContent = noteText;
+                    selectedDateNotesEl.appendChild(li);
+                });
+            } else {
+                noNotesMessageEl.style.display = 'block';
+            }
+        } else {
+            selectedDateCountEl.textContent = 0;
+            selectedDateNotesEl.innerHTML = '';
+            noNotesMessageEl.style.display = 'block';
+        }
+    }
     function renderHeatmap() {
         if (!heatmapCalendarEl) return;
         heatmapCalendarEl.innerHTML = '';
@@ -149,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentDateIter = new Date(startDate);
         let cellCount = 0;
         const maxCells = daysToShow * 1.5;
-
         while (currentDateIter <= endDate && cellCount < maxCells) {
             const dateStr = currentDateIter.toISOString().split('T')[0];
             const session = appData.sessions.find(s => s.date === dateStr);
@@ -162,6 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (count > 1 && count <= 2) dayEl.classList.add('level-2');
                 else if (count > 2 && count <= 4) dayEl.classList.add('level-3');
                 else if (count > 4) dayEl.classList.add('level-4');
+                dayEl.addEventListener('click', () => {
+                    if (selectedDateInputEl) {
+                        selectedDateInputEl.value = dateStr;
+                        displayDataForDate(dateStr);
+                    }
+                });
             } else {
                  dayEl.style.visibility = "hidden";
             }
@@ -170,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cellCount++;
         }
     }
-
     function renderLegend() {
         if (!legendContainerEl || !bodyEl) return;
         legendContainerEl.innerHTML = '';
@@ -191,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
             legendContainerEl.appendChild(legendItemEl);
         });
     }
-
     function renderTips() {
         if (!tipsContainerEl) return;
         tipsContainerEl.innerHTML = '';
@@ -202,36 +221,34 @@ document.addEventListener('DOMContentLoaded', () => {
             tipsContainerEl.appendChild(tipEl);
         });
     }
-
     function updateWelcomeMessage() {
         if (!welcomeMessageEl) return;
         if (appData.nickname) {
             welcomeMessageEl.textContent = `Твой личный ритм, ${appData.nickname}!`;
             if (nicknameInputEl) nicknameInputEl.value = appData.nickname;
         } else {
-            welcomeMessageEl.textContent = "Анализируй свой личный ритм";
+            welcomeMessageEl.textContent = "Анализируйте свой личный ритм.";
         }
     }
-
     function saveNickname() {
         if (!nicknameInputEl) return;
         const newNickname = nicknameInputEl.value.trim();
         appData.nickname = newNickname ? newNickname : null;
         saveData();
         updateWelcomeMessage();
-        showFeedback(newNickname ? "Сохранено!" : "Сброшено", "success");
+        showFeedback(newNickname ? "Псевдоним сохранен!" : "Псевдоним сброшен.", "success");
     }
-
     function resetData() {
-        if (confirm("Вы уверены, что хотите удалить всю статистику? Это действие необратимо")) {
+        if (confirm("Вы уверены, что хотите удалить всю статистику? Это действие необратимо.")) {
             appData = { nickname: null, sessions: [] };
             saveData();
             if (nicknameInputEl) nicknameInputEl.value = "";
+            if (selectedDateInputEl) selectedDateInputEl.value = "";
+            if (selectedDateInfoEl) selectedDateInfoEl.style.display = 'none';
             updateUI();
             showFeedback("Все данные сброшены. Начните новую главу.", "success");
         }
     }
-
     function showFeedback(message, type = "success") {
         if (!feedbackMessageEl || !bodyEl) return;
         feedbackMessageEl.textContent = message;
@@ -241,24 +258,25 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackMessageEl.style.color = type === "success" ? successColor : errorColor;
         setTimeout(() => { if (feedbackMessageEl) feedbackMessageEl.textContent = ""; }, 4000);
     }
-
     function updateUI() {
         updateWelcomeMessage();
         updateStats();
         renderHeatmap();
     }
-
     function init() {
         loadData();
         applyThemeAndGender();
-
         if (!currentGender && genderModalEl) {
             genderModalEl.style.display = 'flex';
         } else {
             updateUI();
         }
         renderTips();
-
+        if (selectedDateInputEl) {
+             selectedDateInputEl.addEventListener('change', (event) => {
+                displayDataForDate(event.target.value);
+            });
+        }
         if (selectMaleBtn) selectMaleBtn.addEventListener('click', () => handleGenderSelection('male'));
         if (selectFemaleBtn) selectFemaleBtn.addEventListener('click', () => handleGenderSelection('female'));
         if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
@@ -269,6 +287,5 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') saveNickname();
         });
     }
-
     init();
 });
