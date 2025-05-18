@@ -1,73 +1,102 @@
 :root {
-    --grad-start-old: #6a82fb;
-    --grad-end-old: #fc5c7d;
-    --font-primary: 'Inter', 'Manrope', sans-serif;
+    --font-primary: 'Inter', 'Manrope', 'JetBrains Mono', sans-serif; /* Добавлен JetBrains Mono */
     --border-radius-sm: 4px;
     --border-radius-md: 6px;
     --border-radius-lg: 8px;
-    --w3c-link-color: #005a9c;
-    --w3c-link-hover-color: #003366;
-    --w3c-focus-outline-color: #005a9c;
-    --w3c-button-bg: #f0f0f0;
-    --w3c-button-text: #202122;
-    --w3c-button-hover-bg: #e0e0e0;
-    --w3c-button-active-bg: #c8c8c8;
-    --w3c-border-color: #c5c5c5;
+
+    /* W3C-like defaults - можно удалить, если все кнопки заменены */
+    /* --w3c-link-color: #005a9c; */
+    /* --w3c-link-hover-color: #003366; */
+    /* --w3c-focus-outline-color: #005a9c; */
+    /* --w3c-button-bg: #f0f0f0; */
+    /* --w3c-button-text: #202122; */
+    /* --w3c-button-hover-bg: #e0e0e0; */
+    /* --w3c-button-active-bg: #c8c8c8; */
+    /* --w3c-border-color: #c5c5c5; */
+
+    /* Общие переменные темы (нейтральная светлая) */
     --current-bg-gradient: #f8f9fa;
     --current-content-bg: #ffffff;
     --current-text-color: #212529;
     --current-text-muted: #6c757d;
-    --current-border-color: var(--w3c-border-color);
-    --current-primary-grad-start: var(--w3c-link-color);
-    --current-primary-grad-end: var(--w3c-link-color);
+    --current-border-color: #dee2e6; /* Немного светлее */
+    --current-primary-grad-start: #4A90E2; /* Голубой */
+    --current-primary-grad-end: #50E3C2; /* Бирюзовый */
     --current-shadow-color: rgba(0, 0, 0, 0.05);
+
     --current-heatmap-base: #ebedf0;
-    --current-heatmap-l1: #9be9a8;
-    --current-heatmap-l2: #40c463;
-    --current-heatmap-l3: #30a14e;
-    --current-heatmap-l4: #216e39;
+    --current-heatmap-l1: #c6e48b; /* Светло-зеленый */
+    --current-heatmap-l2: #7bc96f;
+    --current-heatmap-l3: #239a3b;
+    --current-heatmap-l4: #196127; /* Темно-зеленый */
+
     --current-tip-card-bg: #f8f9fa;
-    --current-tip-card-border-start: var(--w3c-link-color);
-    --current-tip-card-border-end: var(--w3c-link-color);
-    --male-bg-light: linear-gradient(135deg, #4361ee, #7209b7);
+    --current-tip-card-border-start: var(--current-primary-grad-start);
+    --current-tip-card-border-end: var(--current-primary-grad-end);
+
+    /* Мужская тема - Светлая (сине-зеленая) */
+    --male-bg-light: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Светло-голубой фон */
     --male-content-light: #ffffff;
-    --male-text-light: #1c2541;
-    --male-grad-start-light: #f72585;
-    --male-grad-end-light: #b5179e;
-    --male-heatmap-l1-light: #d9d4f7;
-    --male-heatmap-l2-light: #b3a6f2;
-    --male-heatmap-l3-light: #8d79ed;
-    --male-heatmap-l4-light: #7209b7;
-    --male-bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    --male-content-dark: #1a2634;
-    --male-text-dark: #e0e7ef;
-    --male-grad-start-dark: #ff4d4d;
-    --male-grad-end-dark: #f95700;
+    --male-text-light: #004d40; /* Темно-бирюзовый текст */
+    --male-grad-start-light: #00796b; /* Бирюзовый */
+    --male-grad-end-light: #0288d1; /* Голубой */
+    --male-heatmap-l1-light: #b2dfdb;
+    --male-heatmap-l2-light: #80cbc4;
+    --male-heatmap-l3-light: #4db6ac;
+    --male-heatmap-l4-light: #00796b;
+    --male-tip-card-bg-light: #e0f2f1;
+
+    /* Мужская тема - Темная (глубокий синий/графит) */
+    --male-bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Как было */
+    --male-content-dark: #1a2634; /* Как было */
+    --male-text-dark: #e0e7ef; /* Как было */
+    --male-grad-start-dark: #1e88e5; /* Яркий синий */
+    --male-grad-end-dark: #43a047; /* Зеленый */
     --male-heatmap-l1-dark: #2a3b69;
     --male-heatmap-l2-dark: #3c5591;
     --male-heatmap-l3-dark: #4e6fb9;
-    --male-heatmap-l4-dark: #00d4ff;
-    --male-tip-card-bg-dark: #232f3e;
-    --female-bg-light: linear-gradient(135deg, #ffafcc, #ffc0cb);
-    --female-content-light: #fff0f3;
-    --female-text-light: #702049;
-    --female-grad-start-light: #e11d48;
-    --female-grad-end-light: #da2f61;
-    --female-heatmap-l1-light: #fee2e9;
-    --female-heatmap-l2-light: #fccddc;
-    --female-heatmap-l3-light: #fba7c0;
-    --female-heatmap-l4-light: #e11d48;
-    --female-bg-dark: linear-gradient(135deg, #4a0e3c, #8d1c5f, #d43f8d);
-    --female-content-dark: #3a0f2c;
-    --female-text-dark: #fde8f0;
-    --female-grad-start-dark: #ff8fab;
-    --female-grad-end-dark: #fb6f92;
-    --female-heatmap-l1-dark: #4e1c3f;
-    --female-heatmap-l2-dark: #6c2a58;
-    --female-heatmap-l3-dark: #8a3871;
-    --female-heatmap-l4-dark: #fb6f92;
-    --female-tip-card-bg-dark: #4b1538;
+    --male-heatmap-l4-dark: #1565c0; /* Темно-синий */
+    --male-tip-card-bg-dark: #232f3e; /* Как было */
+
+    /* Женская тема - Светлая (персиково-коралловая / мятная) */
+    --female-bg-light: linear-gradient(135deg, #fff0e8, #ffe0d4); /* Светло-персиковый фон */
+    --female-content-light: #ffffff;
+    --female-text-light: #bf360c; /* Глубокий оранжево-красный текст */
+    --female-grad-start-light: #ff7043; /* Коралловый */
+    --female-grad-end-light: #ffca28; /* Янтарный */
+    /* Альтернатива (мятно-зеленая):
+    --female-bg-light: linear-gradient(135deg, #e6fffa, #cfffed);
+    --female-content-light: #ffffff;
+    --female-text-light: #00695c;
+    --female-grad-start-light: #26a69a;
+    --female-grad-end-light: #80cbc4;
+    */
+    --female-heatmap-l1-light: #ffccbc;
+    --female-heatmap-l2-light: #ffab91;
+    --female-heatmap-l3-light: #ff8a65;
+    --female-heatmap-l4-light: #ff5722;
+    --female-tip-card-bg-light: #fff3e0;
+
+    /* Женская тема - Темная (индиго/сливовый) */
+    --female-bg-dark: linear-gradient(135deg, #1a237e, #303f9f, #3f51b5); /* Индиго фон */
+    --female-content-dark: #283593; /* Темный индиго для контента */
+    --female-text-dark: #e8eaf6; /* Светлый лавандовый текст */
+    --female-grad-start-dark: #7e57c2; /* Аметистовый */
+    --female-grad-end-dark: #5c6bc0; /* Индиго */
+    /* Альтернатива (глубокий изумруд):
+    --female-bg-dark: linear-gradient(135deg, #00332a, #004d40, #00695c);
+    --female-content-dark: #002922;
+    --female-text-dark: #e0f2f1;
+    --female-grad-start-dark: #26a69a;
+    --female-grad-end-dark: #00897b;
+    */
+    --female-heatmap-l1-dark: #5c6bc0;
+    --female-heatmap-l2-dark: #3f51b5;
+    --female-heatmap-l3-dark: #303f9f;
+    --female-heatmap-l4-dark: #1a237e;
+    --female-tip-card-bg-dark: #312f4c;
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
 body {
@@ -83,22 +112,22 @@ body {
     font-size: 16px;
     transition: background 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
+    text-align: center; /* Центрируем все по умолчанию */
 }
 .container {
     max-width: 900px;
     width: 100%;
     background-color: var(--current-content-bg);
     padding: 25px;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 2px 5px var(--current-shadow-color);
+    border-radius: var(--border-radius-lg); /* Увеличил радиус для общей эстетики */
+    box-shadow: 0 4px 10px var(--current-shadow-color); /* Немного увеличил тень */
     border: 1px solid var(--current-border-color);
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    text-align: left; /* Возвращаем выравнивание по левому краю для основного контента */
+    margin: 20px auto 30px auto; /* Центрирование контейнера */
     transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 header {
-    text-align: left;
+    text-align: center; /* Центрирование заголовка */
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--current-border-color);
@@ -107,7 +136,7 @@ header {
 header h1 {
     font-size: 2.2em;
     margin: 0 0 8px 0;
-    font-weight: 600;
+    font-weight: 700; /* Сделал жирнее */
     background: linear-gradient(45deg, var(--current-primary-grad-start), var(--current-primary-grad-end));
     background-size: 200% 200%;
     -webkit-background-clip: text;
@@ -126,262 +155,310 @@ header p#welcomeMessage {
     transition: color 0.3s ease;
 }
 .nickname-section {
-    margin-top: 15px; display: flex; justify-content: flex-start;
+    margin-top: 15px; display: flex; justify-content: center; /* Центрирование */
     gap: 10px; align-items: center; flex-wrap: wrap;
 }
 .nickname-section input[type="text"] {
-    padding: 8px 12px;
-    border: 1px solid var(--current-border-color);
-    border-radius: var(--border-radius-sm);
+    padding: 12px 15px; /* Увеличил паддинги для соответствия кнопке */
+    border: 2px solid var(--current-border-color); /* Толще рамка */
+    border-radius: var(--border-radius-lg);
     background-color: var(--current-content-bg);
     color: var(--current-text-color);
     font-size: 1em; width: auto;
-    min-width: 180px;
+    min-width: 200px; /* Немного увеличил */
+    font-family: 'JetBrains Mono', monospace; /* Шрифт как у кнопки */
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    height: 56px; /* Высота как у кнопки */
+    box-sizing: border-box;
 }
 .nickname-section input[type="text"]:focus,
 .session-details input:focus, .session-details textarea:focus,
 .date-selector input[type="date"]:focus {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    border-color: var(--w3c-focus-outline-color);
-    box-shadow: 0 0 0 2px var(--w3c-focus-outline-color);
+    outline: none;
+    border-color: var(--current-primary-grad-start); /* Цвет рамки при фокусе */
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--current-primary-grad-start) 30%, transparent); /* Тень при фокусе */
 }
 main section {
     margin-bottom: 30px; padding: 0;
     border-radius: 0;
     background-color: transparent;
     border: none;
+    text-align: left; /* Сохраняем выравнивание по левому краю для секций */
 }
+section.actions, section.statistics {
+    text-align: center; /* Центрируем содержимое этих секций */
+}
+section.actions .session-details,
+section.statistics .stats-cards,
+section.statistics #heatmapCalendar,
+section.statistics .legend {
+    text-align: left; /* Но внутренние блоки оставляем по левому краю */
+}
+
+
 h2 {
-    font-size: 1.6em; font-weight: 600; margin-top: 20px; margin-bottom: 15px;
+    font-size: 1.8em; font-weight: 600; margin-top: 20px; margin-bottom: 20px; /* Увеличил отступы */
     color: var(--current-text-color);
-    padding-bottom: 8px; border-bottom: 1px solid var(--current-border-color);
-    text-align: left;
+    padding-bottom: 10px; border-bottom: 1px solid var(--current-border-color);
+    text-align: center; /* Центрирование заголовков секций */
     transition: color 0.3s ease, border-color 0.3s ease;
 }
 h3 {
-    font-size: 1.2em; font-weight: 600; margin-top: 20px; margin-bottom: 10px;
+    font-size: 1.3em; font-weight: 600; margin-top: 20px; margin-bottom: 15px; /* Увеличил */
     color: var(--current-text-color);
+    text-align: center; /* Центрирование подзаголовков */
 }
-.btn {
-    padding: 8px 15px;
-    font-size: 1em;
-    font-weight: 500;
-    border: 1px solid var(--w3c-border-color);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-    background-color: var(--w3c-button-bg);
-    color: var(--w3c-button-text);
-    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, transform 0.1s ease-out;
+section.statistics h3 { /* Для "Календарь активности" и др. */
+    text-align: left;
 }
-.btn:hover {
-    background-color: var(--w3c-button-hover-bg);
-    border-color: color-mix(in srgb, var(--w3c-border-color) 80%, black);
+
+
+/* Новый стиль кнопки */
+.button {
+  align-items: center;
+  appearance: none;
+  background-color: #EEF2FF;
+  border-radius: 8px;
+  border-width: 2px;
+  border-color: #536DFE; /* Основной синий из примера */
+  box-shadow: rgba(83, 109, 254, 0.2) 0 2px 4px, rgba(83, 109, 254, 0.15) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #536DFE;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono", monospace;
+  height: 56px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 24px;
+  padding-right: 24px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 18px; /* Немного уменьшил для лучшего вида с иконками/коротким текстом */
+  font-weight: 500;
 }
-.btn:focus-visible {
-    outline: 2px solid var(--w3c-focus-outline-color);
-    outline-offset: 2px;
-    border-color: var(--w3c-focus-outline-color);
+.button:focus {
+  outline: none;
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(83, 109, 254, 0.4) 0 2px 4px, rgba(83, 109, 254, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
 }
-.btn:active {
-    background-color: var(--w3c-button-active-bg);
-    transform: translateY(1px);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+.button:hover {
+  box-shadow: rgba(83, 109, 254, 0.3) 0 4px 8px, rgba(83, 109, 254, 0.2) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
 }
-.btn-primary {
-    background: linear-gradient(135deg, var(--current-primary-grad-start), var(--current-primary-grad-end));
-    color: white;
-    border: 1px solid var(--current-primary-grad-start);
-    box-shadow: none;
+.button:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
 }
-.btn-primary:hover {
-    filter: brightness(90%);
-    border-color: color-mix(in srgb, var(--current-primary-grad-start) 80%, black);
+
+/* Адаптация нового стиля для кнопок с иконками (если нужно меньше паддинги) */
+.button.icon-button { /* Пример, если нужно будет */
+    padding-left: 16px;
+    padding-right: 16px;
 }
-.btn-primary:active {
-    filter: brightness(80%);
-    transform: translateY(1px);
+.button svg { /* Для иконок внутри кнопок */
+    margin-right: 8px;
 }
-.btn-danger {
-    background-color: #d9534f;
-    border-color: #d43f3a;
-    color: white;
+.gender-options .button svg { /* Убрать отступ справа для иконок в гендерных кнопках, т.к. текст под ними */
+    margin-right: 0;
+    margin-bottom: 5px; /* Отступ снизу до текста */
 }
-.btn-danger:hover { background-color: #c9302c; border-color: #ac2925;}
-.btn-danger:active { background-color: #ac2925; border-color: #761c19;}
-.nickname-section button.btn {
-    background-color: var(--w3c-button-bg);
-    color: var(--w3c-button-text);
-    border: 1px solid var(--w3c-border-color);
+.gender-options .button {
+    flex-direction: column; /* Иконка над текстом */
+    height: auto; /* Автоматическая высота для многострочного контента */
+    min-height: 70px; /* Минимальная высота */
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-.session-details { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.session-details label { font-size: 0.95em; color: var(--current-text-muted); font-weight: normal; }
+
+
+.session-details { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; margin-left: auto; margin-right: auto; max-width: 400px; /* Центрирование и ограничение ширины */ }
+.session-details label { font-size: 0.95em; color: var(--current-text-muted); font-weight: normal; text-align: left;}
 .session-details input[type="number"], .session-details textarea {
-    padding: 8px 10px;
+    padding: 10px 12px;
     border: 1px solid var(--current-border-color);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-md);
     background-color: var(--current-content-bg);
     color: var(--current-text-color);
     font-family: var(--font-primary);
     font-size: 1em;
 }
 .session-details textarea { resize: vertical; min-height: 70px; }
-.feedback { font-size: 0.9em; min-height: 1.4em; text-align: left; margin-top: 10px; }
-.stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.feedback { font-size: 0.9em; min-height: 1.4em; text-align: center; margin-top: 15px; }
+
+.stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 25px; }
 .stat-card {
     background-color: var(--current-content-bg);
-    padding: 15px;
-    border-radius: var(--border-radius-sm);
-    text-align: left;
+    padding: 20px;
+    border-radius: var(--border-radius-lg);
+    text-align: center; /* Центрируем текст в карточках */
     border: 1px solid var(--current-border-color);
-    box-shadow: none;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 2px 4px var(--current-shadow-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
-.stat-card:hover { transform: none; box-shadow: none; background-color: #f8f8f8; }
-.stat-card h3 { font-size: 0.95em; margin-bottom: 5px; color: var(--current-text-muted); font-weight: normal; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px var(--current-shadow-color); }
+.stat-card h3 { font-size: 1em; margin-bottom: 8px; color: var(--current-text-muted); font-weight: 500; }
 .stat-card p {
-    font-size: 1.8em; font-weight: 600;
-    background: none;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
+    font-size: 2em; font-weight: 700;
     color: var(--current-text-color);
 }
-.heatmap { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; padding: 10px 0; margin-bottom: 10px; }
+
+.heatmap { display: grid; grid-template-columns: repeat(13, 1fr); gap: 4px; padding: 10px 0; margin-bottom: 10px; }
 .heatmap-day {
     width: 100%; padding-bottom: 100%; position: relative; background-color: var(--current-heatmap-base);
-    border-radius: 2px;
-    border: 1px solid color-mix(in srgb, var(--current-heatmap-base) 80%, black 20%);
+    border-radius: 3px; /* Немного скруглил */
+    border: 1px solid color-mix(in srgb, var(--current-heatmap-base) 85%, black 15%);
     cursor: pointer;
     transition: background-color 0.15s ease, transform 0.1s ease;
 }
-.heatmap-day[title]:hover { transform: scale(1.1); z-index: 1; }
+.heatmap-day[title]:hover { transform: scale(1.15); z-index: 1; }
 .heatmap-day:focus-visible {
-    outline: 2px solid var(--w3c-focus-outline-color);
+    outline: 2px solid var(--current-primary-grad-start);
     outline-offset: 1px;
 }
-.heatmap-day.level-1 { background-color: var(--current-heatmap-l1); }
-.heatmap-day.level-2 { background-color: var(--current-heatmap-l2); }
-.heatmap-day.level-3 { background-color: var(--current-heatmap-l3); }
-.heatmap-day.level-4 { background-color: var(--current-heatmap-l4); }
-.legend { display: flex; flex-wrap: wrap; gap: 5px 15px; justify-content: flex-start; margin-top: 10px; font-size: 0.85em; color: var(--current-text-muted); }
-.legend-item { display: flex; align-items: center; gap: 5px; }
+.heatmap-day.level-1 { background-color: var(--current-heatmap-l1); border-color: color-mix(in srgb, var(--current-heatmap-l1) 85%, black 15%); }
+.heatmap-day.level-2 { background-color: var(--current-heatmap-l2); border-color: color-mix(in srgb, var(--current-heatmap-l2) 85%, black 15%); }
+.heatmap-day.level-3 { background-color: var(--current-heatmap-l3); border-color: color-mix(in srgb, var(--current-heatmap-l3) 85%, black 15%); }
+.heatmap-day.level-4 { background-color: var(--current-heatmap-l4); border-color: color-mix(in srgb, var(--current-heatmap-l4) 85%, black 15%); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 15px; justify-content: center; margin-top: 15px; font-size: 0.9em; color: var(--current-text-muted); }
+.legend-item { display: flex; align-items: center; gap: 6px; }
 .legend-item::before {
-    content: ''; display: inline-block; width: 14px; height: 14px;
-    border-radius: 2px; background-color: var(--color); border: 1px solid #999;
+    content: ''; display: inline-block; width: 15px; height: 15px;
+    border-radius: 3px; background-color: var(--color); border: 1px solid #999;
 }
+
 .tip-card {
     background-color: var(--current-tip-card-bg);
-    padding: 15px;
-    border-radius: var(--border-radius-sm);
-    border-left: 4px solid var(--current-primary-grad-start);
-    border-image: none;
-    margin-bottom: 15px;
-    box-shadow: none;
-    border: 1px solid var(--current-border-color);
-    border-left-width: 4px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-.tip-card h4 { font-size: 1.1em; margin-bottom: 8px; color: var(--current-text-color); font-weight: 600; }
-.tip-card p { color: var(--current-text-muted); font-size: 0.95em; }
-footer {
+    padding: 20px;
+    border-radius: var(--border-radius-lg);
+    border-left: 5px solid var(--current-primary-grad-start);
+    border-image: none; /* Убедимся, что border-image не мешает */
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px var(--current-shadow-color);
+    border: 1px solid var(--current-border-color); /* Добавим общую границу */
+    border-left-width: 5px; /* Восстановим толщину левой границы */
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
     text-align: left;
-    margin-top: auto; padding: 20px 0; width: 100%;
-    font-size: 0.85em; color: var(--current-text-muted);
+}
+.tip-card:hover {
+    transform: translateY(-2px);
+}
+.tip-card h4 { font-size: 1.2em; margin-bottom: 10px; color: var(--current-text-color); font-weight: 600; }
+.tip-card p { color: var(--current-text-muted); font-size: 1em; }
+
+footer {
+    text-align: center; /* Центрирование футера */
+    margin-top: auto; padding: 25px 0; width: 100%;
+    font-size: 0.9em; color: var(--current-text-muted);
     border-top: 1px solid var(--current-border-color);
 }
-footer p { margin-bottom: 5px; }
-footer a {
-    color: var(--w3c-link-color); text-decoration: underline; font-weight: normal;
-    transition: color 0.15s ease;
+footer p { margin-bottom: 10px; }
+/* Стили для кнопки GitHub */
+.btn-github-link {
+    text-decoration: none;
+    display: inline-block; /* Чтобы кнопка не растягивалась на всю ширину */
+    margin-top: 15px;
 }
-footer a:hover { color: var(--w3c-link-hover-color); }
-footer button.btn-danger { margin-top: 15px; }
+.btn-github {
+  cursor: pointer;
+  display: inline-flex; /* Изменено на inline-flex для лучшего контроля */
+  align-items: center; /* Выравнивание иконки и текста */
+  gap: 0.5rem;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 100px;
+  font-weight: 600; /* Немного уменьшил жирность */
+  place-content: center;
+  padding: 0.6rem 1.2rem; /* Немного изменил паддинги */
+  font-size: 0.9rem;    /* Немного изменил размер шрифта */
+  line-height: 1;       /* Для лучшего вертикального выравнивания */
+  background-color: #333; /* Темный фон для лучшего контраста с белым текстом */
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-family: var(--font-primary); /* Используем основной шрифт */
+}
+.btn-github svg {
+    width: 18px; /* Увеличил иконку */
+    height: 18px;
+}
+.btn-github:hover {
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(var(--current-primary-grad-start), 0.5); /* Используем цвет темы */
+  color: color-mix(in srgb, var(--current-primary-grad-start) 80%, white); /* Цвет темы при наведении */
+  transform: translateY(-2px);
+  background-color: #444; /* Немного светлее при наведении */
+}
+#resetDataBtn {
+    margin-bottom: 20px; /* Отступ от кнопки GitHub */
+}
+
+
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.65); display: flex; justify-content: center;
-    align-items: center; z-index: 1000; backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.75); /* Сделал темнее */
+    display: flex; justify-content: center;
+    align-items: center; z-index: 1000; backdrop-filter: blur(5px); /* Уменьшил блюр */
     opacity: 0; animation: fadeInOverlay 0.3s forwards;
 }
 @keyframes fadeInOverlay { to { opacity: 1; } }
 .modal-content {
     background-color: var(--current-content-bg); color: var(--current-text-color);
-    padding: 25px; border-radius: var(--border-radius-sm);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-align: center;
-    max-width: 450px; width: 90%; border: 1px solid var(--w3c-border-color);
+    padding: 30px; border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2); text-align: center;
+    max-width: 480px; width: 90%; border: 1px solid var(--current-border-color);
     transform: scale(0.9); opacity: 0; animation: scaleUpModal 0.4s 0.1s forwards;
 }
 @keyframes scaleUpModal { to { transform: scale(1); opacity: 1; } }
 .modal-content h2 {
-    font-size: 1.5em; margin-bottom: 20px; border-bottom: none;
+    font-size: 1.6em; margin-bottom: 25px; border-bottom: none;
     color: var(--current-text-color);
     background: none; -webkit-background-clip: initial; -webkit-text-fill-color: initial;
 }
-.gender-options { display: flex; justify-content: space-around; gap: 15px; }
-.gender-options button {
-    flex-grow: 1; padding: 10px 15px; font-size: 1em; font-weight: 500;
-    border-radius: var(--border-radius-sm); border: 1px solid var(--w3c-border-color);
-    cursor: pointer; transition: all 0.15s ease;
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--w3c-button-text); background-color: var(--w3c-button-bg);
-    box-shadow: none;
-}
-.gender-options button:hover {
-    background-color: var(--w3c-button-hover-bg); border-color: #999;
-    transform: none; box-shadow: none;
-}
-.gender-options button:focus-visible {
-    outline: 2px solid var(--w3c-focus-outline-color); outline-offset: 2px;
-    border-color: var(--w3c-focus-outline-color);
-}
-.gender-options button:active {
-    background-color: var(--w3c-button-active-bg); transform: translateY(1px);
-}
-.gender-options button svg { margin-bottom: 5px; width: 36px; height: 36px; }
-#selectMale svg { fill: var(--w3c-button-text); }
-#selectFemale svg { fill: var(--w3c-button-text); }
+.gender-options { display: flex; justify-content: space-around; gap: 20px; }
+/* Кнопки в модальном окне уже стилизованы через .button */
+
 #themeToggleContainer {
     position: fixed; top: 15px; right: 15px; z-index: 1001;
 }
-#themeToggleBtn {
-    background-color: var(--w3c-button-bg);
-    border: 1px solid var(--w3c-border-color);
-    width: 40px; height: 40px; padding: 0;
-    cursor: pointer; border-radius: var(--border-radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s ease; box-shadow: none;
+#themeToggleBtn { /* Уже стилизована через .button */
+    width: 48px; /* Ширина кнопки темы под иконку */
+    height: 48px; /* Высота кнопки темы под иконку */
+    padding: 0; /* Убираем внутренние отступы, чтобы иконка была по центру */
 }
-#themeToggleBtn:hover {
-    background-color: var(--w3c-button-hover-bg); border-color: #999;
-    transform: none;
+#themeToggleBtn img { display: block; width: 24px; height: 24px; margin: auto; /* Центрирование иконки */ }
+
+
+/* Светлая тема по умолчанию (базовая) */
+body.light-theme {
+    /* уже определено в :root как --current-... */
 }
-#themeToggleBtn:focus-visible {
-    outline: 2px solid var(--w3c-focus-outline-color); outline-offset: 2px;
-    border-color: var(--w3c-focus-outline-color);
-}
-#themeToggleBtn:active {
-    background-color: var(--w3c-button-active-bg); transform: translateY(1px);
-}
-#themeToggleBtn img { display: block; width: 20px; height: 20px; }
-body.light-theme {}
 body.light-theme.male-theme-base {
     --current-bg-gradient: var(--male-bg-light);
     --current-content-bg: var(--male-content-light);
     --current-text-color: var(--male-text-light);
-    --current-text-muted: color-mix(in srgb, var(--male-text-light) 60%, white);
-    --current-border-color: color-mix(in srgb, var(--male-text-light) 20%, white);
+    --current-text-muted: color-mix(in srgb, var(--male-text-light) 65%, var(--male-content-light));
+    --current-border-color: color-mix(in srgb, var(--male-text-light) 25%, var(--male-content-light));
     --current-primary-grad-start: var(--male-grad-start-light);
     --current-primary-grad-end: var(--male-grad-end-light);
-    --current-shadow-color: rgba(0,0,0,0.1);
-    --current-heatmap-base: #e0e7ff;
+    --current-shadow-color: rgba(0,0,0,0.08);
+    --current-heatmap-base: color-mix(in srgb, var(--male-content-light) 90%, var(--male-text-light) 10%);
     --current-heatmap-l1: var(--male-heatmap-l1-light);
     --current-heatmap-l2: var(--male-heatmap-l2-light);
     --current-heatmap-l3: var(--male-heatmap-l3-light);
     --current-heatmap-l4: var(--male-heatmap-l4-light);
-    --current-tip-card-bg: color-mix(in srgb, var(--male-content-light) 95%, black 5%);
+    --current-tip-card-bg: var(--male-tip-card-bg-light);
     --current-tip-card-border-start: var(--male-grad-start-light);
     --current-tip-card-border-end: var(--male-grad-end-light);
 }
@@ -389,43 +466,66 @@ body.light-theme.female-theme-base {
     --current-bg-gradient: var(--female-bg-light);
     --current-content-bg: var(--female-content-light);
     --current-text-color: var(--female-text-light);
-    --current-text-muted: color-mix(in srgb, var(--female-text-light) 65%, white);
-    --current-border-color: color-mix(in srgb, var(--female-text-light) 15%, white);
+    --current-text-muted: color-mix(in srgb, var(--female-text-light) 70%, var(--female-content-light));
+    --current-border-color: color-mix(in srgb, var(--female-text-light) 20%, var(--female-content-light));
     --current-primary-grad-start: var(--female-grad-start-light);
     --current-primary-grad-end: var(--female-grad-end-light);
-    --current-shadow-color: rgba(100,0,50,0.08);
-    --current-heatmap-base: #fff0f3;
+    --current-shadow-color: rgba(100,30,0,0.08);
+    --current-heatmap-base: color-mix(in srgb, var(--female-content-light) 90%, var(--female-text-light) 10%);
     --current-heatmap-l1: var(--female-heatmap-l1-light);
     --current-heatmap-l2: var(--female-heatmap-l2-light);
     --current-heatmap-l3: var(--female-heatmap-l3-light);
     --current-heatmap-l4: var(--female-heatmap-l4-light);
-    --current-tip-card-bg: #fff8fa;
+    --current-tip-card-bg: var(--female-tip-card-bg-light);
     --current-tip-card-border-start: var(--female-grad-start-light);
     --current-tip-card-border-end: var(--female-grad-end-light);
 }
+
+/* Темная тема (базовая) */
 body.dark-theme {
     --current-bg-gradient: #121212;
     --current-content-bg: #1e1e1e;
     --current-text-color: #e0e0e0;
     --current-text-muted: #a0a0a0;
-    --current-border-color: #444;
-    --current-primary-grad-start: #58a6ff;
-    --current-primary-grad-end: #58a6ff;
+    --current-border-color: #3a3a3a; /* Темнее для лучшего контраста */
+    --current-primary-grad-start: #58a6ff; /* Яркий голубой */
+    --current-primary-grad-end: #39d353; /* Яркий зеленый */
     --current-shadow-color: rgba(0,0,0,0.3);
-    --is-dark-theme: 1;
+    --is-dark-theme: 1; /* Для инвертирования календаря */
     --current-heatmap-base: #2d2d2d;
     --current-heatmap-l1: #0e4429;
     --current-heatmap-l2: #006d32;
     --current-heatmap-l3: #26a641;
     --current-heatmap-l4: #39d353;
     --current-tip-card-bg: #2a2a2a;
-    --current-tip-card-border-start: #58a6ff;
-    --current-tip-card-border-end: #58a6ff;
+    --current-tip-card-border-start: var(--current-primary-grad-start);
+    --current-tip-card-border-end: var(--current-primary-grad-end);
 }
-body.dark-theme #themeToggleBtn {
-    background-color: color-mix(in srgb, var(--current-content-bg) 85%, white 5%);
-    border-color: color-mix(in srgb, var(--current-border-color) 80%, white 20%);
+body.dark-theme .button { /* Стили для кнопок в темной теме */
+    background-color: #2c2c3e; /* Темно-сине-фиолетовый фон */
+    border-color: #7986CB; /* Лавандовый цвет рамки */
+    color: #C5CAE9; /* Светло-лавандовый текст */
+    box-shadow: rgba(121, 134, 203, 0.2) 0 2px 4px, rgba(121, 134, 203, 0.15) 0 7px 13px -3px, #42425a 0 -3px 0 inset;
 }
+body.dark-theme .button:focus {
+  box-shadow: #42425a 0 0 0 1.5px inset, rgba(121, 134, 203, 0.4) 0 2px 4px, rgba(121, 134, 203, 0.3) 0 7px 13px -3px, #42425a 0 -3px 0 inset;
+}
+body.dark-theme .button:hover {
+  box-shadow: rgba(121, 134, 203, 0.3) 0 4px 8px, rgba(121, 134, 203, 0.2) 0 7px 13px -3px, #42425a 0 -3px 0 inset;
+}
+body.dark-theme .button:active {
+  box-shadow: #42425a 0 3px 7px inset;
+}
+body.dark-theme .btn-github {
+    background-color: #282828;
+    color: #e0e0e0;
+}
+body.dark-theme .btn-github:hover {
+    background-color: #333;
+    color: var(--current-primary-grad-start);
+}
+
+
 body.dark-theme.male-theme-base {
     --current-bg-gradient: var(--male-bg-dark);
     --current-content-bg: var(--male-content-dark);
@@ -439,8 +539,6 @@ body.dark-theme.male-theme-base {
     --current-heatmap-l3: var(--male-heatmap-l3-dark);
     --current-heatmap-l4: var(--male-heatmap-l4-dark);
     --current-tip-card-bg: var(--male-tip-card-bg-dark);
-    --current-tip-card-border-start: var(--male-grad-start-dark);
-    --current-tip-card-border-end: var(--male-grad-end-dark);
 }
 body.dark-theme.female-theme-base {
     --current-bg-gradient: var(--female-bg-dark);
@@ -455,76 +553,127 @@ body.dark-theme.female-theme-base {
     --current-heatmap-l3: var(--female-heatmap-l3-dark);
     --current-heatmap-l4: var(--female-heatmap-l4-dark);
     --current-tip-card-bg: var(--female-tip-card-bg-dark);
-    --current-tip-card-border-start: var(--female-grad-start-dark);
-    --current-tip-card-border-end: var(--female-grad-end-dark);
 }
+
 .date-details {
-    margin-bottom: 30px; padding: 20px; border-radius: var(--border-radius-sm);
+    margin-bottom: 30px; padding: 25px; border-radius: var(--border-radius-lg);
     background-color: var(--current-content-bg); border: 1px solid var(--current-border-color);
+    box-shadow: 0 2px 4px var(--current-shadow-color);
+    text-align: left; /* Выравнивание по левому краю */
 }
-.date-details h2 { margin-bottom: 15px; }
+.date-details h2 { margin-bottom: 20px; text-align: center; } /* Заголовок центрируем */
 .date-selector {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+    justify-content: center; /* Центрируем выбор даты */
 }
 .date-selector label { font-size: 0.95em; color: var(--current-text-muted); }
 .date-selector input[type="date"] {
-    padding: 8px 10px; border: 1px solid var(--current-border-color);
-    border-radius: var(--border-radius-sm); background-color: var(--current-content-bg);
+    padding: 10px 12px; border: 1px solid var(--current-border-color);
+    border-radius: var(--border-radius-md); background-color: var(--current-content-bg);
     color: var(--current-text-color); font-family: var(--font-primary); font-size: 1em;
-    min-width: 160px;
+    min-width: 180px;
 }
 .date-selector input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(var(--is-dark-theme, 0)); cursor: pointer;
 }
 .selected-info-container {
-    margin-top: 10px; padding: 15px;
+    margin-top: 15px; padding: 20px;
     border: 1px solid var(--current-border-color);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-md);
+    background-color: color-mix(in srgb, var(--current-content-bg) 95%, var(--current-border-color) 5%); /* Легкий фон */
 }
-.selected-info-container p { font-size: 1em; margin-bottom: 8px; }
+.selected-info-container p { font-size: 1em; margin-bottom: 10px; }
 .selected-info-container p strong { color: var(--current-text-muted); font-weight: normal; }
 .selected-info-container span#selectedDateCount {
     font-weight: 600; color: var(--current-text-color);
 }
 .selected-info-container h4 {
-    font-size: 1em; margin-top: 10px; margin-bottom: 5px;
+    font-size: 1.05em; margin-top: 15px; margin-bottom: 8px;
     color: var(--current-text-muted); font-weight: 600;
 }
-#selectedDateNotes { list-style-type: disc; padding-left: 20px; }
+#selectedDateNotes { list-style-type: disc; padding-left: 25px; }
 #selectedDateNotes li {
-    background-color: transparent; padding: 2px 0; border-radius: 0;
-    margin-bottom: 3px; color: var(--current-text-color); font-size: 0.95em;
-    border-left: none; word-break: break-word;
+    margin-bottom: 5px; color: var(--current-text-color); font-size: 0.95em;
+    word-break: break-word;
 }
 #selectedDateNotes li.no-notes {
     list-style-type: none; font-style: italic; color: var(--current-text-muted);
+    padding-left: 0;
 }
+
 @media (min-width: 601px) {
-    body { padding: 20px; }
-    .container { padding: 30px 40px; margin-top: 25px; }
+    body { padding: 25px; }
+    .container { padding: 30px 40px; margin-top: 30px; }
     #themeToggleContainer { top: 20px; right: 20px; }
     #themeToggleBtn img { width: 22px; height: 22px; }
 }
 @media (max-width: 600px) {
-    .container { padding: 20px 15px; margin-top: 15px; border-radius: 0; border-left:none; border-right: none;}
-    header h1 { font-size: 1.7em; }
+    body { padding: 15px 0 0 0; /* Убрал боковые отступы у body, контейнер будет по ширине */ }
+    .container {
+        padding: 20px 15px; margin-top: 0; margin-bottom: 20px;
+        border-radius: 0; border-left:none; border-right: none;
+        width: 100%;
+    }
+    header { padding-bottom: 15px; margin-bottom: 20px;}
+    header h1 { font-size: 1.8em; }
     header p#welcomeMessage { font-size: 1em; }
-    .nickname-section input[type="text"], .nickname-section button.btn { width: 100%; margin-bottom: 10px;}
-    .nickname-section button.btn { margin-left:0; }
-    .stats-cards { grid-template-columns: 1fr; gap: 10px; }
-    .stat-card p { font-size: 1.7em; }
-    .btn { padding: 10px 15px; font-size: 0.95em; }
-    h2 { font-size: 1.4em; }
-    .heatmap { grid-template-columns: repeat(7, 1fr); gap: 2px; }
-    .tip-card { padding: 12px; }
-    .tip-card h4 { font-size: 1em; }
-    .modal-content { padding: 20px 15px; max-width: 95%; }
-    .gender-options button svg { width: 32px; height: 32px; }
+
+    .nickname-section { flex-direction: column; gap: 15px; }
+    .nickname-section input[type="text"], .nickname-section .button { width: 100%; max-width: 320px; margin-left:auto; margin-right:auto;}
+
+    .stats-cards { grid-template-columns: 1fr; gap: 15px; }
+    .stat-card p { font-size: 1.8em; }
+    .button {
+        font-size: 16px; /* Чуть меньше на мобильных */
+        height: 50px;
+        padding-left: 18px;
+        padding-right: 18px;
+        width: 100%; /* Кнопки на всю ширину в некоторых случаях */
+        max-width: 320px; /* Ограничение ширины */
+        margin-left: auto;
+        margin-right: auto;
+        display: flex; /* Чтобы justify-content работал */
+    }
+    #addSessionBtn {
+        display: block; /* Чтобы margin auto работал */
+    }
+     .gender-options { flex-direction: column; gap: 15px; }
+     .gender-options .button {
+        width: 100%;
+        max-width: none; /* Разрешаем кнопкам выбора гендера быть шире */
+     }
+
+
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.2em; }
+    .heatmap { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .tip-card { padding: 15px; }
+    .tip-card h4 { font-size: 1.1em; }
+
+    .modal-content { padding: 25px 20px; max-width: 95%; }
+    .gender-options .button svg { width: 28px; height: 28px; }
+
     #themeToggleContainer { top: 10px; right: 10px; }
-    #themeToggleBtn { width: 36px; height: 36px; }
-    #themeToggleBtn img { width: 18px; height: 18px; }
+    #themeToggleBtn { width: 42px; height: 42px; } /* Размер кнопки темы на мобильных */
+    #themeToggleBtn img { width: 20px; height: 20px; }
+
     footer { padding: 20px 15px; }
-    .date-details { padding: 15px; }
-    .date-selector { flex-direction: column; align-items: flex-start; }
-    .date-selector input[type="date"] { width: 100%; }
+    #resetDataBtn {
+        display: block; /* Чтобы margin auto работал */
+        margin-bottom: 15px;
+    }
+    .btn-github-link {
+        display: block; /* Чтобы margin auto работал */
+        margin-top: 0;
+    }
+    .btn-github {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .date-details { padding: 20px 15px; }
+    .date-selector { flex-direction: column; align-items: center; gap: 15px;}
+    .date-selector label { margin-bottom: 5px; }
+    .date-selector input[type="date"] { width: 100%; max-width: 300px; text-align: center; }
+    .session-details { max-width: none; width:100%; padding-left:10px; padding-right:10px;}
 }
