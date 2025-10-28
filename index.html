@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎃 Голосование "Ночь Хеллоуина" 🌙</title>
+    <title>🔮 Голосование "Ночь Хеллоуина" 🌙</title>
     <style>
         /* CSS Стили для Хеллоуинского Оформления */
         body {
-            /* Жуткий желто-кровавый фон */
-            background-color: #3d0000; /* Темно-красный/почти черный */
-            background-image: 
-                radial-gradient(circle at top left, #8b0000 0%, transparent 40%), /* Кровавые оттенки */
-                radial-gradient(circle at bottom right, #ff4500 0%, transparent 50%), /* Оранжевый оттенок */
-                linear-gradient(to bottom, #3d0000, #ffc400); /* Градиент от крови до желтого */
+            /* Фиолетово-градиентный фон с кровавыми оттенками */
+            background: linear-gradient(135deg, #1f003d 0%, #3d0000 50%, #4b0082 100%);
             color: #ffc400; /* Желтый цвет текста */
             font-family: 'Arial', sans-serif;
             text-align: center;
             padding: 20px;
             margin: 0;
             min-height: 100vh;
+            overflow: hidden; /* Скрыть прокрутку, чтобы летающие элементы не вызывали её */
+            position: relative;
         }
 
         h1 {
             color: #8b0000;
             text-shadow: 2px 2px 5px #ff4500;
             font-size: 3em;
+            margin-bottom: 10px;
         }
 
         /* Стиль для таймера */
@@ -47,10 +46,12 @@
 
         .photo-card {
             background-color: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff4500;
+            border: 2px solid #9932cc; /* Фиолетовая рамка */
             padding: 15px;
             width: 250px;
             box-shadow: 0 0 15px #8b0000;
+            position: relative; /* Для наложения */
+            z-index: 10;
         }
 
         .photo-card img {
@@ -68,101 +69,132 @@
             cursor: pointer;
             font-size: 1.1em;
             margin-top: 10px;
+            transition: background-color 0.3s;
         }
 
         .vote-button:hover {
-            background-color: #8b0000;
+            background-color: #9932cc;
             color: #ffc400;
         }
 
-        /* Стиль для логина */
-        #login-form {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.9);
-            border: 4px dashed #ff4500;
+        /* --- Анимации Летающих Элементов --- */
+        .halloween-flying-element {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: float-left-right 15s infinite ease-in-out;
+            pointer-events: none; /* Чтобы не мешали кликам */
+            z-index: 1;
         }
 
-        #login-form input {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px 0;
-            box-sizing: border-box;
-            border: 1px solid #ff4500;
-            background-color: #3d0000;
-            color: #ffc400;
+        /* Вариация анимации для разнообразия */
+        .bat {
+            animation: float-left-right 20s infinite ease-in-out;
+        }
+        .ghost {
+            animation: float-up-down 12s infinite ease-in-out;
         }
         
+        /* Ключевые кадры для анимаций */
+        @keyframes float-left-right {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(100px, 50px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        @keyframes float-up-down {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-70px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Стиль для Админ-панели */
+        #admin-panel {
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid #9932cc;
+            padding: 20px;
+            margin-top: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 10;
+            position: relative;
+        }
+        #admin-panel button { margin-right: 10px; }
+        #admin-photo-upload-input { color: #3d0000; }
+
     </style>
 </head>
-<body>
+<body onload="startCountdown(); createFlyingElements();">
 
-    <div id="login-form">
-        <h2>🔒 Вход для Администратора</h2>
-        <input type="text" id="username" placeholder="Логин">
-        <input type="password" id="password" placeholder="Пароль">
-        <button onclick="attemptLogin()">Войти</button>
-        <p id="login-message" style="color:red;"></p>
-    </div>
+    <div id="flying-elements-container"></div>
 
-    <div id="main-content" style="display:none;">
-        <h1>🎃 Голосование "Самая Жуткая Фотография Хеллоуина" 🌙</h1>
+    <h1>🔮 Голосование "Самая Жуткая Фотография" 🌙</h1>
+    
+    <p>До окончания голосования:</p>
+    <div id="countdown"></div>
+
+    <p style="margin-top: 30px;">Проголосуйте за самую пугающую фотографию:</p>
+    
+    <div class="vote-container">
+        <div class="photo-card">
+            <h3>Фото 1: Призрак</h3>
+            <img id="img-1" src="https://via.placeholder.com/250x350?text=Photo+1" alt="Фото Призрак">
+            <p>Голосов: <span id="votes-1">0</span></p>
+            <button class="vote-button" onclick="vote(1)">Голосовать</button>
+        </div>
         
-        <p>До окончания голосования:</p>
-        <div id="countdown"></div>
-
-        <p style="margin-top: 30px;">Проголосуйте за самую пугающую фотографию:</p>
+        <div class="photo-card">
+            <h3>Фото 2: Вампир</h3>
+            <img id="img-2" src="https://via.placeholder.com/250x350?text=Photo+2" alt="Фото Вампир">
+            <p>Голосов: <span id="votes-2">0</span></p>
+            <button class="vote-button" onclick="vote(2)">Голосовать</button>
+        </div>
         
-        <div class="vote-container">
-            <div class="photo-card">
-                <h3>Фото 1: Призрак</h3>
-                <img src="https://via.placeholder.com/250x350?text=Photo+1" alt="Фото Призрак">
-                <p>Голосов: <span id="votes-1">0</span></p>
-                <button class="vote-button" onclick="vote(1)">Голосовать</button>
-            </div>
-            
-            <div class="photo-card">
-                <h3>Фото 2: Вампир</h3>
-                <img src="https://via.placeholder.com/250x350?text=Photo+2" alt="Фото Вампир">
-                <p>Голосов: <span id="votes-2">0</span></p>
-                <button class="vote-button" onclick="vote(2)">Голосовать</button>
-            </div>
-            
-            <div class="photo-card">
-                <h3>Фото 3: Зомби</h3>
-                <img src="https://via.placeholder.com/250x350?text=Photo+3" alt="Фото Зомби">
-                <p>Голосов: <span id="votes-3">0</span></p>
-                <button class="vote-button" onclick="vote(3)">Голосовать</button>
-            </div>
+        <div class="photo-card">
+            <h3>Фото 3: Зомби</h3>
+            <img id="img-3" src="https://via.placeholder.com/250x350?text=Photo+3" alt="Фото Зомби">
+            <p>Голосов: <span id="votes-3">0</span></p>
+            <button class="vote-button" onclick="vote(3)">Голосовать</button>
         </div>
     </div>
 
+    <hr style="border-color: #8b0000; margin-top: 50px;">
+
+    <div id="admin-panel">
+        <h2>🔑 Админ-Панель (Для изменения сайта)</h2>
+        <p>Для администрирования используйте функции в консоли браузера (F12).</p>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="admin-photo-slot">Изменить фото №:</label>
+            <select id="admin-photo-slot" style="color: #3d0000;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <input type="file" id="admin-photo-upload-input" accept="image/*" onchange="previewAdminPhoto()">
+            <button onclick="applyAdminPhoto()">Установить Фото</button>
+        </div>
+
+        <button onclick="resetVotes()">Сбросить Голоса (Админ)</button>
+    </div>
+
     <script>
-        // --- 1. Обратный Счетчик Времени ---
+        // --- 1. Обратный Счетчик Времени (без изменений) ---
         function startCountdown() {
-            // Устанавливаем целевое время (23:00:00 по Московскому времени - UTC+3)
             function updateCountdown() {
                 const now = new Date();
-                
-                // Создаем дату для 23:00 сегодня (МСК = UTC+3)
                 const targetTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
                 targetTime.setHours(23, 0, 0, 0);
 
-                // Если время уже прошло (после 23:00), устанавливаем цель на 23:00 следующего дня
                 if (now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }) > targetTime.toLocaleString("en-US", { timeZone: "Europe/Moscow" })) {
                     targetTime.setDate(targetTime.getDate() + 1);
                 }
 
-                // Разница в миллисекундах
                 const distance = targetTime.getTime() - now.getTime();
-
-                // Вычисления времени (часы, минуты, секунды)
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Форматирование с ведущими нулями
                 const timeString = 
                     (hours < 10 ? "0" + hours : hours) + "ч " + 
                     (minutes < 10 ? "0" + minutes : minutes) + "м " + 
@@ -170,55 +202,97 @@
 
                 document.getElementById("countdown").innerHTML = timeString;
 
-                // Если счетчик закончился
                 if (distance < 0) {
                     clearInterval(interval);
                     document.getElementById("countdown").innerHTML = "ГОЛОСОВАНИЕ ЗАВЕРШЕНО!";
                 }
             }
             
-            updateCountdown(); // Выполнить немедленно
-            setInterval(updateCountdown, 1000); // Обновлять каждую секунду
+            updateCountdown();
+            const interval = setInterval(updateCountdown, 1000);
         }
 
-
-        // --- 2. Симуляция Логина ---
-        const ADMIN_USERNAME = 'admin';
-        const ADMIN_PASSWORD = 'halloween';
-        
-        function attemptLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageElement = document.getElementById('login-message');
-            
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                startCountdown(); // Запускаем таймер после успешного логина
-            } else {
-                messageElement.textContent = '❌ Неверный логин или пароль!';
-            }
-        }
-        
-        // --- 3. Симуляция Голосования ---
+        // --- 2. Локальная Симуляция Голосования ---
         let votes = { 1: 0, 2: 0, 3: 0 };
         
         function vote(photoId) {
-            // **ВАЖНО:** В реальном приложении здесь должен быть запрос к серверу (AJAX/Fetch), 
-            // который сохранит голос в базе данных.
-            
-            // Здесь мы просто увеличиваем счетчик в браузере (локально)
             votes[photoId]++;
             document.getElementById(`votes-${photoId}`).textContent = votes[photoId];
-            alert(`Спасибо! Ваш голос за Фото ${photoId} принят.`);
-
-            // **ПРИМЕЧАНИЕ о реальном времени:**
-            // Чтобы другие видели изменения, сервер должен:
-            // 1. Сохранить голос.
-            // 2. Отправить всем подключенным клиентам (через WebSocket) обновленные данные о голосовании.
-            // Чистый JS этого сделать не может.
+            alert(`Спасибо! Ваш голос за Фото ${photoId} принят. (Голос сохранен только локально)`);
         }
 
+        // --- 3. Функции Админа (Небезопасно, только локальная симуляция) ---
+        
+        // Сброс голосов
+        function resetVotes() {
+            if (confirm("Вы уверены, что хотите сбросить ВСЕ голоса?")) {
+                votes = { 1: 0, 2: 0, 3: 0 };
+                document.getElementById(`votes-1`).textContent = 0;
+                document.getElementById(`votes-2`).textContent = 0;
+                document.getElementById(`votes-3`).textContent = 0;
+                alert("Голоса сброшены (локально).");
+                // В реальном приложении: отправить запрос на сервер для сброса данных в БД
+            }
+        }
+        
+        let photoPreviewURL = null;
+
+        // Предварительный просмотр выбранного фото
+        function previewAdminPhoto() {
+            const input = document.getElementById('admin-photo-upload-input');
+            const file = input.files[0];
+
+            if (file) {
+                photoPreviewURL = URL.createObjectURL(file);
+                alert(`Файл ${file.name} выбран для установки в слот №${document.getElementById('admin-photo-slot').value}. Нажмите "Установить Фото".`);
+            }
+        }
+
+        // Установка фото (только локальная)
+        function applyAdminPhoto() {
+            const slot = document.getElementById('admin-photo-slot').value;
+            if (photoPreviewURL) {
+                document.getElementById(`img-${slot}`).src = photoPreviewURL;
+                alert(`Фото успешно установлено в слот №${slot} (только локально в вашем браузере).`);
+                // В реальном приложении: загрузить фото на сервер и обновить ссылку в базе данных
+            } else {
+                alert("Сначала выберите файл для загрузки.");
+            }
+        }
+
+
+        // --- 4. Летающие Анимации (JavaScript) ---
+        const emojis = ['🦇', '👻', '🕷️', '🕸️', '💀', '🌕']; // Тематические эмодзи
+        
+        function createFlyingElements() {
+            const container = document.getElementById('flying-elements-container');
+            const count = 15; // Количество элементов
+
+            for (let i = 0; i < count; i++) {
+                const element = document.createElement('div');
+                element.className = 'halloween-flying-element';
+                element.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Случайные начальные позиции и размеры
+                element.style.left = `${Math.random() * 100}vw`;
+                element.style.top = `${Math.random() * 100}vh`;
+                element.style.fontSize = `${15 + Math.random() * 30}px`;
+                
+                // Случайная задержка анимации для асинхронности
+                element.style.animationDelay = `${Math.random() * 15}s`;
+
+                // Применяем разные классы анимации
+                if (Math.random() > 0.5) {
+                    element.classList.add('bat');
+                } else {
+                    element.classList.add('ghost');
+                }
+
+                container.appendChild(element);
+            }
+        }
+
+        // Запускаем таймер и анимации при загрузке страницы (см. body onload)
     </script>
 </body>
 </html>
