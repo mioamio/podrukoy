@@ -106,6 +106,185 @@
             z-index: 1;
         }
         
+        /* Панель администратора */
+        .admin-panel-top {
+            background: linear-gradient(135deg, rgba(106, 27, 154, 0.9) 0%, rgba(123, 31, 162, 0.9) 100%);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 3px solid #7b1fa2;
+            box-shadow: 0 8px 25px rgba(123, 31, 162, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .admin-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+        
+        .admin-indicator.offline {
+            background: #f44336;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .admin-login-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .admin-logout-btn {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
+        
+        /* Модальное окно входа */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            border-radius: 20px;
+            padding: 35px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ff9e1b;
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(90, 45, 12, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ff9e1b;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+        }
+        
+        .modal-btn.secondary {
+            background: linear-gradient(135deg, #757575 0%, #424242 100%);
+            color: white;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -673,6 +852,23 @@
             display: block;
         }
         
+        /* Стили для скрытия элементов от обычных пользователей */
+        .admin-only {
+            display: none;
+        }
+        
+        .admin-only.visible {
+            display: block;
+        }
+        
+        .tab.admin-only {
+            display: none;
+        }
+        
+        .tab.admin-only.visible {
+            display: flex;
+        }
+        
         @media (max-width: 768px) {
             .gallery {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -699,6 +895,12 @@
             .countdown-value {
                 font-size: 1.8rem;
             }
+            
+            .admin-panel-top {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
         }
         
         @media (max-width: 480px) {
@@ -717,6 +919,14 @@
             .countdown {
                 flex-wrap: wrap;
             }
+            
+            .modal {
+                padding: 25px;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -732,6 +942,16 @@
     <div class="pumpkin-seed"></div>
     
     <div class="container">
+        <!-- Панель администратора -->
+        <div class="admin-panel-top">
+            <div class="admin-status">
+                <div class="admin-indicator offline" id="adminIndicator"></div>
+                <span id="adminStatusText">Вы не авторизованы как администратор</span>
+            </div>
+            <button class="admin-login-btn" id="adminLoginBtn">Войти как администратор</button>
+            <button class="admin-logout-btn" id="adminLogoutBtn" style="display: none;">Выйти</button>
+        </div>
+        
         <header>
             <h1>Тыквенный Выбор</h1>
             <p class="subtitle">Голосуем за самую яркую и креативную тыкву!</p>
@@ -761,14 +981,14 @@
         <div class="tabs">
             <div class="tab active" data-tab="gallery">🎃 Галерея</div>
             <div class="tab" data-tab="results">🏆 Результаты</div>
-            <div class="tab" data-tab="admin">📷 Добавить тыкву</div>
+            <div class="tab admin-only" data-tab="admin">📷 Добавить тыкву</div>
         </div>
         
         <div class="tab-content active" id="gallery-tab">
             <div class="gallery" id="photoGallery">
                 <!-- Фотографии будут добавляться здесь -->
             </div>
-            <button class="clear-all-btn" id="clearGalleryBtn" style="display: none;">🗑️ Очистить все тыквы</button>
+            <button class="clear-all-btn admin-only" id="clearGalleryBtn" style="display: none;">🗑️ Очистить все тыквы</button>
         </div>
         
         <div class="tab-content" id="results-tab">
@@ -785,439 +1005,457 @@
                 <div class="results-list" id="resultsList">
                     <!-- Результаты будут добавляться здесь -->
                 </div>
-                <button class="clear-all-btn" id="clearResultsBtn" style="display: none;">🗑️ Очистить все результаты</button>
+                <button class="clear-all-btn admin-only" id="clearVotesBtn" style="display: none;">🗑️ Очистить голоса</button>
             </div>
         </div>
         
-        <div class="tab-content" id="admin-tab">
+        <div class="tab-content admin-only" id="admin-tab">
             <div class="admin-panel">
-                <h2 class="panel-title">Добавьте свою тыкву</h2>
+                <h2 class="panel-title">Панель управления тыквами</h2>
                 
-                <div class="photo-upload" id="uploadArea">
+                <div class="photo-upload" id="photoUpload">
                     <div class="upload-icon">📷</div>
-                    <p>Нажмите для загрузки фото тыквы или перетащите его сюда</p>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                    <h3>Нажмите, чтобы загрузить фото тыквы</h3>
+                    <p>или перетащите изображение сюда</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
                 </div>
                 
-                <div class="form-group">
-                    <label for="photoTitle" style="color: #5a2d0c; display: block; margin-bottom: 10px; font-weight: 600;">Название тыквы:</label>
-                    <input type="text" id="photoTitle" placeholder="Введите креативное название..." style="width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ff9e1b; border-radius: 10px; background: rgba(255, 158, 27, 0.3); color: #5a2d0c; font-size: 1rem;">
+                <div class="photo-preview" id="photoPreview">
+                    <!-- Предпросмотр будет здесь -->
                 </div>
                 
-                <div class="photo-preview" id="photoPreview"></div>
-                
-                <button class="add-photo-btn" id="addPhotoBtn">Добавить тыкву</button>
-                <button class="clear-all-btn" id="clearAllBtn">🗑️ Очистить ВСЕ данные</button>
+                <button class="add-photo-btn" id="addPhotoBtn">Добавить тыкву в галерею</button>
             </div>
         </div>
     </div>
-
+    
+    <!-- Модальное окно входа -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <h2 class="modal-title">Вход для администратора</h2>
+            <div class="form-group">
+                <label class="form-label" for="adminUsername">Имя пользователя:</label>
+                <input type="text" id="adminUsername" class="form-input" placeholder="Введите имя пользователя">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="adminPassword">Пароль:</label>
+                <input type="password" id="adminPassword" class="form-input" placeholder="Введите пароль">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn primary" id="loginConfirmBtn">Войти</button>
+                <button class="modal-btn secondary" id="loginCancelBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Элементы DOM
-            const uploadArea = document.getElementById('uploadArea');
-            const photoInput = document.getElementById('photoInput');
-            const photoPreview = document.getElementById('photoPreview');
-            const addPhotoBtn = document.getElementById('addPhotoBtn');
-            const photoTitle = document.getElementById('photoTitle');
-            const photoGallery = document.getElementById('photoGallery');
-            const resultsList = document.getElementById('resultsList');
-            const winnerCard = document.getElementById('winnerCard');
-            const winnerImage = document.getElementById('winnerImage');
-            const winnerTitle = document.getElementById('winnerTitle');
-            const winnerVotes = document.getElementById('winnerVotes');
-            const tabs = document.querySelectorAll('.tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            // Кнопки очистки
-            const clearAllBtn = document.getElementById('clearAllBtn');
-            const clearGalleryBtn = document.getElementById('clearGalleryBtn');
-            const clearResultsBtn = document.getElementById('clearResultsBtn');
-            
-            // Элементы таймера
-            const countdownElement = document.getElementById('countdown');
-            const countdownFinishedElement = document.getElementById('countdownFinished');
-            const hoursElement = document.getElementById('hours');
-            const minutesElement = document.getElementById('minutes');
-            const secondsElement = document.getElementById('seconds');
-            
-            // Данные приложения
-            let photos = JSON.parse(localStorage.getItem('photos')) || [];
-            let votes = JSON.parse(localStorage.getItem('votes')) || {};
-            let currentUploadedPhoto = null;
-            let countdownInterval = null;
-            
-            // Инициализация
-            initializeGallery();
+        // Данные для голосования
+        let photos = JSON.parse(localStorage.getItem('pumpkinPhotos')) || [];
+        let votes = JSON.parse(localStorage.getItem('pumpkinVotes')) || {};
+        let hasVoted = JSON.parse(localStorage.getItem('hasVoted')) || false;
+        let isAdmin = localStorage.getItem('isAdmin') === 'true';
+        
+        // Ключи для администратора (в реальном приложении должны храниться на сервере)
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'pumpkin2024';
+        
+        // DOM элементы
+        const photoGallery = document.getElementById('photoGallery');
+        const resultsList = document.getElementById('resultsList');
+        const winnerCard = document.getElementById('winnerCard');
+        const winnerImage = document.getElementById('winnerImage');
+        const winnerTitle = document.getElementById('winnerTitle');
+        const winnerVotes = document.getElementById('winnerVotes');
+        const countdown = document.getElementById('countdown');
+        const countdownFinished = document.getElementById('countdownFinished');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const fileInput = document.getElementById('fileInput');
+        const photoUpload = document.getElementById('photoUpload');
+        const photoPreview = document.getElementById('photoPreview');
+        const addPhotoBtn = document.getElementById('addPhotoBtn');
+        const clearGalleryBtn = document.getElementById('clearGalleryBtn');
+        const clearVotesBtn = document.getElementById('clearVotesBtn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const adminIndicator = document.getElementById('adminIndicator');
+        const adminStatusText = document.getElementById('adminStatusText');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+        const loginModal = document.getElementById('loginModal');
+        const loginConfirmBtn = document.getElementById('loginConfirmBtn');
+        const loginCancelBtn = document.getElementById('loginCancelBtn');
+        const adminUsername = document.getElementById('adminUsername');
+        const adminPassword = document.getElementById('adminPassword');
+        
+        // Текущее выбранное изображение для загрузки
+        let selectedImage = null;
+        
+        // Инициализация
+        function init() {
+            renderGallery();
             updateResults();
+            updateAdminUI();
             startCountdown();
-            updateClearButtons();
-            
-            // Функция очистки всех данных
-            function clearAllData() {
-                if (confirm('Вы уверены, что хотите удалить ВСЕ тыквы и результаты голосования? Это действие нельзя отменить!')) {
-                    photos = [];
-                    votes = {};
-                    localStorage.removeItem('photos');
-                    localStorage.removeItem('votes');
-                    
-                    initializeGallery();
-                    updateResults();
-                    updateClearButtons();
-                    
-                    alert('Все данные успешно очищены!');
-                }
-            }
-            
-            // Функция очистки только галереи
-            function clearGallery() {
-                if (confirm('Вы уверены, что хотите удалить все тыквы из галереи? Результаты голосования сохранятся.')) {
-                    photos = [];
-                    localStorage.setItem('photos', JSON.stringify(photos));
-                    
-                    initializeGallery();
-                    updateResults();
-                    updateClearButtons();
-                    
-                    alert('Галерея успешно очищена!');
-                }
-            }
-            
-            // Функция очистки только результатов
-            function clearResults() {
-                if (confirm('Вы уверены, что хотите сбросить все голоса? Тыквы останутся в галерее.')) {
-                    // Сбрасываем голоса для всех фото
-                    photos.forEach(photo => {
-                        photo.votes = 0;
-                    });
-                    votes = {};
-                    
-                    localStorage.setItem('photos', JSON.stringify(photos));
-                    localStorage.setItem('votes', JSON.stringify(votes));
-                    
-                    initializeGallery();
-                    updateResults();
-                    updateClearButtons();
-                    
-                    alert('Результаты успешно сброшены!');
-                }
-            }
-            
-            // Обновление видимости кнопок очистки
-            function updateClearButtons() {
-                const hasPhotos = photos.length > 0;
-                const hasVotes = Object.keys(votes).length > 0;
-                
-                clearAllBtn.style.display = 'block';
-                clearGalleryBtn.style.display = hasPhotos ? 'block' : 'none';
-                clearResultsBtn.style.display = hasVotes ? 'block' : 'none';
-            }
-            
-            // Обработчики кнопок очистки
-            clearAllBtn.addEventListener('click', clearAllData);
-            clearGalleryBtn.addEventListener('click', clearGallery);
-            clearResultsBtn.addEventListener('click', clearResults);
-            
-            // Функция обратного отсчета до 23:00 по Москве
-            function startCountdown() {
-                function updateCountdown() {
-                    // Получаем текущее время в Московском часовом поясе
-                    const now = new Date();
-                    const moscowTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Moscow"}));
-                    
-                    // Устанавливаем целевое время - 23:00 сегодня
-                    const targetTime = new Date(moscowTime);
-                    targetTime.setHours(23, 0, 0, 0);
-                    
-                    // Если текущее время уже после 23:00, устанавливаем на следующий день
-                    if (moscowTime >= targetTime) {
-                        targetTime.setDate(targetTime.getDate() + 1);
-                    }
-                    
-                    // Вычисляем разницу во времени
-                    const timeDiff = targetTime - moscowTime;
-                    
-                    // Если время истекло
-                    if (timeDiff <= 0) {
-                        countdownElement.style.display = 'none';
-                        countdownFinishedElement.style.display = 'block';
-                        clearInterval(countdownInterval);
-                        disableVoting();
-                        return;
-                    }
-                    
-                    // Вычисляем часы, минуты и секунды
-                    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                    
-                    // Обновляем отображение
-                    hoursElement.textContent = hours.toString().padStart(2, '0');
-                    minutesElement.textContent = minutes.toString().padStart(2, '0');
-                    secondsElement.textContent = seconds.toString().padStart(2, '0');
-                }
-                
-                // Запускаем обновление каждую секунду
-                updateCountdown();
-                countdownInterval = setInterval(updateCountdown, 1000);
-            }
-            
-            // Отключение голосования после окончания времени
-            function disableVoting() {
-                document.querySelectorAll('.vote-btn').forEach(btn => {
-                    btn.disabled = true;
-                    btn.textContent = 'Голосование завершено';
-                });
-            }
-            
-            // Обработчики вкладок
+            setupEventListeners();
+        }
+        
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Переключение вкладок
             tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // Активируем выбранную вкладку
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Показываем соответствующий контент
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    switchTab(tabId);
                 });
             });
             
-            // Обработка загрузки фотографий
-            uploadArea.addEventListener('click', function() {
-                photoInput.click();
+            // Загрузка фото
+            photoUpload.addEventListener('click', () => {
+                fileInput.click();
             });
             
-            uploadArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadArea.style.backgroundColor = 'rgba(255, 107, 53, 0.3)';
-            });
+            fileInput.addEventListener('change', handleFileSelect);
             
-            uploadArea.addEventListener('dragleave', function() {
-                uploadArea.style.backgroundColor = '';
-            });
+            // Добавление фото
+            addPhotoBtn.addEventListener('click', addPhotoToGallery);
             
-            uploadArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadArea.style.backgroundColor = '';
-                
-                if (e.dataTransfer.files.length > 0) {
-                    handleFile(e.dataTransfer.files[0]);
+            // Очистка галереи
+            clearGalleryBtn.addEventListener('click', clearGallery);
+            
+            // Очистка голосов
+            clearVotesBtn.addEventListener('click', clearVotes);
+            
+            // Администратор
+            adminLoginBtn.addEventListener('click', showLoginModal);
+            adminLogoutBtn.addEventListener('click', logoutAdmin);
+            loginConfirmBtn.addEventListener('click', loginAdmin);
+            loginCancelBtn.addEventListener('click', hideLoginModal);
+            
+            // Закрытие модального окна при клике вне его
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    hideLoginModal();
+                }
+            });
+        }
+        
+        // Переключение вкладок
+        function switchTab(tabId) {
+            // Обновляем активную вкладку
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
                 }
             });
             
-            photoInput.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    handleFile(this.files[0]);
+            // Обновляем активное содержимое
+            tabContents.forEach(content => {
+                if (content.id === `${tabId}-tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
                 }
             });
             
-            function handleFile(file) {
-                if (!file.type.match('image.*')) {
-                    alert('Пожалуйста, выберите файл изображения');
-                    return;
-                }
-                
+            // Если переключились на вкладку результатов, обновляем их
+            if (tabId === 'results') {
+                updateResults();
+            }
+        }
+        
+        // Обработка выбора файла
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
-                    currentUploadedPhoto = {
-                        name: file.name,
-                        url: e.target.result
-                    };
-                    
-                    updatePhotoPreview();
+                    selectedImage = e.target.result;
+                    renderPreview(selectedImage);
                 };
-                
                 reader.readAsDataURL(file);
             }
-            
-            function updatePhotoPreview() {
-                photoPreview.innerHTML = '';
-                
-                if (currentUploadedPhoto) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    
-                    const img = document.createElement('img');
-                    img.src = currentUploadedPhoto.url;
-                    img.alt = currentUploadedPhoto.name;
-                    
-                    const removeBtn = document.createElement('button');
-                    removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '×';
-                    removeBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        currentUploadedPhoto = null;
-                        updatePhotoPreview();
-                    });
-                    
-                    previewItem.appendChild(img);
-                    previewItem.appendChild(removeBtn);
-                    photoPreview.appendChild(previewItem);
-                }
+        }
+        
+        // Предпросмотр изображения
+        function renderPreview(imageData) {
+            photoPreview.innerHTML = `
+                <div class="preview-item">
+                    <img src="${imageData}" alt="Предпросмотр">
+                    <button class="remove-btn" onclick="removePreview()">×</button>
+                </div>
+            `;
+        }
+        
+        // Удаление предпросмотра
+        function removePreview() {
+            selectedImage = null;
+            photoPreview.innerHTML = '';
+            fileInput.value = '';
+        }
+        
+        // Добавление фото в галерею
+        function addPhotoToGallery() {
+            if (!selectedImage) {
+                alert('Пожалуйста, выберите изображение тыквы!');
+                return;
             }
             
-            // Добавление фотографии в галерею
-            addPhotoBtn.addEventListener('click', function() {
-                if (!currentUploadedPhoto) {
-                    alert('Пожалуйста, загрузите фотографию');
-                    return;
-                }
+            const photoId = Date.now().toString();
+            const newPhoto = {
+                id: photoId,
+                src: selectedImage,
+                title: `Тыква #${photos.length + 1}`,
+                votes: 0
+            };
+            
+            photos.push(newPhoto);
+            savePhotos();
+            renderGallery();
+            removePreview();
+            
+            // Переключиться на вкладку галереи
+            switchTab('gallery');
+        }
+        
+        // Отрисовка галереи
+        function renderGallery() {
+            photoGallery.innerHTML = '';
+            
+            photos.forEach(photo => {
+                const hasUserVoted = hasVoted === true;
+                const userVotedForThis = votes[photo.id] === true;
                 
-                if (!photoTitle.value.trim()) {
-                    alert('Пожалуйста, введите название тыквы');
-                    return;
-                }
+                const photoCard = document.createElement('div');
+                photoCard.className = 'photo-card';
+                photoCard.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.title}" class="photo-image">
+                    <div class="photo-info">
+                        <h3 class="photo-title">${photo.title}</h3>
+                        <div class="vote-section">
+                            <button class="vote-btn ${userVotedForThis ? 'voted' : ''}" 
+                                    ${hasUserVoted && !userVotedForThis ? 'disabled' : ''} 
+                                    data-id="${photo.id}">
+                                ${userVotedForThis ? '✅ Проголосовано' : '🗳️ Голосовать'}
+                            </button>
+                            <span class="votes-count">${photo.votes || 0}</span>
+                        </div>
+                    </div>
+                `;
                 
-                const newPhoto = {
-                    id: Date.now().toString(),
-                    title: photoTitle.value.trim(),
-                    url: currentUploadedPhoto.url,
-                    votes: 0
-                };
-                
-                photos.push(newPhoto);
-                savePhotos();
-                initializeGallery();
-                
-                // Сброс формы
-                currentUploadedPhoto = null;
-                photoTitle.value = '';
-                updatePhotoPreview();
-                
-                // Показываем уведомление
-                alert('Тыква успешно добавлена!');
-                
-                // Переключаемся на вкладку галереи
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                document.querySelector('.tab[data-tab="gallery"]').classList.add('active');
-                document.getElementById('gallery-tab').classList.add('active');
-                
-                updateClearButtons();
+                photoGallery.appendChild(photoCard);
             });
             
-            // Инициализация галереи
-            function initializeGallery() {
-                photoGallery.innerHTML = '';
-                
-                if (photos.length === 0) {
-                    photoGallery.innerHTML = '<p style="text-align: center; width: 100%; color: #5a2d0c; font-size: 1.3rem; padding: 40px;">Пока нет тыкв. Добавьте первую!</p>';
-                    return;
-                }
-                
-                photos.forEach(photo => {
-                    const photoCard = document.createElement('div');
-                    photoCard.className = 'photo-card';
-                    photoCard.innerHTML = `
-                        <img src="${photo.url}" alt="${photo.title}" class="photo-image">
-                        <div class="photo-info">
-                            <h3 class="photo-title">${photo.title}</h3>
-                            <div class="vote-section">
-                                <button class="vote-btn ${votes[photo.id] ? 'voted' : ''}" data-id="${photo.id}">
-                                    ${votes[photo.id] ? '🎃 Проголосовано' : '🎃 Голосовать'}
-                                </button>
-                                <div class="votes-count">${photo.votes} голосов</div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    photoGallery.appendChild(photoCard);
+            // Добавляем обработчики событий для кнопок голосования
+            document.querySelectorAll('.vote-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const photoId = this.getAttribute('data-id');
+                    voteForPhoto(photoId);
                 });
-                
-                // Обработчики голосования
-                document.querySelectorAll('.vote-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const photoId = this.getAttribute('data-id');
-                        voteForPhoto(photoId);
-                    });
-                });
+            });
+        }
+        
+        // Голосование за фото
+        function voteForPhoto(photoId) {
+            if (hasVoted) {
+                alert('Вы уже проголосовали! Каждый может отдать только один голос.');
+                return;
             }
             
-            // Голосование за фотографию
-            function voteForPhoto(photoId) {
-                if (votes[photoId]) {
-                    alert('Вы уже голосовали за эту тыкву!');
-                    return;
-                }
+            // Обновляем количество голосов
+            const photo = photos.find(p => p.id === photoId);
+            if (photo) {
+                photo.votes = (photo.votes || 0) + 1;
+                votes[photoId] = true;
+                hasVoted = true;
                 
-                // Находим фотографию
-                const photoIndex = photos.findIndex(p => p.id === photoId);
-                if (photoIndex !== -1) {
-                    // Увеличиваем счетчик голосов
-                    photos[photoIndex].votes += 1;
-                    
-                    // Сохраняем голос
-                    votes[photoId] = true;
-                    
-                    // Сохраняем данные
-                    savePhotos();
-                    saveVotes();
-                    
-                    // Обновляем интерфейс
-                    initializeGallery();
-                    updateResults();
-                    
-                    alert('Спасибо за ваш голос!');
-                    
-                    updateClearButtons();
-                }
+                savePhotos();
+                saveVotes();
+                renderGallery();
+                updateResults();
+                
+                alert('Спасибо за ваш голос! Ваш выбор учтен.');
             }
+        }
+        
+        // Обновление результатов
+        function updateResults() {
+            // Сортируем фото по количеству голосов
+            const sortedPhotos = [...photos].sort((a, b) => (b.votes || 0) - (a.votes || 0));
             
-            // Обновление результатов
-            function updateResults() {
-                resultsList.innerHTML = '';
-                
-                if (photos.length === 0) {
-                    resultsList.innerHTML = '<p style="text-align: center; width: 100%; color: #5a2d0c; padding: 30px;">Пока нет тыкв для голосования.</p>';
-                    winnerCard.style.display = 'none';
-                    return;
-                }
-                
-                // Сортируем фотографии по количеству голосов
-                const sortedPhotos = [...photos].sort((a, b) => b.votes - a.votes);
-                
-                // Победитель
+            // Обновляем победителя
+            if (sortedPhotos.length > 0) {
                 const winner = sortedPhotos[0];
-                if (winner.votes > 0) {
-                    winnerImage.src = winner.url;
-                    winnerTitle.textContent = winner.title;
-                    winnerVotes.textContent = `${winner.votes} голосов`;
-                    winnerCard.style.display = 'block';
-                } else {
-                    winnerCard.style.display = 'none';
-                }
-                
-                // Список результатов
-                sortedPhotos.forEach((photo, index) => {
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'result-item';
-                    
-                    resultItem.innerHTML = `
-                        <div class="result-rank">${index + 1}</div>
-                        <img src="${photo.url}" alt="${photo.title}" class="result-image">
-                        <div class="result-details">
-                            <div class="result-title">${photo.title}</div>
-                            <div class="result-votes">${photo.votes} голосов</div>
-                        </div>
-                    `;
-                    
-                    resultsList.appendChild(resultItem);
+                winnerImage.src = winner.src;
+                winnerTitle.textContent = winner.title;
+                winnerVotes.textContent = `Голосов: ${winner.votes || 0}`;
+                winnerCard.style.display = 'block';
+            } else {
+                winnerCard.style.display = 'none';
+            }
+            
+            // Обновляем список результатов
+            resultsList.innerHTML = '';
+            
+            sortedPhotos.forEach((photo, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <div class="result-rank">${index + 1}</div>
+                    <img src="${photo.src}" alt="${photo.title}" class="result-image">
+                    <div class="result-details">
+                        <div class="result-title">${photo.title}</div>
+                        <div class="result-votes">Голосов: ${photo.votes || 0}</div>
+                    </div>
+                `;
+                resultsList.appendChild(resultItem);
+            });
+        }
+        
+        // Очистка галереи
+        function clearGallery() {
+            if (confirm('Вы уверены, что хотите удалить все тыквы из галереи?')) {
+                photos = [];
+                votes = {};
+                hasVoted = false;
+                savePhotos();
+                saveVotes();
+                renderGallery();
+                updateResults();
+                alert('Все тыквы удалены из галереи!');
+            }
+        }
+        
+        // Очистка голосов
+        function clearVotes() {
+            if (confirm('Вы уверены, что хотите сбросить все голоса?')) {
+                photos.forEach(photo => {
+                    photo.votes = 0;
                 });
+                votes = {};
+                hasVoted = false;
+                savePhotos();
+                saveVotes();
+                renderGallery();
+                updateResults();
+                alert('Все голоса сброшены!');
+            }
+        }
+        
+        // Сохранение данных
+        function savePhotos() {
+            localStorage.setItem('pumpkinPhotos', JSON.stringify(photos));
+        }
+        
+        function saveVotes() {
+            localStorage.setItem('pumpkinVotes', JSON.stringify(votes));
+            localStorage.setItem('hasVoted', JSON.stringify(hasVoted));
+        }
+        
+        // Таймер обратного отсчета
+        function startCountdown() {
+            // Устанавливаем время окончания голосования (например, через 24 часа)
+            const endTime = localStorage.getItem('votingEndTime');
+            if (!endTime) {
+                const now = new Date();
+                now.setHours(now.getHours() + 24); // Голосование длится 24 часа
+                localStorage.setItem('votingEndTime', now.toISOString());
             }
             
-            // Сохранение данных в localStorage
-            function savePhotos() {
-                localStorage.setItem('photos', JSON.stringify(photos));
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+        
+        function updateCountdown() {
+            const endTime = new Date(localStorage.getItem('votingEndTime'));
+            const now = new Date();
+            const timeLeft = endTime - now;
+            
+            if (timeLeft <= 0) {
+                countdown.style.display = 'none';
+                countdownFinished.style.display = 'block';
+                return;
             }
             
-            function saveVotes() {
-                localStorage.setItem('votes', JSON.stringify(votes));
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Функции администратора
+        function updateAdminUI() {
+            const adminElements = document.querySelectorAll('.admin-only');
+            
+            if (isAdmin) {
+                adminElements.forEach(el => {
+                    el.classList.add('visible');
+                    el.style.display = el.classList.contains('tab') ? 'flex' : 'block';
+                });
+                adminIndicator.classList.remove('offline');
+                adminIndicator.classList.add('online');
+                adminStatusText.textContent = 'Вы вошли как администратор';
+                adminLoginBtn.style.display = 'none';
+                adminLogoutBtn.style.display = 'block';
+            } else {
+                adminElements.forEach(el => {
+                    el.classList.remove('visible');
+                    el.style.display = 'none';
+                });
+                adminIndicator.classList.add('offline');
+                adminIndicator.classList.remove('online');
+                adminStatusText.textContent = 'Вы не авторизованы как администратор';
+                adminLoginBtn.style.display = 'block';
+                adminLogoutBtn.style.display = 'none';
             }
-        });
+        }
+        
+        function showLoginModal() {
+            loginModal.classList.add('active');
+            adminUsername.focus();
+        }
+        
+        function hideLoginModal() {
+            loginModal.classList.remove('active');
+            adminUsername.value = '';
+            adminPassword.value = '';
+        }
+        
+        function loginAdmin() {
+            const username = adminUsername.value.trim();
+            const password = adminPassword.value.trim();
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                localStorage.setItem('isAdmin', 'true');
+                updateAdminUI();
+                hideLoginModal();
+                alert('Добро пожаловать, администратор!');
+            } else {
+                alert('Неверное имя пользователя или пароль!');
+            }
+        }
+        
+        function logoutAdmin() {
+            if (confirm('Вы уверены, что хотите выйти из режима администратора?')) {
+                isAdmin = false;
+                localStorage.setItem('isAdmin', 'false');
+                updateAdminUI();
+                alert('Вы вышли из режима администратора.');
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Глобальные функции для обработки событий в предпросмотре
+        window.removePreview = removePreview;
     </script>
 </body>
 </html>
